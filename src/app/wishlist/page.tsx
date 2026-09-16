@@ -15,7 +15,7 @@ export default function WishlistPage() {
       <div className="max-w-7xl mx-auto px-4 space-y-8">
         
         {/* Title */}
-        <h1 className="text-3xl font-extrabold text-[#002B49] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-[#002884] tracking-tight">
           My wishlist
         </h1>
 
@@ -31,7 +31,7 @@ export default function WishlistPage() {
             </p>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 bg-[#002B49] hover:bg-[#FF6600] text-white font-bold text-xs px-6 py-3 rounded-full transition"
+              className="inline-flex items-center gap-2 bg-[#002884] hover:bg-[#E50914] text-white font-bold text-xs px-6 py-3 rounded-full transition"
             >
               Start Shopping <ArrowRight className="w-4 h-4" />
             </Link>
@@ -43,13 +43,13 @@ export default function WishlistPage() {
               <table className="w-full text-left border-collapse">
                 
                 {/* Table Header */}
-                <thead className="bg-[#f2f5f8] border-b border-slate-200 text-[#002B49] font-bold text-xs">
+                <thead className="bg-[#f2f5f8] border-b border-slate-200 text-[#002884] font-bold text-xs">
                   <tr>
                     <th className="py-3.5 px-4 w-12 text-center"></th>
                     <th className="py-3.5 px-4 w-24"></th>
                     <th className="py-3.5 px-6">Product name</th>
-                    <th className="py-3.5 px-6 text-[#002B49]">Unit price</th>
-                    <th className="py-3.5 px-6 text-[#002B49]">Stock status</th>
+                    <th className="py-3.5 px-6 text-[#002884]">Unit price</th>
+                    <th className="py-3.5 px-6 text-[#002884]">Stock status</th>
                     <th className="py-3.5 px-6 text-right"></th>
                   </tr>
                 </thead>
@@ -86,7 +86,7 @@ export default function WishlistPage() {
 
                       {/* Product Name */}
                       <td className="py-4 px-6 font-semibold text-slate-800">
-                        <Link href={`/product/${item.slug || item.id}`} className="hover:text-[#002B49] transition">
+                        <Link href={`/product/${item.slug || item.id}`} className="hover:text-[#002884] transition">
                           {item.name}
                         </Link>
                       </td>
@@ -99,7 +99,7 @@ export default function WishlistPage() {
                               ৳ {item.originalPrice.toLocaleString()}
                             </div>
                           )}
-                          <div className="text-[#ff8c00] font-bold text-sm">
+                          <div className="text-[#E50914] font-bold text-sm">
                             ৳ {item.price.toLocaleString()}
                           </div>
                         </div>
@@ -133,7 +133,7 @@ export default function WishlistPage() {
                           <button
                             type="button"
                             onClick={() => addToCart(item, 1)}
-                            className="border border-[#002B49] text-[#002B49] hover:bg-[#002B49] hover:text-white font-bold text-xs py-2 px-5 rounded-full transition-all duration-200 cursor-pointer"
+                            className="border border-[#002884] text-[#002884] hover:bg-[#002884] hover:text-white font-bold text-xs py-2 px-5 rounded-full transition-all duration-200 cursor-pointer"
                           >
                             Add to cart
                           </button>

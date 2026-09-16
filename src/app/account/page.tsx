@@ -125,7 +125,7 @@ export default function AccountPage() {
             },
             token
           );
-          showToast("Account created successfully! Welcome to SMT Mart BD.");
+          showToast("Account created successfully! Welcome to Door Step BD.");
           router.push("/dashboard");
           return;
         } else {
@@ -157,7 +157,7 @@ export default function AccountPage() {
             }}
             className={`flex-1 py-2.5 text-xs font-bold rounded-full transition-all cursor-pointer ${
               mode === "login"
-                ? "bg-[#002B49] text-white shadow-sm"
+                ? "bg-[#002884] text-white shadow-sm"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -171,7 +171,7 @@ export default function AccountPage() {
             }}
             className={`flex-1 py-2.5 text-xs font-bold rounded-full transition-all cursor-pointer ${
               mode === "register"
-                ? "bg-[#002B49] text-white shadow-sm"
+                ? "bg-[#002884] text-white shadow-sm"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -186,7 +186,7 @@ export default function AccountPage() {
           </h1>
           <p className="text-xs text-slate-500">
             {mode === "login"
-              ? "Sign in to access your SMT Mart BD dashboard & order history."
+              ? "Sign in to access your Door Step BD dashboard & order history."
               : "Register now to enjoy instant checkout & package tracking."}
           </p>
         </div>
@@ -214,7 +214,7 @@ export default function AccountPage() {
                   placeholder="Mostafizur Rahman"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
                 />
               </div>
               {fieldErrors.name && (
@@ -234,7 +234,7 @@ export default function AccountPage() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
               />
             </div>
             {fieldErrors.email && (
@@ -254,7 +254,7 @@ export default function AccountPage() {
                   placeholder="01700-000000"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
                 />
               </div>
               {fieldErrors.phone && (
@@ -274,7 +274,7 @@ export default function AccountPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
               />
             </div>
             {fieldErrors.password && (
@@ -294,7 +294,7 @@ export default function AccountPage() {
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
                 />
               </div>
               {fieldErrors.password_confirmation && (
@@ -307,7 +307,7 @@ export default function AccountPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#002B49] hover:bg-[#FF6600] text-white font-bold text-xs py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 mt-2 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            className="w-full bg-[#002884] hover:bg-[#E50914] text-white font-bold text-xs py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 mt-2 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
           >
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -330,7 +330,7 @@ export default function AccountPage() {
                   setMode("register");
                   setError(null);
                 }}
-                className="text-[#002B49] hover:text-[#FF6600] font-bold underline cursor-pointer"
+                className="text-[#002884] hover:text-[#E50914] font-bold underline cursor-pointer"
               >
                 Register here
               </button>
@@ -344,7 +344,7 @@ export default function AccountPage() {
                   setMode("login");
                   setError(null);
                 }}
-                className="text-[#002B49] hover:text-[#FF6600] font-bold underline cursor-pointer"
+                className="text-[#002884] hover:text-[#E50914] font-bold underline cursor-pointer"
               >
                 Sign In
               </button>

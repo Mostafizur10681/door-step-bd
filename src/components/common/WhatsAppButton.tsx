@@ -5,7 +5,7 @@ import { getWhatsAppSettings, getContactSettings } from "@/lib/api";
 
 export function WhatsAppButton() {
   const [phoneNumber, setPhoneNumber] = useState("8801685594315");
-  const [defaultMessage, setDefaultMessage] = useState("Hello! I have an inquiry regarding your products on SMT Mart BD.");
+  const [defaultMessage, setDefaultMessage] = useState("Hello! I have an inquiry regarding your products on Door Step BD.");
   const [isEnabled, setIsEnabled] = useState(true);
   const [position, setPosition] = useState<"right" | "left">("right");
   const [isBouncing, setIsBouncing] = useState(false);

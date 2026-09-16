@@ -9,14 +9,15 @@ import { OrganicFoodSection } from "@/components/OrganicFoodSection";
 import { TrustBadgesBar } from "@/components/TrustBadgesBar";
 
 export const metadata = {
-  title: "SMT Mart BD - Online Shopping in Bangladesh | Organic Food, Beauty & Health",
-  description: "Shop authentic organic food, beauty products, food supplements and health products at best prices in Bangladesh with nationwide cash on delivery from SMT Mart BD.",
+  title: "Door Step BD - Online Shopping in Bangladesh | Organic Food, Beauty & Health",
+  description: "Shop authentic organic food, beauty products, food supplements and health products at best prices in Bangladesh with nationwide cash on delivery from Door Step BD.",
 };
 
 async function getHomeProducts() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/products?per_page=50`, {
       cache: "no-store",
+      signal: AbortSignal.timeout(3500),
     });
     if (!res.ok) return productsData;
     const json = await res.json();

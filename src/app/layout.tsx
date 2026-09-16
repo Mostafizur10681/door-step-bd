@@ -21,8 +21,8 @@ export default function RootLayout({
 
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
         <link rel="shortcut icon" href="/favicon.ico?v=2" />
-        <meta name="theme-color" content="#0d9488" />
-        <title>SMT Mart BD | Best Online Shopping in Bangladesh</title>
+        <meta name="theme-color" content="#002884" />
+        <title>Door Step BD | Best Online Shopping in Bangladesh</title>
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 antialiased w-full" suppressHydrationWarning>
         <ShopProvider>

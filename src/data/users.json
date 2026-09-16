@@ -2,7 +2,7 @@
   {
     "id": "usr-101",
     "name": "Mostafizur Rahman",
-    "email": "user@smtmartbd.com",
+    "email": "user@doorstepbd.com",
     "password": "password123",
     "phone": "01681-135030",
     "address": "41/1, Sher-E-Bangla Rd, Mohammadpur, Dhaka 1207"
@@ -10,7 +10,7 @@
   {
     "id": "usr-102",
     "name": "Tanvir Hasan",
-    "email": "tanvir@smtmartbd.com",
+    "email": "tanvir@doorstepbd.com",
     "password": "password123",
     "phone": "01711-223344",
     "address": "House 12, Road 5, Dhanmondi, Dhaka 1205"
@@ -18,7 +18,7 @@
   {
     "id": "usr-103",
     "name": "Sadia Islam",
-    "email": "sadia@smtmartbd.com",
+    "email": "sadia@doorstepbd.com",
     "password": "password123",
     "phone": "01822-556677",
     "address": "Block B, Bashundhara R/A, Dhaka 1229"

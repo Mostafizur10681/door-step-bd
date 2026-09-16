@@ -102,7 +102,7 @@ export default function BlogDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center space-y-4 py-20">
-        <Loader2 className="w-10 h-10 text-[#002B49] animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#002884] animate-spin" />
         <p className="text-sm font-medium text-slate-500">Loading article...</p>
       </div>
     );
@@ -118,7 +118,7 @@ export default function BlogDetailPage() {
         </p>
         <Link
           href="/blog"
-          className="bg-[#002B49] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#FF6600] transition inline-flex items-center gap-2"
+          className="bg-[#002884] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#E50914] transition inline-flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Blog
         </Link>
@@ -130,7 +130,7 @@ export default function BlogDetailPage() {
     <div className="bg-slate-50 min-h-screen font-sans pb-20 space-y-10">
       
       {/* Top Banner Navigation */}
-      <div className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white py-10 sm:py-14">
+      <div className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-10 sm:py-14">
         <div className="max-w-4xl mx-auto px-4 space-y-4">
           <Link
             href="/blog"
@@ -192,7 +192,7 @@ export default function BlogDetailPage() {
 
           {/* HTML Body */}
           <div
-            className="prose prose-slate max-w-none prose-headings:font-black prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-sm sm:prose-p:text-base prose-a:text-[#002B49] prose-img:rounded-2xl"
+            className="prose prose-slate max-w-none prose-headings:font-black prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-sm sm:prose-p:text-base prose-a:text-[#002884] prose-img:rounded-2xl"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
@@ -214,7 +214,7 @@ export default function BlogDetailPage() {
                   alert("Article link copied to clipboard!");
                 }
               }}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002B49] hover:text-[#FF6600] transition bg-blue-50 px-4 py-2 rounded-xl"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002884] hover:text-[#E50914] transition bg-blue-50 px-4 py-2 rounded-xl"
             >
               <Share2 className="w-3.5 h-3.5" /> Share Article
             </button>
@@ -245,7 +245,7 @@ export default function BlogDetailPage() {
                         className="object-cover"
                       />
                     </div>
-                    <h4 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-[#002B49] transition">
+                    <h4 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-[#002884] transition">
                       <Link href={`/blog/${rel.slug}`}>{rel.title}</Link>
                     </h4>
                   </div>
@@ -253,7 +253,7 @@ export default function BlogDetailPage() {
                     <span>{formatBlogDate(rel.published_at || rel.created_at)}</span>
                     <Link
                       href={`/blog/${rel.slug}`}
-                      className="font-bold text-[#002B49] hover:text-[#FF6600]"
+                      className="font-bold text-[#002884] hover:text-[#E50914]"
                     >
                       Read &rarr;
                     </Link>

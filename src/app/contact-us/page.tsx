@@ -159,8 +159,8 @@ export default function ContactUsPage() {
     "Have questions about our authentic organic products, order delivery, or partnership opportunities? Reach out to our friendly team anytime.";
   const phone = settings?.phone || "+880 1800-000000";
   const secondaryPhone = settings?.secondary_phone || "+880 1700-000000";
-  const email = settings?.email || "support@shopia.com";
-  const secondaryEmail = settings?.secondary_email || "wholesale@shopia.com";
+  const email = (settings?.email || "support@doorstepbd.com").replace(/@shopia\.com|@shopiabd\.com/gi, "@doorstepbd.com");
+  const secondaryEmail = (settings?.secondary_email || "wholesale@doorstepbd.com").replace(/@shopia\.com|@shopiabd\.com/gi, "@doorstepbd.com");
   const whatsappNumber = settings?.whatsapp_number || "8801800000000";
   const address = settings?.address || "41/1, Sher-E-Bangla Rd, Mohammadpur, Dhaka 1207";
   const businessHoursWeekday = settings?.business_hours_weekday || "Saturday - Thursday: 9:00 AM - 10:00 PM";
@@ -267,10 +267,10 @@ export default function ContactUsPage() {
       )}
 
       {/* 2. Hero Header Section matching Delivery Page Gradient */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FF6600]/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#002B49]/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#E50914]/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#002884]/30 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative max-w-4xl mx-auto text-center space-y-4 z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider shadow-inner">
@@ -293,9 +293,9 @@ export default function ContactUsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
 
           {/* Card 1: Direct Hotline */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002B49]/50 hover:shadow-[#002B49]/10 transition-all duration-300 group">
+          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002884]/50 hover:shadow-[#002884]/10 transition-all duration-300 group">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002B49] group-hover:text-white transition-all duration-300 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002884] group-hover:text-white transition-all duration-300 shadow-sm">
                 <Phone className="w-6 h-6" />
               </div>
               <div>
@@ -305,14 +305,14 @@ export default function ContactUsPage() {
               <div className="space-y-1">
                 <a
                   href={`tel:${phone.replace(/\s+/g, "")}`}
-                  className="block font-bold text-sm text-slate-900 hover:text-[#002B49] transition-colors"
+                  className="block font-bold text-sm text-slate-900 hover:text-[#002884] transition-colors"
                 >
                   {phone}
                 </a>
                 {secondaryPhone && (
                   <a
                     href={`tel:${secondaryPhone.replace(/\s+/g, "")}`}
-                    className="block font-medium text-xs text-slate-500 hover:text-[#002B49] transition-colors"
+                    className="block font-medium text-xs text-slate-500 hover:text-[#002884] transition-colors"
                   >
                     {secondaryPhone}
                   </a>
@@ -320,15 +320,15 @@ export default function ContactUsPage() {
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-[#002B49]" />
+              <Clock className="w-3.5 h-3.5 text-[#002884]" />
               <span className="truncate">{businessHoursWeekday}</span>
             </div>
           </div>
 
           {/* Card 2: WhatsApp Chat */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002B49]/50 hover:shadow-[#002B49]/10 transition-all duration-300 group">
+          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002884]/50 hover:shadow-[#002884]/10 transition-all duration-300 group">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002B49] group-hover:text-white transition-all duration-300 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002884] group-hover:text-white transition-all duration-300 shadow-sm">
                 <MessageSquare className="w-6 h-6" />
               </div>
               <div>
@@ -337,7 +337,7 @@ export default function ContactUsPage() {
               </div>
               <div>
                 <span className="font-bold text-sm text-slate-900">{whatsappNumber}</span>
-                <span className="block text-xs text-[#002B49] font-semibold mt-0.5">● Online & Ready</span>
+                <span className="block text-xs text-[#002884] font-semibold mt-0.5">● Online & Ready</span>
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100">
@@ -345,8 +345,8 @@ export default function ContactUsPage() {
                 href={
                   typeof navigator !== "undefined" &&
                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20SMT Mart BD,%20I%20would%20like%20to%20inquire%20about...`
-                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20SMT Mart BD,%20I%20would%20like%20to%20inquire%20about...`
+                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20Door%20Step%20BD,%20I%20would%20like%20to%20inquire%20about...`
+                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20Door%20Step%20BD,%20I%20would%20like%20to%20inquire%20about...`
                 }
                 target={
                   typeof navigator !== "undefined" &&
@@ -355,7 +355,7 @@ export default function ContactUsPage() {
                     : "_blank"
                 }
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002B49] hover:text-[#082c63] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002884] hover:text-[#082c63] transition-colors"
               >
                 <span>Chat on WhatsApp</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -364,9 +364,9 @@ export default function ContactUsPage() {
           </div>
 
           {/* Card 3: Email Channels */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002B49]/50 hover:shadow-[#002B49]/10 transition-all duration-300 group">
+          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002884]/50 hover:shadow-[#002884]/10 transition-all duration-300 group">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002B49] group-hover:text-white transition-all duration-300 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002884] group-hover:text-white transition-all duration-300 shadow-sm">
                 <Mail className="w-6 h-6" />
               </div>
               <div>
@@ -376,7 +376,7 @@ export default function ContactUsPage() {
               <div className="space-y-1">
                 <a
                   href={`mailto:${email}`}
-                  className="block font-bold text-xs text-slate-900 hover:text-[#002B49] transition-colors truncate"
+                  className="block font-bold text-xs text-slate-900 hover:text-[#002884] transition-colors truncate"
                   title={email}
                 >
                   {email}
@@ -384,7 +384,7 @@ export default function ContactUsPage() {
                 {secondaryEmail && (
                   <a
                     href={`mailto:${secondaryEmail}`}
-                    className="block font-medium text-xs text-slate-500 hover:text-[#002B49] transition-colors truncate"
+                    className="block font-medium text-xs text-slate-500 hover:text-[#002884] transition-colors truncate"
                     title={secondaryEmail}
                   >
                     {secondaryEmail}
@@ -393,15 +393,15 @@ export default function ContactUsPage() {
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#002B49]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#002884]" />
               <span className="truncate">{responseTimeNote}</span>
             </div>
           </div>
 
           {/* Card 4: Store & Location */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002B49]/50 hover:shadow-[#002B49]/10 transition-all duration-300 group">
+          <div className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex flex-col justify-between hover:border-[#002884]/50 hover:shadow-[#002884]/10 transition-all duration-300 group">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002B49] group-hover:text-white transition-all duration-300 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#002884] group-hover:text-white transition-all duration-300 shadow-sm">
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
@@ -413,7 +413,7 @@ export default function ContactUsPage() {
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-center gap-1.5">
-              <Building className="w-3.5 h-3.5 text-[#002B49]" />
+              <Building className="w-3.5 h-3.5 text-[#002884]" />
               <span className="truncate">{locationDirections}</span>
             </div>
           </div>
@@ -428,7 +428,7 @@ export default function ContactUsPage() {
             const IconComp = (feat.icon && iconMap[feat.icon]) ? iconMap[feat.icon] : Sparkles;
             return (
               <div key={idx} className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center shrink-0 shadow-xs border border-[#002B49]/20">
+                <div className="w-11 h-11 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center shrink-0 shadow-xs border border-[#002884]/20">
                   <IconComp className="w-5 h-5" />
                 </div>
                 <div className="space-y-1">
@@ -448,7 +448,7 @@ export default function ContactUsPage() {
           {/* Left Column (7 Cols): Contact Form */}
           <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-lg shadow-slate-900/5 space-y-6">
             <div className="space-y-2 border-b border-slate-100 pb-5">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002B49]/10 text-[#002B49] text-xs font-bold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002884]/10 text-[#002884] text-xs font-bold">
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>Direct Inquiry Desk</span>
               </div>
@@ -490,7 +490,7 @@ export default function ContactUsPage() {
                     onChange={handleChange}
                     required
                     placeholder="Enter Your Name"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002B49] focus:ring-2 focus:ring-[#002B49]/20 font-medium transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002884] focus:ring-2 focus:ring-[#002884]/20 font-medium transition-all"
                   />
                   {fieldErrors.name && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.name[0]}</p>
@@ -508,7 +508,7 @@ export default function ContactUsPage() {
                     onChange={handleChange}
                     required
                     placeholder="Enter Email Address"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002B49] focus:ring-2 focus:ring-[#002B49]/20 font-medium transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002884] focus:ring-2 focus:ring-[#002884]/20 font-medium transition-all"
                   />
                   {fieldErrors.email && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.email[0]}</p>
@@ -527,7 +527,7 @@ export default function ContactUsPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="e.g. 01800000000"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002B49] focus:ring-2 focus:ring-[#002B49]/20 font-medium transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002884] focus:ring-2 focus:ring-[#002884]/20 font-medium transition-all"
                   />
                   {fieldErrors.phone && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.phone[0]}</p>
@@ -542,7 +542,7 @@ export default function ContactUsPage() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002B49] focus:ring-2 focus:ring-[#002B49]/20 font-medium transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002884] focus:ring-2 focus:ring-[#002884]/20 font-medium transition-all"
                   >
                     {formTopics.map((topic, i) => (
                       <option key={i} value={topic}>
@@ -567,7 +567,7 @@ export default function ContactUsPage() {
                   required
                   rows={5}
                   placeholder="Please describe your question, order number, or product inquiry in detail..."
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002B49] focus:ring-2 focus:ring-[#002B49]/20 font-medium transition-all leading-relaxed"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#002884] focus:ring-2 focus:ring-[#002884]/20 font-medium transition-all leading-relaxed"
                 ></textarea>
                 {fieldErrors.message && (
                   <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.message[0]}</p>
@@ -581,7 +581,7 @@ export default function ContactUsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#002B49] hover:bg-[#082c63] text-white font-bold text-xs shadow-lg shadow-[#002B49]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#002884] hover:bg-[#082c63] text-white font-bold text-xs shadow-lg shadow-[#002884]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? "Sending..." : "Submit Inquiry"}</span>
@@ -596,7 +596,7 @@ export default function ContactUsPage() {
             {/* Google Map Box */}
             <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-900/5 space-y-4">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002B49]/10 text-[#002B49] text-xs font-bold">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002884]/10 text-[#002884] text-xs font-bold">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>Location Map</span>
                 </div>
@@ -624,7 +624,7 @@ export default function ContactUsPage() {
               {/* Address & Hours Summary */}
               <div className="space-y-3 pt-2 text-xs">
                 <div className="flex items-start gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
-                  <MapPin className="w-4 h-4 text-[#002B49] shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[#002884] shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-900 block">Address:</span>
                     <span className="text-slate-600">{address}</span>
@@ -645,7 +645,7 @@ export default function ContactUsPage() {
             </div>
 
             {/* Urgent Help / Representative Box with Delivery Signature Gradient */}
-            <div className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white rounded-3xl p-6 shadow-xl shadow-[#002B49]/20 border border-white/10 relative overflow-hidden flex flex-col sm:flex-row items-center gap-5">
+            <div className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white rounded-3xl p-6 shadow-xl shadow-[#002884]/20 border border-white/10 relative overflow-hidden flex flex-col sm:flex-row items-center gap-5">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
               <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md overflow-hidden shrink-0 border border-white/20 relative flex items-center justify-center z-10">
                 {supportImage ? (
@@ -664,7 +664,7 @@ export default function ContactUsPage() {
                 <p className="text-xs text-blue-100/90 leading-relaxed">{supportDesc}</p>
                 <a
                   href={`tel:${supportPhone.replace(/\s+/g, "")}`}
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#ff8c00] hover:bg-[#e07b00] text-white font-bold text-xs transition-all shadow-md mt-1 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-xs transition-all shadow-md mt-1 cursor-pointer"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>Call {supportPhone}</span>
@@ -680,8 +680,8 @@ export default function ContactUsPage() {
       {/* 6. Frequently Asked Questions Accordion */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002B49]/10 text-[#002B49] text-xs font-bold">
-            <HelpCircle className="w-3.5 h-3.5 text-[#002B49]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#002884]/10 text-[#002884] text-xs font-bold">
+            <HelpCircle className="w-3.5 h-3.5 text-[#002884]" />
             <span>Quick Resolution</span>
           </div>
           <h2 className="text-2xl font-extrabold text-slate-900">
@@ -701,11 +701,11 @@ export default function ContactUsPage() {
               <button
                 type="button"
                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-slate-900 hover:text-[#002B49] transition-colors cursor-pointer"
+                className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-slate-900 hover:text-[#002884] transition-colors cursor-pointer"
               >
                 <span>{faq.q}</span>
                 {openFaq === idx ? (
-                  <ChevronUp className="w-4 h-4 text-[#002B49] shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-[#002884] shrink-0" />
                 ) : (
                   <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
                 )}
@@ -722,7 +722,7 @@ export default function ContactUsPage() {
         <div className="mt-8 text-center">
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#002B49] hover:text-[#082c63] bg-[#002B49]/10 hover:bg-[#002B49]/20 px-5 py-2.5 rounded-xl transition-all"
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#002884] hover:text-[#082c63] bg-[#002884]/10 hover:bg-[#002884]/20 px-5 py-2.5 rounded-xl transition-all"
           >
             <span>Explore All FAQ Support Topics</span>
             <ArrowRight className="w-4 h-4" />

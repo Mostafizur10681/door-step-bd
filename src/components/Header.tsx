@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Search, Heart, ShoppingCart, User, Truck, X, ChevronDown, ChevronRight, Plus, Minus, Menu, Phone } from "lucide-react";
 import { useShop } from "@/context/ShopContext";
 import productsData from "@/data/products.json";
+import { DoorStepLogo } from "@/components/common/DoorStepLogo";
 
 type SubCategory = {
   id: number;
@@ -154,9 +155,9 @@ export function Header() {
     <>
       {/* 1. Top Announcement Bar (scrolls away naturally when scrolling down, visible when at top) */}
       {showTopNotice && (
-        <div className="bg-[#002B49] text-amber-300 text-[11px] sm:text-xs py-1.5 px-4 flex items-center justify-between text-center relative transition-all">
+        <div className="bg-[#002884] text-amber-300 text-[11px] sm:text-xs py-1.5 px-4 flex items-center justify-between text-center relative transition-all">
           <div className="w-full text-center">
-            <span>Fastest delivery across Bangladesh! Inside Dhaka <span className="font-bold text-[#FF6600]">৳80</span> | Outside Dhaka <span className="font-bold text-[#FF6600]">৳120</span></span>
+            <span>Fastest delivery across Bangladesh! Inside Dhaka <span className="font-bold text-[#E50914]">৳80</span> | Outside Dhaka <span className="font-bold text-[#E50914]">৳120</span></span>
           </div>
           <button
             onClick={() => setShowTopNotice(false)}
@@ -179,20 +180,18 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 text-slate-700 hover:text-[#FF6600] transition rounded-lg border border-slate-200"
+            className="lg:hidden p-1.5 text-slate-700 hover:text-[#E50914] transition rounded-lg border border-slate-200"
             aria-label="Toggle navigation menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0" title="SMT MART BD">
-            <img
-              src="/logo.png"
-              alt="SMT MART BD"
-              className="h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 w-auto max-w-[130px] sm:max-w-[160px] md:max-w-[190px] lg:max-w-[210px] xl:max-w-[240px] object-contain transition-all duration-200"
-            />
-          </Link>
+          {/* Brand Logo (Pure Vector/Text) */}
+          <DoorStepLogo
+            isLink
+            href="/"
+            className="h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 w-auto max-w-[150px] sm:max-w-[180px] md:max-w-[210px] lg:max-w-[230px] xl:max-w-[260px]"
+          />
         </div>
 
         {/* Center Search Input with Instant Dropdown Results (Desktop / Tablet) */}
@@ -203,7 +202,7 @@ export function Header() {
               placeholder="Search for products (e.g. Maca, Chia, VWash...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-100/90 border border-slate-200 rounded-full pl-5 pr-11 py-2 text-sm text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#FF6600]/40 transition-all placeholder:text-slate-400"
+              className="w-full bg-slate-100/90 border border-slate-200 rounded-full pl-5 pr-11 py-2 text-sm text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E50914]/40 transition-all placeholder:text-slate-400"
             />
             {searchQuery ? (
               <button
@@ -214,7 +213,7 @@ export function Header() {
                 <X className="w-4 h-4" />
               </button>
             ) : (
-              <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-700 hover:text-[#FF6600] transition-colors cursor-pointer" title="Search">
+              <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-700 hover:text-[#E50914] transition-colors cursor-pointer" title="Search">
                 <Search className="w-4 h-4 stroke-[2.5]" />
               </button>
             )}
@@ -245,12 +244,12 @@ export function Header() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-slate-800 truncate hover:text-[#002B49]">
+                        <h4 className="text-xs font-bold text-slate-800 truncate hover:text-[#002884]">
                           {prod.name}
                         </h4>
                         <p className="text-[11px] text-slate-400">{prod.category}</p>
                       </div>
-                      <div className="text-sm font-black text-[#FF6600] shrink-0">
+                      <div className="text-sm font-black text-[#E50914] shrink-0">
                         ৳{typeof prod.price === "number" ? prod.price.toFixed(2) : prod.price}
                       </div>
                     </Link>
@@ -261,7 +260,7 @@ export function Header() {
                       handleSearchSubmit();
                       setSearchQuery("");
                     }}
-                    className="p-3 bg-slate-50 hover:bg-orange-50 text-center text-xs font-bold text-[#002B49] hover:text-[#FF6600] cursor-pointer border-t border-slate-100 flex items-center justify-center gap-1 transition"
+                    className="p-3 bg-slate-50 hover:bg-red-50 text-center text-xs font-bold text-[#002884] hover:text-[#E50914] cursor-pointer border-t border-slate-100 flex items-center justify-center gap-1 transition"
                   >
                     <span>View all {searchResults.length} results for &quot;{searchQuery}&quot;</span>
                     <ChevronRight className="w-3.5 h-3.5" />
@@ -276,13 +275,13 @@ export function Header() {
         <div className="flex items-center gap-4 sm:gap-6">
 
           {/* Order Tracking Icon */}
-          <Link href="/track-order" className="text-slate-700 hover:text-[#FF6600] transition flex items-center gap-1 text-xs font-bold" title="Track Your Order">
-            <Truck className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8] text-[#002B49]" />
+          <Link href="/track-order" className="text-slate-700 hover:text-[#E50914] transition flex items-center gap-1 text-xs font-bold" title="Track Your Order">
+            <Truck className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8] text-[#002884]" />
             <span className="hidden lg:inline">Track Order</span>
           </Link>
 
           {/* User Icon / Profile Badge */}
-          <Link href="/account" className="text-slate-700 hover:text-[#FF6600] transition flex items-center gap-1.5" title={user ? `Logged in as ${user.name}` : "Sign In / Register"}>
+          <Link href="/account" className="text-slate-700 hover:text-[#E50914] transition flex items-center gap-1.5" title={user ? `Logged in as ${user.name}` : "Sign In / Register"}>
             {user ? (
               user.avatar && user.avatar.trim() !== "" ? (
                 <span className="relative w-8 h-8 rounded-full overflow-hidden border border-slate-300 flex items-center justify-center shadow-xs bg-slate-100">
@@ -295,7 +294,7 @@ export function Header() {
                   />
                 </span>
               ) : (
-                <span className="w-8 h-8 rounded-full bg-[#002B49] text-white font-bold text-xs flex items-center justify-center border border-slate-200 shadow-xs">
+                <span className="w-8 h-8 rounded-full bg-[#002884] text-white font-bold text-xs flex items-center justify-center border border-slate-200 shadow-xs">
                   {(user.name || "U").charAt(0).toUpperCase()}
                 </span>
               )
@@ -305,15 +304,15 @@ export function Header() {
           </Link>
 
           {/* Wishlist Icon with Badge */}
-          <Link href="/wishlist" className="relative text-[#002B49] hover:text-[#FF6600] transition">
+          <Link href="/wishlist" className="relative text-[#002884] hover:text-[#E50914] transition">
             <Heart className="w-6 h-6 stroke-[1.8]" />
             {totalWishlistCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#FF6600] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-200 shadow-xs">
+              <span className="absolute -top-2 -right-2 bg-[#E50914] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-200 shadow-xs">
                 {totalWishlistCount}
               </span>
             )}
             {totalWishlistCount === 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#002B49] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#002884] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 0
               </span>
             )}
@@ -321,9 +320,9 @@ export function Header() {
 
           {/* Cart Icon with Badge & Hover Dropdown Window */}
           <div className="relative group py-2">
-            <Link href="/cart" className="relative text-[#FF6600] hover:text-[#002B49] transition flex items-center">
+            <Link href="/cart" className="relative text-[#E50914] hover:text-[#002884] transition flex items-center">
               <ShoppingCart className="w-6 h-6 stroke-[1.8]" />
-              <span className="absolute -top-2 -right-2 bg-[#002B49] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+              <span className="absolute -top-2 -right-2 bg-[#002884] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                 {totalCartCount}
               </span>
             </Link>
@@ -333,7 +332,7 @@ export function Header() {
               <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 p-5 space-y-4 text-slate-800 animate-in fade-in zoom-in-95 duration-200">
                 {cart.length === 0 ? (
                   <div className="text-center py-6 text-slate-400 space-y-2">
-                    <ShoppingCart className="w-10 h-10 mx-auto opacity-30 text-[#002B49]" />
+                    <ShoppingCart className="w-10 h-10 mx-auto opacity-30 text-[#002884]" />
                     <p className="text-sm font-semibold">Your cart is currently empty</p>
                   </div>
                 ) : (
@@ -357,7 +356,7 @@ export function Header() {
 
                             {/* Item Details */}
                             <div className="flex-1 min-w-0 pr-6 space-y-1.5">
-                              <h4 className="text-xs font-semibold text-[#002B49] truncate leading-tight">
+                              <h4 className="text-xs font-semibold text-[#002884] truncate leading-tight">
                                 {item.name}
                               </h4>
 
@@ -400,7 +399,7 @@ export function Header() {
                               </div>
 
                               {/* Price */}
-                              <div className="text-sm font-bold text-[#FF6600]">
+                              <div className="text-sm font-bold text-[#E50914]">
                                 ৳{item.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                               </div>
                             </div>
@@ -425,7 +424,7 @@ export function Header() {
                     {/* Subtotal Section */}
                     <div className="pt-3 border-t border-slate-100 flex items-center justify-between font-bold text-sm">
                       <span className="text-slate-600">Subtotal :</span>
-                      <span className="text-[#002B49] text-base font-extrabold">
+                      <span className="text-[#002884] text-base font-extrabold">
                         ৳{cartSubtotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                       </span>
                     </div>
@@ -434,14 +433,14 @@ export function Header() {
                     <div className="space-y-2.5 pt-1">
                       <Link
                         href="/cart"
-                        className="w-full border-2 border-[#002B49] text-[#002B49] hover:bg-[#002B49] hover:text-white font-bold text-xs py-2.5 rounded-full transition-all duration-200 text-center block"
+                        className="w-full border-2 border-[#002884] text-[#002884] hover:bg-[#002884] hover:text-white font-bold text-xs py-2.5 rounded-full transition-all duration-200 text-center block"
                       >
                         View Cart
                       </Link>
 
                       <Link
                         href="/checkout"
-                        className="w-full bg-[#FF6600] hover:bg-[#E65A00] text-white font-bold text-xs py-2.5 rounded-full transition-all duration-200 shadow-md text-center block"
+                        className="w-full bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-xs py-2.5 rounded-full transition-all duration-200 shadow-md text-center block"
                       >
                         Checkout
                       </Link>
@@ -462,7 +461,7 @@ export function Header() {
             placeholder="Search products (e.g. Maca, Chia, VWash...)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-100/90 border border-slate-200 rounded-full pl-4 pr-10 py-1.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#FF6600]/40 transition"
+            className="w-full bg-slate-100/90 border border-slate-200 rounded-full pl-4 pr-10 py-1.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E50914]/40 transition"
           />
           {searchQuery ? (
             <button
@@ -505,7 +504,7 @@ export function Header() {
                       <h4 className="text-xs font-bold text-slate-800 truncate">{prod.name}</h4>
                       <p className="text-[10px] text-slate-400">{prod.category}</p>
                     </div>
-                    <div className="text-xs font-black text-[#FF6600] shrink-0">৳{prod.price}</div>
+                    <div className="text-xs font-black text-[#E50914] shrink-0">৳{prod.price}</div>
                   </Link>
                 ))}
 
@@ -514,7 +513,7 @@ export function Header() {
                     handleSearchSubmit();
                     setSearchQuery("");
                   }}
-                  className="p-2.5 bg-slate-50 hover:bg-orange-50 text-center text-xs font-bold text-[#002B49] hover:text-[#FF6600] cursor-pointer border-t border-slate-100 flex items-center justify-center gap-1"
+                  className="p-2.5 bg-slate-50 hover:bg-red-50 text-center text-xs font-bold text-[#002884] hover:text-[#E50914] cursor-pointer border-t border-slate-100 flex items-center justify-center gap-1"
                 >
                   <span>View all {searchResults.length} results</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -527,7 +526,7 @@ export function Header() {
 
       {/* 3. Bottom Desktop Category Navigation Bar */}
       <div
-        className={`hidden lg:block border-slate-100 bg-white text-[#002B49] font-semibold text-xs lg:text-sm transition-all duration-300 ease-in-out ${
+        className={`hidden lg:block border-slate-100 bg-white text-[#002884] font-semibold text-xs lg:text-sm transition-all duration-300 ease-in-out ${
           showCategoryBar
             ? "max-h-16 opacity-100 border-t overflow-visible"
             : "max-h-0 opacity-0 border-t-0 pointer-events-none overflow-hidden"
@@ -536,11 +535,11 @@ export function Header() {
         <div className="max-w-[1680px] mx-auto px-4 sm:px-8 flex items-center justify-center py-1.5 sm:py-2">
           <nav className="flex items-center justify-center flex-wrap gap-x-5 xl:gap-x-7 gap-y-1 text-center">
             {/* Home — always first */}
-            <Link href="/" className="font-bold text-[#002B49] hover:text-[#FF6600] transition whitespace-nowrap py-1">
+            <Link href="/" className="font-bold text-[#002884] hover:text-[#E50914] transition whitespace-nowrap py-1">
               Home
             </Link>
             {/* Shop (All Products) */}
-            <Link href="/shop" className="font-bold text-[#002B49] hover:text-[#FF6600] transition whitespace-nowrap py-1">
+            <Link href="/shop" className="font-bold text-[#002884] hover:text-[#E50914] transition whitespace-nowrap py-1">
               Shop
             </Link>
             {/* Dynamic Categories */}
@@ -548,11 +547,11 @@ export function Header() {
               <div key={cat.id} className="relative group py-1">
                 <Link
                   href={`/all-products?category=${cat.slug}`}
-                  className="flex items-center gap-1 hover:text-[#FF6600] transition whitespace-nowrap"
+                  className="flex items-center gap-1 hover:text-[#E50914] transition whitespace-nowrap"
                 >
                   {cat.name}
                   {cat.subCategories && cat.subCategories.length > 0 && (
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#FF6600] group-hover:rotate-180 transition-transform duration-200" />
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#E50914] group-hover:rotate-180 transition-transform duration-200" />
                   )}
                 </Link>
 
@@ -562,16 +561,16 @@ export function Header() {
                     <div className="bg-white rounded-xl shadow-2xl border border-slate-200/80 py-1.5 text-left animate-in fade-in zoom-in-95 duration-150">
                       <Link
                         href={`/all-products?category=${cat.slug}`}
-                        className="flex items-center justify-between px-4 py-2 text-xs font-bold text-[#002B49] hover:text-[#FF6600] hover:bg-orange-50/70 transition border-b border-slate-100"
+                        className="flex items-center justify-between px-4 py-2 text-xs font-bold text-[#002884] hover:text-[#E50914] hover:bg-red-50/70 transition border-b border-slate-100"
                       >
                         <span>All {cat.name}</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-[#FF6600]" />
+                        <ChevronRight className="w-3.5 h-3.5 text-[#E50914]" />
                       </Link>
                       {cat.subCategories.map(sub => (
                         <Link
                           key={sub.id}
                           href={`/all-products?sub_category=${sub.slug}`}
-                          className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-600 hover:text-[#FF6600] hover:bg-orange-50/70 transition whitespace-nowrap"
+                          className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-600 hover:text-[#E50914] hover:bg-red-50/70 transition whitespace-nowrap"
                         >
                           <ChevronRight className="w-3 h-3 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
                           {sub.name}
@@ -599,13 +598,12 @@ export function Header() {
 
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="inline-block">
-                  <img
-                    src="/logo.png"
-                    alt="SMT MART BD"
-                    className="h-9 sm:h-10 w-auto max-w-[140px] sm:max-w-[160px] object-contain"
-                  />
-                </Link>
+                <DoorStepLogo
+                  isLink
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="h-8 sm:h-9 w-auto max-w-[140px] sm:max-w-[160px]"
+                />
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
@@ -620,14 +618,14 @@ export function Header() {
                 <Link
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2.5 rounded-xl hover:bg-orange-50 hover:text-[#FF6600] transition"
+                  className="block px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-[#E50914] transition"
                 >
                   Home
                 </Link>
                 <Link
                   href="/shop"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2.5 rounded-xl hover:bg-orange-50 hover:text-[#FF6600] transition"
+                  className="block px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-[#E50914] transition"
                 >
                   Shop
                 </Link>
@@ -639,17 +637,17 @@ export function Header() {
                         <button
                           type="button"
                           onClick={() => setExpandedMobileCategory(expandedMobileCategory === cat.id ? null : cat.id)}
-                          className="w-full px-3 py-2.5 rounded-xl hover:bg-orange-50 hover:text-[#FF6600] transition flex items-center justify-between text-left"
+                          className="w-full px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-[#E50914] transition flex items-center justify-between text-left"
                         >
                           <span>{cat.name}</span>
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${expandedMobileCategory === cat.id ? 'rotate-180 text-[#FF6600]' : ''}`} />
+                          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${expandedMobileCategory === cat.id ? 'rotate-180 text-[#E50914]' : ''}`} />
                         </button>
                         {expandedMobileCategory === cat.id && (
-                          <div className="ml-4 mt-1 mb-1 space-y-0.5 border-l-2 border-[#FF6600]/30 pl-3">
+                          <div className="ml-4 mt-1 mb-1 space-y-0.5 border-l-2 border-[#E50914]/30 pl-3">
                             <Link
                               href={`/all-products?category=${cat.slug}`}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="block px-2 py-1.5 rounded-lg text-xs font-semibold text-[#002B49] hover:text-[#FF6600] hover:bg-orange-50 transition"
+                              className="block px-2 py-1.5 rounded-lg text-xs font-semibold text-[#002884] hover:text-[#E50914] hover:bg-red-50 transition"
                             >
                               All {cat.name}
                             </Link>
@@ -658,7 +656,7 @@ export function Header() {
                                 key={sub.id}
                                 href={`/all-products?sub_category=${sub.slug}`}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-[#FF6600] hover:bg-orange-50 transition"
+                                className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-[#E50914] hover:bg-red-50 transition"
                               >
                                 <ChevronRight className="w-3 h-3 text-slate-300" />
                                 {sub.name}
@@ -672,7 +670,7 @@ export function Header() {
                       <Link
                         href={`/all-products?category=${cat.slug}`}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block px-3 py-2.5 rounded-xl hover:bg-orange-50 hover:text-[#FF6600] transition"
+                        className="block px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-[#E50914] transition"
                       >
                         {cat.name}
                       </Link>
@@ -687,9 +685,9 @@ export function Header() {
               <p className="text-xs text-slate-400 font-bold">Order Hotline Support</p>
               <a
                 href="tel:01681135030"
-                className="bg-[#002B49] hover:bg-[#001C30] text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-xs transition"
+                className="bg-[#002884] hover:bg-[#001D5C] text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-xs transition"
               >
-                <Phone className="w-3.5 h-3.5 text-[#FF6600]" /> 01681-135030
+                <Phone className="w-3.5 h-3.5 text-[#E50914]" /> 01681-135030
               </a>
             </div>
           </div>

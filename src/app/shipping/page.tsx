@@ -82,7 +82,7 @@ export default function ShippingPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
       
       {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white py-14 sm:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-3 relative z-10">
           <span className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-300/30 text-amber-300 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <Truck className="w-4 h-4 text-amber-400" /> Fast &amp; Reliable Nationwide Logistics
@@ -107,7 +107,7 @@ export default function ShippingPage() {
                 key={idx}
                 className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-md transition space-y-3"
               >
-                <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center">
                   <Icon className="w-6 h-6" />
                 </div>
                 <h3 className="font-extrabold text-slate-900 text-sm">{item.title}</h3>
@@ -124,7 +124,7 @@ export default function ShippingPage() {
               <h2 className="text-xl font-black text-slate-900">Delivery Charges &amp; Timelines</h2>
               <p className="text-xs text-slate-500">Shipping rates based on delivery location in Bangladesh</p>
             </div>
-            <span className="bg-orange-50 text-[#FF6600] font-bold text-xs px-3 py-1.5 rounded-full border border-orange-200">
+            <span className="bg-red-50 text-[#E50914] font-bold text-xs px-3 py-1.5 rounded-full border border-red-200">
               Inside Dhaka ৳80 | Outside Dhaka ৳120
             </span>
           </div>
@@ -133,16 +133,16 @@ export default function ShippingPage() {
             {deliveryRates.map((rate, idx) => (
               <div 
                 key={idx} 
-                className="bg-slate-50/80 rounded-2xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between hover:border-[#002B49]/40 transition"
+                className="bg-slate-50/80 rounded-2xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between hover:border-[#002884]/40 transition"
               >
                 <div className="space-y-2">
-                  <span className="bg-[#002B49]/10 text-[#002B49] text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="bg-[#002884]/10 text-[#002884] text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     {rate.badge}
                   </span>
                   <h3 className="font-extrabold text-slate-900 text-sm">{rate.zone}</h3>
                   
                   <div className="pt-2 flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-[#002B49]">{rate.fee}</span>
+                    <span className="text-2xl font-black text-[#002884]">{rate.fee}</span>
                     <span className="text-xs text-emerald-600 font-bold">({rate.freeOver})</span>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function ShippingPage() {
         </div>
 
         {/* Order Tracking Quick CTA Box */}
-        <div className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] rounded-3xl p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] rounded-3xl p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-xl font-extrabold">Already placed an order?</h3>
             <p className="text-xs text-blue-100">Check real-time package dispatch and courier tracking updates online.</p>

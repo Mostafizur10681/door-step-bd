@@ -58,7 +58,7 @@ export default function FAQPage() {
     {
       category: "Orders & Shipping",
       q: "Can I inspect the parcel before paying Cash on Delivery?",
-      a: "Yes! All SMT Mart BD packages permit customer parcel inspection in front of the courier rider before handing over Cash on Delivery."
+      a: "Yes! All Door Step BD packages permit customer parcel inspection in front of the courier rider before handing over Cash on Delivery."
     },
     {
       category: "Returns & Refunds",
@@ -77,7 +77,7 @@ export default function FAQPage() {
     },
     {
       category: "Payments",
-      q: "What payment methods are supported on SMT Mart BD?",
+      q: "What payment methods are supported on Door Step BD?",
       a: "We accept 100% Cash on Delivery (COD) nationwide, as well as bKash, Nagad, Visa, Mastercard, and DBBL Rocket digital payments."
     },
     {
@@ -104,7 +104,7 @@ export default function FAQPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
       
       {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white py-14 sm:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4 relative z-10">
           <span className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-300/30 text-amber-300 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <HelpCircle className="w-4 h-4 text-amber-400" /> Help Center &amp; Support
@@ -141,7 +141,7 @@ export default function FAQPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                 activeCategory === cat
-                  ? "bg-[#002B49] text-white shadow-xs"
+                  ? "bg-[#002884] text-white shadow-xs"
                   : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -169,13 +169,13 @@ export default function FAQPage() {
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? null : idx)}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-extrabold text-slate-900 text-xs sm:text-sm hover:text-[#002B49] transition"
+                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-extrabold text-slate-900 text-xs sm:text-sm hover:text-[#002884] transition"
                   >
                     <span className="flex items-center gap-3">
-                      <span className="w-2 h-2 rounded-full bg-[#002B49] shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-[#002884] shrink-0" />
                       {faq.q}
                     </span>
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180 text-[#002B49]" : ""}`} />
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180 text-[#002884]" : ""}`} />
                   </button>
 
                   {isOpen && (
@@ -190,7 +190,7 @@ export default function FAQPage() {
         )}
 
         {/* Still Have Questions CTA */}
-        <div className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+        <div className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-lg font-black">Still have questions?</h3>
             <p className="text-xs text-blue-200">Our customer support team is available 7 days a week.</p>

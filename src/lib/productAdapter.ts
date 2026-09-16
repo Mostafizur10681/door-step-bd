@@ -151,7 +151,7 @@ export function normalizeProduct(p: any): UnifiedProduct {
     stockStatus: stockValue > 0 ? "In Stock" : "Out of Stock",
     isOutOfStock: stockValue <= 0,
     unit: p.unit || "pcs",
-    brand: p.brand || "SMT Mart BD",
+    brand: p.brand || "Door Step BD",
     rating: p.rating || 5,
     reviewsCount: p.reviews_count || p.reviewsCount || 12,
     discountPercentage,

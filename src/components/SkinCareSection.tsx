@@ -129,7 +129,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-slate-200/80 rounded-2xl overflow-hidden bg-white shadow-xs">
 
         {/* Left Side: Vibrant New Arrivals Banner Box (Col 4) */}
-        <div className="lg:col-span-4 bg-gradient-to-b from-[#FF6600] to-[#E65A00] p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative overflow-hidden">
+        <div className="lg:col-span-4 bg-gradient-to-b from-[#E50914] to-[#C80000] p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative overflow-hidden">
           {/* Subtle background decorative circular patterns */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] border border-white/10 rounded-full pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] border border-white/10 rounded-full pointer-events-none" />
@@ -147,13 +147,13 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
             </h2>
 
             <p className="text-white/85 text-xs sm:text-sm font-medium leading-relaxed max-w-xs">
-              Explore the latest premium additions to SMT Mart BD with exclusive launch offers.
+              Explore the latest premium additions to Door Step BD with exclusive launch offers.
             </p>
 
             <div className="pt-2">
               <Link
                 href="/new-arrivals"
-                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white hover:bg-[#002B49] text-[#FF6600] hover:text-white font-black text-xs sm:text-sm rounded-full shadow-md transition-all duration-300 group/btn cursor-pointer active:scale-95"
+                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white hover:bg-[#002884] text-[#E50914] hover:text-white font-black text-xs sm:text-sm rounded-full shadow-md transition-all duration-300 group/btn cursor-pointer active:scale-95"
               >
                 <span>See More</span>
                 <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -214,7 +214,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
                     }}
                     title="Quick View"
                     aria-label="Quick View"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002884] hover:text-white hover:border-[#002884] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
                   >
                     <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
@@ -237,7 +237,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
                             </span>
                           )}
                           {Boolean(prod.discountPercentage && prod.discountPercentage > 0) && (
-                            <span className="bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                            <span className="bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                               -{prod.discountPercentage}%
                             </span>
                           )}
@@ -265,7 +265,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
 
                   {/* Product Title */}
                   <Link href={`/product/${prod.slug || prod.id}`}>
-                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#FF6600] transition leading-tight sm:leading-snug min-h-[28px] sm:min-h-[32px] mt-0.5 mb-1.5">
+                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#E50914] transition leading-tight sm:leading-snug min-h-[28px] sm:min-h-[32px] mt-0.5 mb-1.5">
                       {prod.name}
                     </h3>
                   </Link>
@@ -275,7 +275,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
                 <div className="mt-1 sm:mt-2 space-y-2 pt-1.5 sm:pt-2 border-t border-slate-100">
                   <div className="flex items-center justify-between gap-1 flex-wrap">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[#FF6600] font-black text-xs sm:text-sm">
+                      <span className="text-[#E50914] font-black text-xs sm:text-sm">
                         ৳{typeof prod.price === "number" ? prod.price.toFixed(0) : prod.price}
                       </span>
                       {Boolean(prod.originalPrice && prod.originalPrice > prod.price) && (
@@ -313,7 +313,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
                         setQuickViewProduct(prod);
                       }}
                       aria-label={`Select options for ${prod.name}`}
-                      className="w-full bg-[#002B49] hover:bg-[#FF6600] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#002884] hover:bg-[#E50914] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
                       <span>Select Options</span>
@@ -327,7 +327,7 @@ export function SkinCareSection({ products: initialProducts }: NewArrivalsSectio
                         addToCart(prod, 1);
                       }}
                       aria-label={`Add ${prod.name} to Cart`}
-                      className="w-full bg-[#FF6600] hover:bg-[#E65A00] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#E50914] hover:bg-[#C80000] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
                       <span>Add to Cart</span>

@@ -96,7 +96,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
     >
       {/* Section Header: Centered Title */}
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 flex items-center justify-center mb-3 sm:mb-4">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#002B49] tracking-wide text-center">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#002884] tracking-wide text-center">
           Best Selling Products
         </h2>
       </div>
@@ -108,7 +108,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
           onClick={handlePrev}
           type="button"
           aria-label="Previous Best Selling Products"
-          className="absolute left-1 sm:left-2 md:left-3 top-1/2 -translate-y-1/2 bg-white text-slate-700 hover:text-[#FF6600] hover:border-[#FF6600] p-2.5 sm:p-3 rounded-full shadow-xl border border-slate-200 z-30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="absolute left-1 sm:left-2 md:left-3 top-1/2 -translate-y-1/2 bg-white text-slate-700 hover:text-[#E50914] hover:border-[#E50914] p-2.5 sm:p-3 rounded-full shadow-xl border border-slate-200 z-30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
         </button>
@@ -117,7 +117,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
           onClick={handleNext}
           type="button"
           aria-label="Next Best Selling Products"
-          className="absolute right-1 sm:right-2 md:right-3 top-1/2 -translate-y-1/2 bg-white text-slate-700 hover:text-[#FF6600] hover:border-[#FF6600] p-2.5 sm:p-3 rounded-full shadow-xl border border-slate-200 z-30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="absolute right-1 sm:right-2 md:right-3 top-1/2 -translate-y-1/2 bg-white text-slate-700 hover:text-[#E50914] hover:border-[#E50914] p-2.5 sm:p-3 rounded-full shadow-xl border border-slate-200 z-30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
         </button>
@@ -150,11 +150,11 @@ export function BestSellingSlider({ products }: { products: any[] }) {
                     <PackageX className="w-3 h-3" /> OUT OF STOCK
                   </span>
                 ) : Boolean(prod.discountPercentage && prod.discountPercentage > 0) ? (
-                  <span className="absolute top-2 left-2 z-10 bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                  <span className="absolute top-2 left-2 z-10 bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                     -{prod.discountPercentage}%
                   </span>
                 ) : Boolean(prod.originalPrice && prod.originalPrice > prod.price) ? (
-                  <span className="absolute top-2 left-2 z-10 bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                  <span className="absolute top-2 left-2 z-10 bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                     SALE
                   </span>
                 ) : null}
@@ -190,7 +190,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
                     }}
                     title="Quick View"
                     aria-label="Quick View"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002884] hover:text-white hover:border-[#002884] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
                   >
                     <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
@@ -212,7 +212,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
 
                   {/* Title */}
                   <Link href={`/product/${prod.slug || prod.id}`}>
-                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#002B49] transition leading-tight sm:leading-snug mb-1.5 min-h-[28px] sm:min-h-[32px]">
+                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#002884] transition leading-tight sm:leading-snug mb-1.5 min-h-[28px] sm:min-h-[32px]">
                       {prod.name}
                     </h3>
                   </Link>
@@ -222,7 +222,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
                 <div className="mt-1 sm:mt-2 space-y-2 pt-1.5 sm:pt-2 border-t border-slate-100">
                   <div className="flex items-center justify-between gap-1 flex-wrap">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[#FF6600] font-black text-xs sm:text-sm">
+                      <span className="text-[#E50914] font-black text-xs sm:text-sm">
                         ৳{typeof prod.price === "number" ? prod.price.toFixed(0) : prod.price}
                       </span>
                       {Boolean(prod.originalPrice && prod.originalPrice > prod.price) && (
@@ -267,7 +267,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
                         setQuickViewProduct(prod);
                       }}
                       aria-label={`Select options for ${prod.name}`}
-                      className="w-full bg-[#002B49] hover:bg-[#FF6600] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#002884] hover:bg-[#E50914] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
                       <span>Select Options</span>
@@ -281,7 +281,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
                         addToCart(prod, 1);
                       }}
                       aria-label={`Add ${prod.name} to Cart`}
-                      className="w-full bg-[#FF6600] hover:bg-[#E65A00] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#E50914] hover:bg-[#C80000] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
                       <span>Add to Cart</span>
@@ -298,7 +298,7 @@ export function BestSellingSlider({ products }: { products: any[] }) {
       <div className="flex items-center justify-center pt-6">
         <Link
           href="/bestsellers"
-          className="inline-flex items-center gap-2 px-8 py-2.5 bg-[#002B49] hover:bg-[#FF6600] text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-300 shadow-md hover:shadow-orange-500/25 hover:scale-105 active:scale-95 group/see"
+          className="inline-flex items-center gap-2 px-8 py-2.5 bg-[#002884] hover:bg-[#E50914] text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-300 shadow-md hover:shadow-red-600/25 hover:scale-105 active:scale-95 group/see"
         >
           <span>See More</span>
           <ChevronRight className="w-4 h-4 group-hover/see:translate-x-1 transition-transform" />

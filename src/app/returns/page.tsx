@@ -73,7 +73,7 @@ export default function ReturnsPolicyPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
       
       {/* Hero Header Section */}
-      <section className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] text-white py-14 sm:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-3 relative z-10">
           <span className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <RotateCcw className="w-4 h-4 text-emerald-400" /> 100% Hassle-Free Policy
@@ -92,7 +92,7 @@ export default function ReturnsPolicyPage() {
         {/* 4-Step Return Process Cards */}
         <div className="space-y-6">
           <div className="text-center space-y-1">
-            <h2 className="text-2xl font-black text-[#002B49]">How Returns Work</h2>
+            <h2 className="text-2xl font-black text-[#002884]">How Returns Work</h2>
             <p className="text-xs text-slate-500">4 simple steps to replace or refund your purchase</p>
           </div>
 
@@ -104,12 +104,12 @@ export default function ReturnsPolicyPage() {
                   key={idx} 
                   className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4 relative overflow-hidden group"
                 >
-                  <span className="text-4xl font-black text-slate-100 group-hover:text-[#002B49]/10 transition">
+                  <span className="text-4xl font-black text-slate-100 group-hover:text-[#002884]/10 transition">
                     {s.step}
                   </span>
 
                   <div className="space-y-2">
-                    <div className="w-12 h-12 rounded-2xl bg-[#002B49]/10 text-[#002B49] flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-[#002884]/10 text-[#002884] flex items-center justify-center">
                       <Icon className="w-6 h-6" />
                     </div>
                     <h3 className="font-extrabold text-slate-900 text-sm">{s.title}</h3>
@@ -169,7 +169,7 @@ export default function ReturnsPolicyPage() {
           {/* Right Column: Online Return Request Form (Col 5) */}
           <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-md space-y-6">
             <div className="border-b border-slate-100 pb-4 space-y-1">
-              <h3 className="text-xl font-black text-[#002B49]">Submit Return Request</h3>
+              <h3 className="text-xl font-black text-[#002884]">Submit Return Request</h3>
               <p className="text-xs text-slate-500">Request item exchange or cash refund</p>
             </div>
 
@@ -185,7 +185,7 @@ export default function ReturnsPolicyPage() {
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
-                  className="inline-block text-xs font-bold text-[#002B49] underline pt-2 cursor-pointer"
+                  className="inline-block text-xs font-bold text-[#002884] underline pt-2 cursor-pointer"
                 >
                   Submit Another Request
                 </button>
@@ -200,7 +200,7 @@ export default function ReturnsPolicyPage() {
                     placeholder="e.g. SHP-2026-8891"
                     value={orderId}
                     onChange={(e) => setOrderId(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30 font-mono"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30 font-mono"
                   />
                 </div>
 
@@ -212,7 +212,7 @@ export default function ReturnsPolicyPage() {
                     placeholder="e.g. 01681-135030"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
                   />
                 </div>
 
@@ -221,7 +221,7 @@ export default function ReturnsPolicyPage() {
                   <select
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30 font-medium"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30 font-medium"
                   >
                     <option>Damaged or Defective Item</option>
                     <option>Received Wrong Product</option>
@@ -238,13 +238,13 @@ export default function ReturnsPolicyPage() {
                     placeholder="Describe product condition or issue..."
                     value={details}
                     onChange={(e) => setDetails(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002B49]/30"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-[#002B49] hover:bg-[#FF6600] text-white font-bold text-xs py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                  className="w-full bg-[#002884] hover:bg-[#E50914] text-white font-bold text-xs py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" /> Submit Return Ticket
                 </button>
@@ -255,7 +255,7 @@ export default function ReturnsPolicyPage() {
         </div>
 
         {/* Need Help Banner */}
-        <div className="bg-gradient-to-r from-slate-900 to-[#002B49] rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+        <div className="bg-gradient-to-r from-slate-900 to-[#002884] rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
           <div className="space-y-1 text-center sm:text-left">
             <h4 className="text-lg font-black">Need assistance with your return?</h4>
             <p className="text-xs text-blue-200">Our customer support hotline is open 7 days a week.</p>

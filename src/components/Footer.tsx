@@ -4,22 +4,23 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { getFooterSettings, ApiFooterSettings } from "@/lib/api";
+import { DoorStepLogo } from "@/components/common/DoorStepLogo";
 
 const DEFAULT_FOOTER: ApiFooterSettings = {
   
-  store_name: "SMT Mart BD",
+  store_name: "Door Step BD",
   logo_image: "/logo.png",
   address: "41/1, Sher-E-Bangla Rd,\nMohammadpur, Dhaka 1207",
   map_url: "https://maps.google.com/?q=41/1+Sher-E-Bangla+Rd+Mohammadpur+Dhaka",
   contact_phone: "01681-135030",
-  contact_email: "info@smtmartbd.com",
+  contact_email: "info@doorstepbd.com",
   working_hours_1: "Saturday- Thursday: 9:00am- 10:00pm",
   working_hours_2: "Friday: 15:00pm – 11:00pm",
-  facebook_url: "https://facebook.com/smtmartbd",
-  instagram_url: "https://instagram.com/smtmartbd",
-  youtube_url: "https://youtube.com/@smtmartbd",
-  pinterest_url: "https://pinterest.com/smtmartbd",
-  linkedin_url: "https://linkedin.com/company/smtmartbd",
+  facebook_url: "https://facebook.com/doorstepbd",
+  instagram_url: "https://instagram.com/doorstepbd",
+  youtube_url: "https://youtube.com/@doorstepbd",
+  pinterest_url: "https://pinterest.com/doorstepbd",
+  linkedin_url: "https://linkedin.com/company/doorstepbd",
   twitter_url: "",
   tiktok_url: "",
   column_1_title: "Information",
@@ -47,7 +48,7 @@ const DEFAULT_FOOTER: ApiFooterSettings = {
     { label: "Latest products", url: "/latest" },
     { label: "Sale", url: "/sale" },
   ],
-  copyright_text: "Copyright © 2026 SMT Mart BD. All Rights Reserved",
+  copyright_text: "Copyright © 2026 Door Step BD. All Rights Reserved",
   payment_methods: ["BKASH", "ROCKET", "NAGAD", "VISA", "MASTERCARD", "AMEX"],
 };
 
@@ -60,13 +61,21 @@ export function Footer() {
       try {
         const res = await getFooterSettings();
         if (isMounted && res && res.data) {
+          const raw = res.data as any;
+          const cleanEmail = raw.contact_email ? raw.contact_email.replace(/@shopiabd\.com|@smtmartbd\.com|@shopia\.com/gi, "@doorstepbd.com") : DEFAULT_FOOTER.contact_email;
+          const cleanCopyright = raw.copyright_text ? raw.copyright_text.replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD") : DEFAULT_FOOTER.copyright_text;
+          const cleanStore = raw.store_name ? raw.store_name.replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD") : DEFAULT_FOOTER.store_name;
+          
           setFooter((prev) => ({
             ...prev,
-            ...res.data,
-            column_1_links: (res.data.column_1_links && res.data.column_1_links.length > 0) ? res.data.column_1_links : prev.column_1_links,
-            column_2_links: (res.data.column_2_links && res.data.column_2_links.length > 0) ? res.data.column_2_links : prev.column_2_links,
-            column_3_links: (res.data.column_3_links && res.data.column_3_links.length > 0) ? res.data.column_3_links : prev.column_3_links,
-            payment_methods: (res.data.payment_methods && res.data.payment_methods.length > 0) ? res.data.payment_methods : prev.payment_methods,
+            ...raw,
+            store_name: cleanStore,
+            contact_email: cleanEmail,
+            copyright_text: cleanCopyright,
+            column_1_links: (raw.column_1_links && raw.column_1_links.length > 0) ? raw.column_1_links : prev.column_1_links,
+            column_2_links: (raw.column_2_links && raw.column_2_links.length > 0) ? raw.column_2_links : prev.column_2_links,
+            column_3_links: (raw.column_3_links && raw.column_3_links.length > 0) ? raw.column_3_links : prev.column_3_links,
+            payment_methods: (raw.payment_methods && raw.payment_methods.length > 0) ? raw.payment_methods : prev.payment_methods,
           }));
         }
       } catch {
@@ -81,7 +90,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[#002B49] text-slate-200 font-sans border-t border-[#001C30] pt-10 sm:pt-12 pb-8 text-xs sm:text-sm selection:bg-[#FF6600] selection:text-white">
+    <footer className="bg-[#002884] text-slate-200 font-sans border-t border-[#001D5C] pt-10 sm:pt-12 pb-8 text-xs sm:text-sm selection:bg-[#E50914] selection:text-white">
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8">
 
         {/* Main Grid */}
@@ -91,13 +100,13 @@ export function Footer() {
           <div className="md:col-span-6 lg:col-span-3 space-y-4 pr-0 md:pr-4">
 
             {/* Logo */}
-            <Link href="/" className="inline-block transition-opacity hover:opacity-90 bg-white rounded-lg p-1.5 shadow-sm">
-              <img
-                src={footer.logo_image || "/logo.png"}
-                alt={footer.store_name || "SMT MART BD"}
-                className="h-10 sm:h-12 md:h-13 lg:h-14 xl:h-[58px] w-auto max-w-[150px] sm:max-w-[180px] md:max-w-[210px] lg:max-w-[240px] object-contain"
+            <div className="bg-white rounded-xl p-2.5 shadow-sm inline-block max-w-fit">
+              <DoorStepLogo
+                isLink
+                href="/"
+                className="h-9 sm:h-10 md:h-11 w-auto max-w-[160px] sm:max-w-[190px] md:max-w-[220px]"
               />
-            </Link>
+            </div>
 
             {/* Address */}
             <div className="space-y-1 text-slate-300 text-xs leading-relaxed">
@@ -116,7 +125,7 @@ export function Footer() {
                     href={footer.map_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#FF6600] underline hover:text-white transition font-medium text-xs"
+                    className="inline-flex items-center gap-1 text-[#E50914] underline hover:text-white transition font-medium text-xs"
                   >
                     <span>Show on map</span>
                   </a>
@@ -131,7 +140,7 @@ export function Footer() {
                   href={footer.facebook_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#FF6600] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
                   aria-label="Facebook"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -145,7 +154,7 @@ export function Footer() {
                   href={footer.instagram_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#FF6600] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
                   aria-label="Instagram"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -159,7 +168,7 @@ export function Footer() {
                   href={footer.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#FF6600] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
                   aria-label="Youtube"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -173,7 +182,7 @@ export function Footer() {
                   href={footer.pinterest_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#FF6600] hover:scale-110 transition-all p-1 font-bold text-sm leading-none"
+                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1 font-bold text-sm leading-none"
                   aria-label="Pinterest"
                 >
                   P
@@ -185,7 +194,7 @@ export function Footer() {
                   href={footer.linkedin_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#FF6600] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
                   aria-label="Linkedin"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -202,10 +211,10 @@ export function Footer() {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2.5 text-white">
-                <Phone className="w-5 h-5 text-[#FF6600] shrink-0" />
+                <Phone className="w-5 h-5 text-[#E50914] shrink-0" />
                 <a
                   href={`tel:${(footer.contact_phone || "01681135030").replace(/[^0-9+]/g, "")}`}
-                  className="text-lg sm:text-xl font-extrabold tracking-tight hover:text-[#FF6600] transition"
+                  className="text-lg sm:text-xl font-extrabold tracking-tight hover:text-[#E50914] transition"
                 >
                   {footer.contact_phone || "01681-135030"}
                 </a>
@@ -219,10 +228,10 @@ export function Footer() {
 
             {footer.contact_email && (
               <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-slate-300 text-xs">
-                <Mail className="w-4 h-4 text-[#FF6600] shrink-0" />
+                <Mail className="w-4 h-4 text-[#E50914] shrink-0" />
                 <a
                   href={`mailto:${footer.contact_email}`}
-                  className="hover:text-[#FF6600] transition break-all"
+                  className="hover:text-[#E50914] transition break-all"
                 >
                   {footer.contact_email}
                 </a>
@@ -240,7 +249,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#FF6600] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -259,7 +268,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#FF6600] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -278,7 +287,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#FF6600] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -292,7 +301,7 @@ export function Footer() {
         {/* Bottom Bar: Copyright & Payment Logos */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
           <p className="order-2 sm:order-1">
-            {footer.copyright_text || `Copyright © ${new Date().getFullYear()} SMT Mart BD. All Rights Reserved`}
+            {footer.copyright_text || `Copyright © ${new Date().getFullYear()} Door Step BD. All Rights Reserved`}
           </p>
 
           {/* Payment Method Badges */}

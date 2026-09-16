@@ -223,10 +223,12 @@ export async function fetchFromApi<T>(endpoint: string, options?: FetchOptions):
 
   let res: Response;
   try {
+    const signal = options?.signal || (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(8000) : undefined);
     res = await fetch(url, {
       ...options,
       headers,
       cache: "no-store",
+      signal,
     });
   } catch (err: any) {
     if (options?.suppressThrow) {

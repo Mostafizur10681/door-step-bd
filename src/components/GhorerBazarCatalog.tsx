@@ -492,7 +492,7 @@ export function GhorerBazarCatalog({
 
           {/* Breadcrumbs */}
           <nav className="text-xs text-slate-500 flex items-center gap-1.5 font-medium">
-            <Link href="/" className="hover:text-[#FF6600] transition">
+            <Link href="/" className="hover:text-[#E50914] transition">
               Home
             </Link>
             <span>&gt;</span>
@@ -511,12 +511,12 @@ export function GhorerBazarCatalog({
             <button
               type="button"
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 shadow-xs hover:border-[#FF6600] transition cursor-pointer"
+              className="lg:hidden inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 shadow-xs hover:border-[#E50914] transition cursor-pointer"
             >
-              <SlidersHorizontal className="w-4 h-4 text-[#FF6600]" />
+              <SlidersHorizontal className="w-4 h-4 text-[#E50914]" />
               <span>Filter Products</span>
               {hasActiveFilters && (
-                <span className="w-2 h-2 rounded-full bg-[#FF6600]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#E50914]"></span>
               )}
             </button>
 
@@ -527,7 +527,7 @@ export function GhorerBazarCatalog({
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none bg-white border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs font-medium text-slate-800 focus:outline-none focus:border-[#FF6600] focus:ring-1 focus:ring-[#FF6600] shadow-xs cursor-pointer"
+                  className="appearance-none bg-white border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs font-medium text-slate-800 focus:outline-none focus:border-[#E50914] focus:ring-1 focus:ring-[#E50914] shadow-xs cursor-pointer"
                 >
                   <option value="default">Default Sorting</option>
                   <option value="price-low">Price: Low to High</option>
@@ -551,7 +551,7 @@ export function GhorerBazarCatalog({
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="text-[#FF6600] font-bold hover:underline cursor-pointer ml-1"
+                  className="text-[#E50914] font-bold hover:underline cursor-pointer ml-1"
                 >
                   Clear Filters
                 </button>
@@ -567,7 +567,7 @@ export function GhorerBazarCatalog({
                 title="2 Columns Grid"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols === 2
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
                 }`}
               >
@@ -586,7 +586,7 @@ export function GhorerBazarCatalog({
                 title="3 Columns Grid"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols === 3
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
                 }`}
               >
@@ -610,7 +610,7 @@ export function GhorerBazarCatalog({
                 title="4 Columns Grid"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols === 4
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
                 }`}
               >
@@ -637,7 +637,7 @@ export function GhorerBazarCatalog({
                 title="Wide Scope / List View"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols === "list"
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
                 }`}
               >
@@ -664,7 +664,7 @@ export function GhorerBazarCatalog({
                 title="2 Grid View"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols !== "list" && mobileCols === 2
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700"
                 }`}
               >
@@ -684,7 +684,7 @@ export function GhorerBazarCatalog({
                 title="1 Grid View"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols !== "list" && mobileCols === 1
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700"
                 }`}
               >
@@ -700,7 +700,7 @@ export function GhorerBazarCatalog({
                 title="Wide Scope View"
                 className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                   gridCols === "list"
-                    ? "text-[#FF6600] bg-orange-50 scale-105 shadow-2xs"
+                    ? "text-[#E50914] bg-red-50 scale-105 shadow-2xs"
                     : "text-slate-400 hover:text-slate-700"
                 }`}
               >
@@ -728,13 +728,13 @@ export function GhorerBazarCatalog({
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-[#FF6600]" /> Filters
+                <SlidersHorizontal className="w-4 h-4 text-[#E50914]" /> Filters
               </h3>
               {hasActiveFilters && (
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="text-[11px] font-bold text-[#FF6600] hover:underline cursor-pointer"
+                  className="text-[11px] font-bold text-[#E50914] hover:underline cursor-pointer"
                 >
                   Reset
                 </button>
@@ -746,7 +746,7 @@ export function GhorerBazarCatalog({
               <button
                 type="button"
                 onClick={() => toggleSection("price")}
-                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#FF6600] transition cursor-pointer"
+                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#E50914] transition cursor-pointer"
               >
                 <span>PRICE RANGE</span>
                 {openSections.price ? (
@@ -778,7 +778,7 @@ export function GhorerBazarCatalog({
                             const val = e.target.value === "" ? 0 : Number(e.target.value);
                             setMinPrice(Math.max(0, val));
                           }}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#FF6600] focus:bg-white focus:ring-1 focus:ring-[#FF6600] transition"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#E50914] focus:bg-white focus:ring-1 focus:ring-[#E50914] transition"
                         />
                       </div>
                     </div>
@@ -801,7 +801,7 @@ export function GhorerBazarCatalog({
                             const val = e.target.value === "" ? maxProductPrice : Number(e.target.value);
                             setMaxPrice(Math.max(minPrice, val));
                           }}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#FF6600] focus:bg-white focus:ring-1 focus:ring-[#FF6600] transition"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#E50914] focus:bg-white focus:ring-1 focus:ring-[#E50914] transition"
                         />
                       </div>
                     </div>
@@ -816,14 +816,14 @@ export function GhorerBazarCatalog({
                       step={50}
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(Number(e.target.value))}
-                      className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#FF6600]"
+                      className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#E50914]"
                     />
                   </div>
 
                   {/* Price Values Display */}
                   <div className="flex items-center justify-between text-xs font-extrabold text-slate-700">
                     <span className="font-mono text-slate-500">৳{minPrice.toLocaleString()}</span>
-                    <span className="font-mono text-[#FF6600] bg-orange-50 px-2.5 py-0.5 rounded-md border border-orange-100">
+                    <span className="font-mono text-[#E50914] bg-red-50 px-2.5 py-0.5 rounded-md border border-orange-100">
                       ৳{maxPrice.toLocaleString()}
                     </span>
                   </div>
@@ -836,7 +836,7 @@ export function GhorerBazarCatalog({
               <button
                 type="button"
                 onClick={() => toggleSection("categories")}
-                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#FF6600] transition cursor-pointer"
+                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#E50914] transition cursor-pointer"
               >
                 <span>CATEGORIES</span>
                 {openSections.categories ? (
@@ -864,15 +864,15 @@ export function GhorerBazarCatalog({
                       return (
                         <div key={cat.id} className="space-y-1">
                           {/* Parent Category */}
-                          <label className="flex items-center justify-between text-xs text-slate-800 font-semibold hover:text-[#FF6600] cursor-pointer group select-none py-0.5">
+                          <label className="flex items-center justify-between text-xs text-slate-800 font-semibold hover:text-[#E50914] cursor-pointer group select-none py-0.5">
                             <div className="flex items-center gap-2">
                               <input
                                 type="checkbox"
                                 checked={isCatChecked}
                                 onChange={() => toggleCategory(cat.name)}
-                                className="w-4 h-4 rounded-md border-slate-300 text-[#FF6600] focus:ring-[#FF6600] accent-[#FF6600] cursor-pointer"
+                                className="w-4 h-4 rounded-md border-slate-300 text-[#E50914] focus:ring-[#E50914] accent-[#E50914] cursor-pointer"
                               />
-                              <span className={`group-hover:translate-x-0.5 transition-transform ${isCatChecked ? "font-bold text-[#FF6600]" : ""}`}>
+                              <span className={`group-hover:translate-x-0.5 transition-transform ${isCatChecked ? "font-bold text-[#E50914]" : ""}`}>
                                 {cat.name}
                               </span>
                             </div>
@@ -900,16 +900,16 @@ export function GhorerBazarCatalog({
                                 return (
                                   <label
                                     key={sub.id}
-                                    className="flex items-center justify-between text-[11px] text-slate-600 font-medium hover:text-[#FF6600] cursor-pointer group select-none py-0.5"
+                                    className="flex items-center justify-between text-[11px] text-slate-600 font-medium hover:text-[#E50914] cursor-pointer group select-none py-0.5"
                                   >
                                     <div className="flex items-center gap-2">
                                       <input
                                         type="checkbox"
                                         checked={isSubChecked}
                                         onChange={() => toggleSubCategory(sub.name)}
-                                        className="w-3.5 h-3.5 rounded border-slate-300 text-[#FF6600] focus:ring-[#FF6600] accent-[#FF6600] cursor-pointer"
+                                        className="w-3.5 h-3.5 rounded border-slate-300 text-[#E50914] focus:ring-[#E50914] accent-[#E50914] cursor-pointer"
                                       />
-                                      <span className={`${isSubChecked ? "font-bold text-[#FF6600]" : ""}`}>
+                                      <span className={`${isSubChecked ? "font-bold text-[#E50914]" : ""}`}>
                                         {sub.name}
                                       </span>
                                     </div>
@@ -932,14 +932,14 @@ export function GhorerBazarCatalog({
                       return (
                         <label
                           key={cat}
-                          className="flex items-center justify-between text-xs text-slate-700 font-medium hover:text-[#FF6600] cursor-pointer group select-none py-0.5"
+                          className="flex items-center justify-between text-xs text-slate-700 font-medium hover:text-[#E50914] cursor-pointer group select-none py-0.5"
                         >
                           <div className="flex items-center gap-2.5">
                             <input
                               type="checkbox"
                               checked={isChecked}
                               onChange={() => toggleCategory(cat)}
-                              className="w-4 h-4 rounded-md border-slate-300 text-[#FF6600] focus:ring-[#FF6600] accent-[#FF6600] cursor-pointer"
+                              className="w-4 h-4 rounded-md border-slate-300 text-[#E50914] focus:ring-[#E50914] accent-[#E50914] cursor-pointer"
                             />
                             <span className={`${isChecked ? "font-bold text-slate-900" : ""}`}>
                               {cat}
@@ -958,7 +958,7 @@ export function GhorerBazarCatalog({
               <button
                 type="button"
                 onClick={() => toggleSection("flags")}
-                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#FF6600] transition cursor-pointer"
+                className="w-full flex items-center justify-between font-extrabold text-xs text-slate-800 uppercase tracking-wider hover:text-[#E50914] transition cursor-pointer"
               >
                 <span>PRODUCT FLAG</span>
                 {openSections.flags ? (
@@ -980,13 +980,13 @@ export function GhorerBazarCatalog({
                     return (
                       <label
                         key={flag.label}
-                        className="flex items-center gap-2.5 text-xs text-slate-700 font-medium hover:text-[#FF6600] cursor-pointer group select-none"
+                        className="flex items-center gap-2.5 text-xs text-slate-700 font-medium hover:text-[#E50914] cursor-pointer group select-none"
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => toggleFlag(flag.label)}
-                          className="w-4 h-4 rounded-md border-slate-300 text-[#FF6600] focus:ring-[#FF6600] accent-[#FF6600] cursor-pointer"
+                          className="w-4 h-4 rounded-md border-slate-300 text-[#E50914] focus:ring-[#E50914] accent-[#E50914] cursor-pointer"
                         />
                         <span className={`${isChecked ? "font-bold text-slate-900" : ""}`}>
                           {flag.label}
@@ -1021,7 +1021,7 @@ export function GhorerBazarCatalog({
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-2 bg-[#FF6600] hover:bg-[#E65A00] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-md transition cursor-pointer"
                 >
                   Reset All Filters
                 </button>
@@ -1069,7 +1069,7 @@ export function GhorerBazarCatalog({
                     return (
                       <div
                         key={prod.id}
-                        className="bg-white rounded-xl border border-slate-200/85 p-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 hover:shadow-lg hover:border-[#FF6600]/40 transition-all duration-300 relative group/card w-full"
+                        className="bg-white rounded-xl border border-slate-200/85 p-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 hover:shadow-lg hover:border-[#E50914]/40 transition-all duration-300 relative group/card w-full"
                       >
                         {/* Image Container */}
                         <div className={`w-full sm:w-44 h-44 bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden relative shrink-0 ${isOutOfStock ? "opacity-75" : ""}`}>
@@ -1080,11 +1080,11 @@ export function GhorerBazarCatalog({
                                 <PackageX className="w-3 h-3" /> Out of Stock
                               </span>
                             ) : prod.isBestSeller ? (
-                              <span className="bg-[#FF6600] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                              <span className="bg-[#E50914] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
                                 Best Selling
                               </span>
                             ) : hasDiscount ? (
-                              <span className="bg-[#FF6600] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                              <span className="bg-[#E50914] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
                                 Offered Items
                               </span>
                             ) : prod.isNew ? (
@@ -1112,14 +1112,14 @@ export function GhorerBazarCatalog({
                           </span>
 
                           <Link href={`/product/${prod.slug || prod.id}`}>
-                            <h3 className="font-bold text-slate-800 text-sm sm:text-base hover:text-[#FF6600] transition leading-snug">
+                            <h3 className="font-bold text-slate-800 text-sm sm:text-base hover:text-[#E50914] transition leading-snug">
                               {prod.name}
                             </h3>
                           </Link>
 
                           {/* Price */}
                           <div className="flex items-baseline justify-center sm:justify-start gap-2 pt-1">
-                            <span className="text-base sm:text-lg font-black text-[#FF6600]">
+                            <span className="text-base sm:text-lg font-black text-[#E50914]">
                               ৳{prod.price.toLocaleString()}
                             </span>
                             {prod.originalPrice && prod.originalPrice > prod.price && (
@@ -1145,7 +1145,7 @@ export function GhorerBazarCatalog({
                             <button
                               type="button"
                               onClick={() => setQuickViewProduct(prod)}
-                              className="flex-1 sm:flex-initial bg-[#002B49] text-white hover:bg-[#001D33] font-bold text-xs sm:text-sm py-2 px-5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 shadow-xs cursor-pointer"
+                              className="flex-1 sm:flex-initial bg-[#002884] text-white hover:bg-[#001D33] font-bold text-xs sm:text-sm py-2 px-5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 shadow-xs cursor-pointer"
                             >
                               <SlidersHorizontal className="w-4 h-4" />
                               <span>Select Options</span>
@@ -1154,7 +1154,7 @@ export function GhorerBazarCatalog({
                             <button
                               type="button"
                               onClick={() => addToCart(prod, 1)}
-                              className="flex-1 sm:flex-initial bg-[#FF6600] text-white hover:bg-[#E65A00] font-bold text-xs sm:text-sm py-2 px-5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 shadow-xs cursor-pointer"
+                              className="flex-1 sm:flex-initial bg-[#E50914] text-white hover:bg-[#C80000] font-bold text-xs sm:text-sm py-2 px-5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 shadow-xs cursor-pointer"
                             >
                               <ShoppingCart className="w-4 h-4" />
                               <span>Add To Cart</span>
@@ -1168,7 +1168,7 @@ export function GhorerBazarCatalog({
                               className={`p-2 rounded-lg border border-slate-200 flex items-center justify-center shadow-xs transition-colors cursor-pointer ${
                                 isInWishlist(prod.id)
                                   ? "bg-rose-500 text-white border-rose-500"
-                                  : "bg-white text-slate-600 hover:bg-[#FF6600] hover:text-white"
+                                  : "bg-white text-slate-600 hover:bg-[#E50914] hover:text-white"
                               }`}
                               title="Add to Wishlist"
                             >
@@ -1178,7 +1178,7 @@ export function GhorerBazarCatalog({
                             <button
                               type="button"
                               onClick={() => setQuickViewProduct(prod)}
-                              className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-[#002B49] hover:text-white flex items-center justify-center shadow-xs transition-colors cursor-pointer"
+                              className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-[#002884] hover:text-white flex items-center justify-center shadow-xs transition-colors cursor-pointer"
                               title="Quick View"
                             >
                               <Eye className="w-4 h-4" />
@@ -1200,15 +1200,15 @@ export function GhorerBazarCatalog({
                           <PackageX className="w-3 h-3" /> OUT OF STOCK
                         </span>
                       ) : Boolean(prod.discountPercentage && prod.discountPercentage > 0) ? (
-                        <span className="absolute top-2 left-2 z-10 bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
+                        <span className="absolute top-2 left-2 z-10 bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
                           -{prod.discountPercentage}%
                         </span>
                       ) : prod.isBestSeller ? (
-                        <span className="absolute top-2 left-2 z-10 bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
+                        <span className="absolute top-2 left-2 z-10 bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
                           BEST SELLER
                         </span>
                       ) : Boolean(prod.originalPrice && prod.originalPrice > prod.price) ? (
-                        <span className="absolute top-2 left-2 z-10 bg-[#FF6600] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
+                        <span className="absolute top-2 left-2 z-10 bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs pointer-events-none">
                           SALE
                         </span>
                       ) : prod.isNew ? (
@@ -1248,7 +1248,7 @@ export function GhorerBazarCatalog({
                           }}
                           title="Quick View"
                           aria-label="Quick View"
-                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002884] hover:text-white hover:border-[#002884] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/card:opacity-100 opacity-90"
                         >
                           <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </button>
@@ -1277,7 +1277,7 @@ export function GhorerBazarCatalog({
 
                         {/* Product Title */}
                         <Link href={`/product/${prod.slug || prod.id}`}>
-                          <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#002B49] transition leading-tight sm:leading-snug mb-1.5 min-h-[28px] sm:min-h-[32px]">
+                          <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#002884] transition leading-tight sm:leading-snug mb-1.5 min-h-[28px] sm:min-h-[32px]">
                             {prod.name}
                           </h3>
                         </Link>
@@ -1287,7 +1287,7 @@ export function GhorerBazarCatalog({
                       <div className="mt-1 sm:mt-2 space-y-2 pt-1.5 sm:pt-2 border-t border-slate-100">
                         <div className="flex items-center justify-between gap-1 flex-wrap">
                           <div className="flex items-baseline gap-1">
-                            <span className="text-[#FF6600] font-black text-xs sm:text-sm">
+                            <span className="text-[#E50914] font-black text-xs sm:text-sm">
                               ৳{typeof prod.price === "number" ? prod.price.toFixed(0) : prod.price}
                             </span>
                             {Boolean(prod.originalPrice && prod.originalPrice > prod.price) && (
@@ -1325,7 +1325,7 @@ export function GhorerBazarCatalog({
                               setQuickViewProduct(prod);
                             }}
                             aria-label={`Select options for ${prod.name}`}
-                            className="w-full bg-[#002B49] hover:bg-[#001D33] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                            className="w-full bg-[#002884] hover:bg-[#001D33] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                           >
                             <SlidersHorizontal className="w-3.5 h-3.5 text-orange-400 shrink-0" />
                             <span>Select Options</span>
@@ -1339,7 +1339,7 @@ export function GhorerBazarCatalog({
                               addToCart(prod, 1);
                             }}
                             aria-label={`Add ${prod.name} to Cart`}
-                            className="w-full bg-[#FF6600] hover:bg-[#E65A00] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                            className="w-full bg-[#E50914] hover:bg-[#C80000] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                           >
                             <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
                             <span>Add to Cart</span>
@@ -1375,7 +1375,7 @@ export function GhorerBazarCatalog({
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                  <SlidersHorizontal className="w-4 h-4 text-[#FF6600]" /> Filters
+                  <SlidersHorizontal className="w-4 h-4 text-[#E50914]" /> Filters
                 </h3>
                 <button
                   type="button"
@@ -1412,7 +1412,7 @@ export function GhorerBazarCatalog({
                           const val = e.target.value === "" ? 0 : Number(e.target.value);
                           setMinPrice(Math.max(0, val));
                         }}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#FF6600] focus:bg-white"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#E50914] focus:bg-white"
                       />
                     </div>
                   </div>
@@ -1435,7 +1435,7 @@ export function GhorerBazarCatalog({
                           const val = e.target.value === "" ? maxProductPrice : Number(e.target.value);
                           setMaxPrice(Math.max(minPrice, val));
                         }}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#FF6600] focus:bg-white"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-6 pr-2 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#E50914] focus:bg-white"
                       />
                     </div>
                   </div>
@@ -1448,11 +1448,11 @@ export function GhorerBazarCatalog({
                   step={50}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#FF6600]"
+                  className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#E50914]"
                 />
                 <div className="flex items-center justify-between text-xs font-bold text-slate-700 font-mono">
                   <span className="text-slate-500">৳{minPrice.toLocaleString()}</span>
-                  <span className="text-[#FF6600]">৳{maxPrice.toLocaleString()}</span>
+                  <span className="text-[#E50914]">৳{maxPrice.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -1477,9 +1477,9 @@ export function GhorerBazarCatalog({
                                 type="checkbox"
                                 checked={isCatChecked}
                                 onChange={() => toggleCategory(cat.name)}
-                                className="w-4 h-4 rounded text-[#FF6600] accent-[#FF6600]"
+                                className="w-4 h-4 rounded text-[#E50914] accent-[#E50914]"
                               />
-                              <span className={isCatChecked ? "font-bold text-[#FF6600]" : ""}>{cat.name}</span>
+                              <span className={isCatChecked ? "font-bold text-[#E50914]" : ""}>{cat.name}</span>
                             </div>
                           </label>
 
@@ -1497,9 +1497,9 @@ export function GhorerBazarCatalog({
                                         type="checkbox"
                                         checked={isSubChecked}
                                         onChange={() => toggleSubCategory(sub.name)}
-                                        className="w-3.5 h-3.5 rounded text-[#FF6600] accent-[#FF6600]"
+                                        className="w-3.5 h-3.5 rounded text-[#E50914] accent-[#E50914]"
                                       />
-                                      <span className={isSubChecked ? "font-bold text-[#FF6600]" : ""}>{sub.name}</span>
+                                      <span className={isSubChecked ? "font-bold text-[#E50914]" : ""}>{sub.name}</span>
                                     </div>
                                   </label>
                                 );
@@ -1516,7 +1516,7 @@ export function GhorerBazarCatalog({
                           type="checkbox"
                           checked={selectedCategories.includes(cat)}
                           onChange={() => toggleCategory(cat)}
-                          className="w-4 h-4 rounded text-[#FF6600] accent-[#FF6600]"
+                          className="w-4 h-4 rounded text-[#E50914] accent-[#E50914]"
                         />
                         <span>{cat}</span>
                       </label>
@@ -1537,7 +1537,7 @@ export function GhorerBazarCatalog({
                         type="checkbox"
                         checked={selectedFlags.includes(flag)}
                         onChange={() => toggleFlag(flag)}
-                        className="w-4 h-4 rounded text-[#FF6600] accent-[#FF6600]"
+                        className="w-4 h-4 rounded text-[#E50914] accent-[#E50914]"
                       />
                       <span>{flag}</span>
                     </label>
@@ -1559,7 +1559,7 @@ export function GhorerBazarCatalog({
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 py-2.5 bg-[#FF6600] text-white font-bold text-xs rounded-xl shadow-md transition"
+                className="flex-1 py-2.5 bg-[#E50914] text-white font-bold text-xs rounded-xl shadow-md transition"
               >
                 Apply ({filteredProducts.length})
               </button>

@@ -10,20 +10,20 @@ export function TrustBadgesBar() {
 
         {/* 100% Money back */}
         <div className="flex items-center justify-center gap-3 py-2 px-4">
-          <Wallet className="w-5 h-5 text-[#FF6600]" />
-          <span className="text-[#FF6600] text-sm font-extrabold">100% Money back</span>
+          <Wallet className="w-5 h-5 text-[#E50914]" />
+          <span className="text-[#E50914] text-sm font-extrabold">100% Money back</span>
         </div>
 
         {/* Non-contact shipping */}
         <div className="flex items-center justify-center gap-3 py-2 px-4">
-          <PackageCheck className="w-5 h-5 text-[#002B49]" />
-          <span className="text-[#002B49] text-sm font-extrabold">Non-contact shipping</span>
+          <PackageCheck className="w-5 h-5 text-[#002884]" />
+          <span className="text-[#002884] text-sm font-extrabold">Non-contact shipping</span>
         </div>
 
         {/* Fast delivery */}
         <div className="flex items-center justify-center gap-3 py-2 px-4">
-          <Truck className="w-5 h-5 text-[#002B49]" />
-          <span className="text-[#002B49] text-sm font-extrabold">Fast delivery across BD</span>
+          <Truck className="w-5 h-5 text-[#002884]" />
+          <span className="text-[#002884] text-sm font-extrabold">Fast delivery across BD</span>
         </div>
 
       </div>

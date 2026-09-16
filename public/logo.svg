@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 64" width="100%" height="100%" fill="none">
+  <!-- Letter 'D' Outer Silhouette -->
+  <path d="M 4 8 H 28 C 42 8 50 17 50 32 C 50 47 42 56 28 56 H 4 V 8 Z" fill="#002884" />
+  
+  <!-- Open Door Cutout inside 'D' -->
+  <polygon points="14,14 36,19 36,45 14,50" fill="#FFFFFF" />
+  
+  <!-- Door Knob on open door -->
+  <circle cx="31" cy="32" r="2.4" fill="#002884" />
+
+  <!-- 'oor Step' in Deep Royal Blue -->
+  <text x="55" y="47" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Poppins', sans-serif" font-size="43" font-weight="900" letter-spacing="-1px" fill="#002884">oor Step</text>
+
+  <!-- 'BD' in Bold Crimson Red -->
+  <text x="238" y="47" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Poppins', sans-serif" font-size="43" font-weight="900" letter-spacing="-0.5px" fill="#E50914">BD</text>
+</svg>

@@ -412,21 +412,21 @@ export function QuickViewModal() {
                   {/* Badges Overlay */}
                   <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 flex flex-col gap-1.5 sm:gap-2">
                     {savings !== null && savings > 0 && (
-                      <span className="bg-[#FF6600] text-white font-black text-[10px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider shadow-md">
+                      <span className="bg-[#E50914] text-white font-black text-[10px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider shadow-md">
                         -{Math.round((savings / originalPriceVal!) * 100)}% OFF
                       </span>
                     )}
                   </div>
 
                   {product.isNew && (
-                    <div className="absolute top-3 right-10 sm:top-4 sm:right-4 z-20 bg-[#002B49] text-white font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider shadow-md">
+                    <div className="absolute top-3 right-10 sm:top-4 sm:right-4 z-20 bg-[#002884] text-white font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider shadow-md">
                       NEW ARRIVAL
                     </div>
                   )}
 
                   {loadingDetails ? (
                     <div className="flex flex-col items-center justify-center space-y-2 text-slate-400">
-                      <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-[#002B49]" />
+                      <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-[#002884]" />
                       <span className="text-xs font-bold">Loading view...</span>
                     </div>
                   ) : (
@@ -458,7 +458,7 @@ export function QuickViewModal() {
                         onClick={() => setSelectedImageIndex(idx)}
                         className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl border-2 overflow-hidden shrink-0 bg-slate-50 transition-all cursor-pointer ${
                           selectedImageIndex === idx
-                            ? "border-[#FF6600] ring-2 ring-[#FF6600]/20 scale-105"
+                            ? "border-[#E50914] ring-2 ring-[#E50914]/20 scale-105"
                             : "border-slate-200 hover:border-slate-400 opacity-70 hover:opacity-100"
                         }`}
                       >
@@ -480,7 +480,7 @@ export function QuickViewModal() {
                 {/* Category, Brand, Stock Badges */}
                 <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="bg-orange-50 text-[#FF6600] font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-md uppercase tracking-wider border border-orange-200/50">
+                    <span className="bg-red-50 text-[#E50914] font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-md uppercase tracking-wider border border-red-200/50">
                       {product.category || "GENERAL"}
                     </span>
                     {product.brand && (
@@ -538,7 +538,7 @@ export function QuickViewModal() {
 
                 {/* Pricing Row */}
                 <div className="flex items-baseline gap-2.5 sm:gap-3 flex-wrap">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF6600]">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#E50914]">
                     ৳ {price.toLocaleString("en-US")}
                   </span>
                   {Boolean(originalPriceVal) && (
@@ -547,7 +547,7 @@ export function QuickViewModal() {
                     </span>
                   )}
                   {Boolean(savings) && savings! > 0 && (
-                    <span className="bg-orange-50 text-[#FF6600] font-extrabold text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-orange-200">
+                    <span className="bg-red-50 text-[#E50914] font-extrabold text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-red-200">
                       Save : ৳{savings?.toLocaleString("en-US")}
                     </span>
                   )}
@@ -571,10 +571,10 @@ export function QuickViewModal() {
                         <div key={attrName} className="space-y-2">
                           <div className="text-xs font-bold text-slate-700 flex items-center justify-between">
                             <span className="flex items-center gap-1.5 text-slate-800">
-                              <span className="w-2 h-2 rounded-full bg-[#FF6600]" />
+                              <span className="w-2 h-2 rounded-full bg-[#E50914]" />
                               <span>Select {attrName}:</span>
                             </span>
-                            <span className="text-[#FF6600] font-black bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200/60 text-[11px] sm:text-xs">
+                            <span className="text-[#E50914] font-black bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200/60 text-[11px] sm:text-xs">
                               {activeVal}
                             </span>
                           </div>
@@ -588,8 +588,8 @@ export function QuickViewModal() {
                                   onClick={() => handleSelectAttribute(attrName, val)}
                                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                                     isSelected
-                                      ? "bg-[#002B49] text-white border-[#002B49] shadow-sm scale-105 ring-2 ring-[#002B49]/20"
-                                      : "bg-white text-slate-700 border-slate-200 hover:border-[#FF6600] hover:text-[#FF6600]"
+                                      ? "bg-[#002884] text-white border-[#002884] shadow-sm scale-105 ring-2 ring-[#002884]/20"
+                                      : "bg-white text-slate-700 border-slate-200 hover:border-[#E50914] hover:text-[#E50914]"
                                   }`}
                                 >
                                   {val}
@@ -644,7 +644,7 @@ export function QuickViewModal() {
                         className={`flex-1 w-full font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
                           isOutOfStock
                             ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
-                            : "bg-[#FF6600] hover:bg-[#E65A00] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
+                            : "bg-[#E50914] hover:bg-[#C80000] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
                         }`}
                       >
                         {isOutOfStock ? (
@@ -669,7 +669,7 @@ export function QuickViewModal() {
                       className={`w-full sm:flex-1 font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
                         isOutOfStock
                           ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
-                          : "bg-[#002B49] hover:bg-[#001C30] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
+                          : "bg-[#002884] hover:bg-[#001D5C] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
                       }`}
                     >
                       <span>{isOutOfStock ? "Unavailable" : "Buy Now"}</span>
@@ -681,18 +681,18 @@ export function QuickViewModal() {
                     <button
                       type="button"
                       onClick={() => addToWishlist(product)}
-                      className="flex items-center gap-1.5 hover:text-[#FF6600] transition cursor-pointer text-[11px] sm:text-xs"
+                      className="flex items-center gap-1.5 hover:text-[#E50914] transition cursor-pointer text-[11px] sm:text-xs"
                     >
-                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? "fill-[#FF6600] text-[#FF6600]" : "text-slate-400"}`} />
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isInWishlist(product.id) ? "fill-[#E50914] text-[#E50914]" : "text-slate-400"}`} />
                       {isInWishlist(product.id) ? "Saved in Wishlist" : "Add to Wishlist"}
                     </button>
                     <span>|</span>
                     <button
                       type="button"
                       onClick={handleShare}
-                      className="flex items-center gap-1.5 hover:text-[#002B49] transition cursor-pointer text-[11px] sm:text-xs"
+                      className="flex items-center gap-1.5 hover:text-[#002884] transition cursor-pointer text-[11px] sm:text-xs"
                     >
-                      <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#002B49]" /> Share Product
+                      <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#002884]" /> Share Product
                     </button>
                   </div>
                 </div>
@@ -705,9 +705,9 @@ export function QuickViewModal() {
                   </div>
                   <a
                     href="tel:01681135030"
-                    className="bg-[#002B49] hover:bg-[#001C30] text-white font-black text-xs px-4 py-2 rounded-full flex items-center justify-center gap-1.5 shadow-xs transition shrink-0"
+                    className="bg-[#002884] hover:bg-[#001D5C] text-white font-black text-xs px-4 py-2 rounded-full flex items-center justify-center gap-1.5 shadow-xs transition shrink-0"
                   >
-                    <PhoneCall className="w-3.5 h-3.5 text-[#FF6600]" /> 01681-135030
+                    <PhoneCall className="w-3.5 h-3.5 text-[#E50914]" /> 01681-135030
                   </a>
                 </div>
 
@@ -719,7 +719,7 @@ export function QuickViewModal() {
             {relatedProducts.length > 0 && (
               <div className="mt-8 pt-6 border-t border-slate-100 space-y-3">
                 <h3 className="font-extrabold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-[#FF6600]" /> Related Products
+                  <Sparkles className="w-4 h-4 text-[#E50914]" /> Related Products
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {relatedProducts.map((rel) => (
@@ -736,11 +736,11 @@ export function QuickViewModal() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-slate-800 text-xs truncate group-hover:text-[#002B49]">
+                        <h4 className="font-bold text-slate-800 text-xs truncate group-hover:text-[#002884]">
                           {rel.name}
                         </h4>
                         <div className="flex items-baseline gap-2 mt-0.5">
-                          <span className="text-[#FF6600] font-black text-xs">
+                          <span className="text-[#E50914] font-black text-xs">
                             ৳{rel.price?.toLocaleString()}
                           </span>
                           {Boolean(rel.originalPrice && rel.originalPrice > rel.price) && (
@@ -753,7 +753,7 @@ export function QuickViewModal() {
                       <button
                         type="button"
                         onClick={() => setQuickViewProduct(rel)}
-                        className="bg-white border border-slate-200 text-slate-700 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] text-[11px] font-bold px-3 py-1.5 rounded-full transition shadow-xs cursor-pointer"
+                        className="bg-white border border-slate-200 text-slate-700 hover:bg-[#002884] hover:text-white hover:border-[#002884] text-[11px] font-bold px-3 py-1.5 rounded-full transition shadow-xs cursor-pointer"
                       >
                         View
                       </button>

@@ -98,7 +98,7 @@ export function AIChatbot() {
 
   // WhatsApp Settings & Floating Speed-Dial Menu state
   const [waNumber, setWaNumber] = useState("8801685594315");
-  const [waMessage, setWaMessage] = useState("Hello! I have an inquiry regarding your products on SMT Mart BD.");
+  const [waMessage, setWaMessage] = useState("Hello! I have an inquiry regarding your products on Door Step BD.");
   const [waEnabled, setWaEnabled] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -633,16 +633,16 @@ export function AIChatbot() {
                     setMenuOpen(false);
                     setIsOpen(true);
                   }}
-                  className="group flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl rounded-2xl p-2.5 sm:px-4 sm:py-3 hover:border-[#FF6600] transition-all duration-200 hover:scale-[1.02] active:scale-95 text-slate-800 dark:text-slate-100 text-left min-w-[210px] cursor-pointer"
+                  className="group flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl rounded-2xl p-2.5 sm:px-4 sm:py-3 hover:border-[#E50914] transition-all duration-200 hover:scale-[1.02] active:scale-95 text-slate-800 dark:text-slate-100 text-left min-w-[210px] cursor-pointer"
                 >
                   <div className="flex-1 text-right">
                     <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 justify-end">
                       <span>AI & Live Agent</span>
-                      <span className="w-2 h-2 rounded-full bg-[#FF6600]"></span>
+                      <span className="w-2 h-2 rounded-full bg-[#E50914]"></span>
                     </div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">Instant Help & Orders</div>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#002B49] via-[#053a63] to-[#FF6600] text-white flex items-center justify-center shadow-md shadow-orange-500/25 group-hover:scale-105 transition shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#002884] via-[#0A3299] to-[#E50914] text-white flex items-center justify-center shadow-md shadow-orange-500/25 group-hover:scale-105 transition shrink-0">
                     <ChatBubbleDotsIcon className="w-5 h-5" />
                   </div>
                 </button>
@@ -662,11 +662,11 @@ export function AIChatbot() {
               <button
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="SMT Support Options"
+                aria-label="Door Step Support Options"
                 className={`relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-white cursor-pointer ${
                   menuOpen
                     ? "bg-slate-900 text-white rotate-90"
-                    : "bg-gradient-to-r from-[#002B49] via-[#053a63] to-[#FF6600] text-white hover:shadow-orange-500/40"
+                    : "bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white hover:shadow-red-600/40"
                 }`}
               >
                 {menuOpen ? (
@@ -685,7 +685,7 @@ export function AIChatbot() {
 
                     {/* Unread Counter Badge */}
                     {unreadCount > 0 && (
-                      <span className="absolute -top-1 -left-1 bg-[#FF6600] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
+                      <span className="absolute -top-1 -left-1 bg-[#E50914] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
                         {unreadCount}
                       </span>
                     )}
@@ -701,7 +701,7 @@ export function AIChatbot() {
           <div className="w-full sm:w-[380px] md:w-[410px] h-[88vh] max-h-[660px] sm:h-[620px] sm:max-h-[calc(100vh-4.5rem)] bg-[#f9fafb] dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 animate-in slide-in-from-bottom-6 sm:zoom-in-95">
 
             {/* ── HEADER ── */}
-            <div className="bg-gradient-to-r from-[#002B49] via-[#053a63] to-[#FF6600] px-4 py-3.5 text-white shadow-sm shrink-0">
+            <div className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] px-4 py-3.5 text-white shadow-sm shrink-0">
               {/* Mobile Drag Handle */}
               <div className="w-10 h-1 bg-white/30 rounded-full mx-auto mb-2 sm:hidden" />
 
@@ -714,7 +714,7 @@ export function AIChatbot() {
                   </div>
                   <div>
                     <h3 className="font-bold text-[15px] leading-tight text-white">
-                      SMT Mart BD Support
+                      Door Step BD Support
                     </h3>
                     <p className="text-[11px] font-medium flex items-center gap-1.5 mt-0.5">
                       {isLiveAgentActive ? (
@@ -814,9 +814,9 @@ export function AIChatbot() {
                     {/* Message Bubble Card */}
                     <div
                       className={`rounded-2xl p-4 text-sm leading-relaxed shadow-xs break-words ${isCustomer
-                          ? "bg-[#002B49] text-white ml-auto max-w-[85%]"
+                          ? "bg-[#002884] text-white ml-auto max-w-[85%]"
                           : msg.sender_type === "agent"
-                            ? "bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-l-4 border-l-[#FF6600] border-slate-200 dark:border-slate-700 mr-auto max-w-[92%]"
+                            ? "bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-l-4 border-l-[#E50914] border-slate-200 dark:border-slate-700 mr-auto max-w-[92%]"
                             : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 mr-auto max-w-[92%]"
                         }`}
                     >
@@ -832,7 +832,7 @@ export function AIChatbot() {
                                 key={idx}
                                 type="button"
                                 onClick={() => handleSendMessage(qr.prompt || qr.label, "search_product")}
-                                className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#FF6600] hover:text-white dark:hover:bg-[#FF6600] text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer active:scale-95"
+                                className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#E50914] hover:text-white dark:hover:bg-[#E50914] text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer active:scale-95"
                               >
                                 {qr.label}
                               </button>
@@ -848,7 +848,7 @@ export function AIChatbot() {
                             {msg.metadata.products.map((prod) => (
                               <div
                                 key={prod.id}
-                                className="bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-[#FF6600] dark:hover:border-orange-400 transition shadow-2xs group"
+                                className="bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-[#E50914] dark:hover:border-orange-400 transition shadow-2xs group"
                               >
                                 <div className="flex items-center gap-3 min-w-0 flex-1">
                                   <div className="relative w-12 h-12 rounded-lg bg-slate-50 dark:bg-slate-900 overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800">
@@ -860,11 +860,11 @@ export function AIChatbot() {
                                     />
                                   </div>
                                   <div className="min-w-0 flex-1">
-                                    <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 group-hover:text-[#002B49] dark:group-hover:text-orange-400 truncate">
+                                    <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 group-hover:text-[#002884] dark:group-hover:text-orange-400 truncate">
                                       {prod.name}
                                     </h4>
                                     <div className="flex items-center gap-1.5 mt-0.5">
-                                      <span className="font-bold text-xs text-[#FF6600] dark:text-orange-400">
+                                      <span className="font-bold text-xs text-[#E50914] dark:text-orange-400">
                                         {formatPrice(prod.sale_price || prod.price)}
                                       </span>
                                       {prod.sale_price && (
@@ -887,7 +887,7 @@ export function AIChatbot() {
                                       addToCart(prod, 1);
                                       showToast(`${prod.name} added to cart!`);
                                     }}
-                                    className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-[#002B49] hover:text-white text-slate-700 dark:text-slate-200 flex items-center justify-center transition shadow-2xs cursor-pointer"
+                                    className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-[#002884] hover:text-white text-slate-700 dark:text-slate-200 flex items-center justify-center transition shadow-2xs cursor-pointer"
                                     title="Add to Cart"
                                   >
                                     <ShoppingCart className="w-3.5 h-3.5" />
@@ -897,7 +897,7 @@ export function AIChatbot() {
                                     onClick={() => {
                                       if (window.innerWidth < 640) setIsOpen(false);
                                     }}
-                                    className="px-2.5 py-1.5 bg-[#FF6600] hover:bg-[#E65A00] text-white text-[11px] font-bold rounded-lg transition shadow-2xs flex items-center gap-1"
+                                    className="px-2.5 py-1.5 bg-[#E50914] hover:bg-[#C80000] text-white text-[11px] font-bold rounded-lg transition shadow-2xs flex items-center gap-1"
                                   >
                                     <span>View</span>
                                     <ChevronRight className="w-3 h-3" />
@@ -926,12 +926,12 @@ export function AIChatbot() {
                               value={inlineOrderInput}
                               onChange={(e) => setInlineOrderInput(e.target.value)}
                               placeholder="📦 Enter Order Number"
-                              className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#FF6600]"
+                              className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#E50914]"
                             />
                             <button
                               type="submit"
                               disabled={!inlineOrderInput.trim()}
-                              className="px-4 py-2 bg-[#002B49] hover:bg-[#FF6600] disabled:opacity-40 text-white text-xs font-bold rounded-xl transition cursor-pointer shrink-0"
+                              className="px-4 py-2 bg-[#002884] hover:bg-[#E50914] disabled:opacity-40 text-white text-xs font-bold rounded-xl transition cursor-pointer shrink-0"
                             >
                               Track Order
                             </button>
@@ -943,7 +943,7 @@ export function AIChatbot() {
                               onClick={() => {
                                 if (window.innerWidth < 640) setIsOpen(false);
                               }}
-                              className="text-[#FF6600] dark:text-orange-400 font-semibold underline flex items-center gap-0.5"
+                              className="text-[#E50914] dark:text-orange-400 font-semibold underline flex items-center gap-0.5"
                             >
                               /track-order <ExternalLink className="w-2.5 h-2.5" />
                             </Link>
@@ -956,7 +956,7 @@ export function AIChatbot() {
                         <div className="mt-3 p-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl space-y-2.5 text-xs">
                           <div className="flex justify-between items-center font-bold">
                             <span className="text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                              <Package className="w-4 h-4 text-[#002B49] dark:text-orange-400" />
+                              <Package className="w-4 h-4 text-[#002884] dark:text-orange-400" />
                               Order #{msg.metadata.order.order_number || msg.metadata.order.id}
                             </span>
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold uppercase tracking-wider">
@@ -1003,7 +1003,7 @@ export function AIChatbot() {
 
                             <p className="flex justify-between items-center pt-2 border-t border-slate-200/60 dark:border-slate-800 text-xs">
                               <span>Total Amount:</span>
-                              <strong className="text-[#FF6600] dark:text-orange-400 font-black text-sm">
+                              <strong className="text-[#E50914] dark:text-orange-400 font-black text-sm">
                                 {formatPrice(msg.metadata.order.total || 0)}
                               </strong>
                             </p>
@@ -1015,7 +1015,7 @@ export function AIChatbot() {
                               onClick={() => {
                                 if (window.innerWidth < 640) setIsOpen(false);
                               }}
-                              className="text-xs text-[#002B49] dark:text-orange-400 font-bold hover:underline flex items-center gap-1"
+                              className="text-xs text-[#002884] dark:text-orange-400 font-bold hover:underline flex items-center gap-1"
                             >
                               <span>View Full Tracking Timeline</span>
                               <ExternalLink className="w-3 h-3" />
@@ -1032,7 +1032,7 @@ export function AIChatbot() {
                               key={faq.id}
                               type="button"
                               onClick={() => handleSendMessage(faq.question, "faq")}
-                              className="w-full text-left p-2.5 bg-slate-50 dark:bg-slate-700/60 hover:bg-[#002B49] hover:text-white dark:hover:bg-[#002B49] text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/80 dark:border-slate-600 transition shadow-2xs flex items-center justify-between gap-2 cursor-pointer group"
+                              className="w-full text-left p-2.5 bg-slate-50 dark:bg-slate-700/60 hover:bg-[#002884] hover:text-white dark:hover:bg-[#002884] text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/80 dark:border-slate-600 transition shadow-2xs flex items-center justify-between gap-2 cursor-pointer group"
                             >
                               <span className="truncate">{faq.question}</span>
                               <ChevronRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
@@ -1047,14 +1047,14 @@ export function AIChatbot() {
                           <button
                             type="button"
                             onClick={() => handleQuickAction("faq")}
-                            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#002B49] hover:text-white text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer"
+                            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#002884] hover:text-white text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer"
                           >
                             ❓ Browse more FAQs
                           </button>
                           <button
                             type="button"
                             onClick={() => handleQuickAction("connect_agent")}
-                            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#002B49] hover:text-white text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer"
+                            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#002884] hover:text-white text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer"
                           >
                             👨💼 Connect to Agent
                           </button>
@@ -1082,7 +1082,7 @@ export function AIChatbot() {
                                     setAgentForm({ ...agentForm, name: e.target.value });
                                     if (agentFormErrors.name) setAgentFormErrors({ ...agentFormErrors, name: "" });
                                   }}
-                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#FF6600]"
+                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#E50914]"
                                 />
                               </div>
                               {agentFormErrors.name && (
@@ -1109,7 +1109,7 @@ export function AIChatbot() {
                                     setAgentForm({ ...agentForm, email: e.target.value });
                                     if (agentFormErrors.email) setAgentFormErrors({ ...agentFormErrors, email: "" });
                                   }}
-                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#FF6600]"
+                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#E50914]"
                                 />
                               </div>
                               {agentFormErrors.email && (
@@ -1136,7 +1136,7 @@ export function AIChatbot() {
                                     setAgentForm({ ...agentForm, phone: e.target.value });
                                     if (agentFormErrors.phone) setAgentFormErrors({ ...agentFormErrors, phone: "" });
                                   }}
-                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#FF6600]"
+                                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#E50914]"
                                 />
                               </div>
                               {agentFormErrors.phone && (
@@ -1149,7 +1149,7 @@ export function AIChatbot() {
                             {/* Submit Button */}
                             <button
                               type="submit"
-                              className="w-full py-2.5 bg-[#FF6600] hover:bg-[#E65A00] text-white text-xs font-bold rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
+                              className="w-full py-2.5 bg-[#E50914] hover:bg-[#C80000] text-white text-xs font-bold rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
                             >
                               <Headphones className="w-4 h-4" />
                               <span>Connect to Agent</span>
@@ -1169,9 +1169,9 @@ export function AIChatbot() {
                     Assistant is typing...
                   </div>
                   <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4 py-3 rounded-2xl flex items-center gap-1.5 shadow-xs w-fit">
-                    <span className="w-2 h-2 bg-[#FF6600] dark:bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                    <span className="w-2 h-2 bg-[#FF6600] dark:bg-orange-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                    <span className="w-2 h-2 bg-[#FF6600] dark:bg-orange-400 rounded-full animate-bounce"></span>
+                    <span className="w-2 h-2 bg-[#E50914] dark:bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                    <span className="w-2 h-2 bg-[#E50914] dark:bg-orange-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                    <span className="w-2 h-2 bg-[#E50914] dark:bg-orange-400 rounded-full animate-bounce"></span>
                   </div>
                 </div>
               )}
@@ -1185,36 +1185,36 @@ export function AIChatbot() {
                 <button
                   type="button"
                   onClick={() => handleQuickAction("search_product")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002B49] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002884] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Search className="w-4 h-4 text-[#FF6600] shrink-0" />
+                  <Search className="w-4 h-4 text-[#E50914] shrink-0" />
                   <span className="truncate">Search Product</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handleQuickAction("track_order")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002B49] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002884] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Package className="w-4 h-4 text-[#FF6600] shrink-0" />
+                  <Package className="w-4 h-4 text-[#E50914] shrink-0" />
                   <span className="truncate">Track Order</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handleQuickAction("faq")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002B49] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002884] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <HelpCircle className="w-4 h-4 text-[#FF6600] shrink-0" />
+                  <HelpCircle className="w-4 h-4 text-[#E50914] shrink-0" />
                   <span className="truncate">Browse FAQs</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handleQuickAction("connect_agent")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002B49] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#002884] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Headphones className="w-4 h-4 text-[#FF6600] shrink-0" />
+                  <Headphones className="w-4 h-4 text-[#E50914] shrink-0" />
                   <span className="truncate">Connect to Agent</span>
                 </button>
               </div>
@@ -1228,7 +1228,7 @@ export function AIChatbot() {
               </div>
             ) : isLiveAgentActive && !isApproved ? (
               <div className="p-3 bg-amber-50/90 dark:bg-amber-950/50 border-t border-amber-200/80 dark:border-amber-900/60 text-amber-800 dark:text-amber-300 text-xs font-medium text-center flex items-center justify-center gap-2 shrink-0">
-                <span className="w-2 h-2 rounded-full bg-[#FF6600] animate-ping"></span>
+                <span className="w-2 h-2 rounded-full bg-[#E50914] animate-ping"></span>
                 <span>Waiting for support agent to accept and approve your chat...</span>
               </div>
             ) : (
@@ -1252,12 +1252,12 @@ export function AIChatbot() {
                           : "Waiting for agent approval..."
                         : "Type your message or product name..."
                     }
-                    className="flex-1 bg-slate-100/90 dark:bg-slate-800 border border-transparent focus:border-slate-200 rounded-2xl px-4 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:ring-1 focus:ring-[#FF6600] transition"
+                    className="flex-1 bg-slate-100/90 dark:bg-slate-800 border border-transparent focus:border-slate-200 rounded-2xl px-4 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:ring-1 focus:ring-[#E50914] transition"
                   />
                   <button
                     type="submit"
                     disabled={!inputText.trim() || isTyping}
-                    className="w-10 h-10 rounded-2xl bg-[#FF6600] hover:bg-[#E65A00] active:scale-90 disabled:opacity-35 disabled:cursor-not-allowed text-white flex items-center justify-center transition shadow-xs cursor-pointer shrink-0"
+                    className="w-10 h-10 rounded-2xl bg-[#E50914] hover:bg-[#C80000] active:scale-90 disabled:opacity-35 disabled:cursor-not-allowed text-white flex items-center justify-center transition shadow-xs cursor-pointer shrink-0"
                     aria-label="Send message"
                   >
                     <Send className="w-4.5 h-4.5" />

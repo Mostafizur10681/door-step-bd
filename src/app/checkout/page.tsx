@@ -187,7 +187,7 @@ export default function CheckoutPage() {
         {/* Top Coupon Notification Header Bar */}
         <div className="bg-white border border-slate-200 rounded-lg p-3 text-xs text-slate-600 flex items-center gap-1 shadow-xs">
           <span>Have a coupon?</span>
-          <button type="button" className="text-[#002B49] font-bold underline hover:text-[#FF6600] cursor-pointer">
+          <button type="button" className="text-[#002884] font-bold underline hover:text-[#E50914] cursor-pointer">
             Click here to enter your code
           </button>
         </div>
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
             <p className="text-xs text-slate-400">Add products to your cart before proceeding to checkout.</p>
             <Link
               href="/"
-              className="inline-block bg-[#ff8c00] text-white font-bold text-xs px-6 py-3 rounded-full shadow transition hover:bg-[#e07b00]"
+              className="inline-block bg-[#E50914] text-white font-bold text-xs px-6 py-3 rounded-full shadow transition hover:bg-[#C80000]"
             >
               Return to Shop
             </Link>
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
             {/* LEFT SIDE: Billing Details Form (Col 8) */}
             <div className="lg:col-span-8 bg-white border border-slate-200 rounded-lg p-6 sm:p-10 shadow-sm space-y-6">
               
-              <h2 className="text-2xl font-bold text-[#002B49] border-b border-slate-100 pb-4">
+              <h2 className="text-2xl font-bold text-[#002884] border-b border-slate-100 pb-4">
                 Billing details
               </h2>
 
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                   {fieldErrors.customer_email && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.customer_email[0]}</p>
@@ -244,7 +244,7 @@ export default function CheckoutPage() {
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                     />
                   </div>
  
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                     />
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export default function CheckoutPage() {
                     type="text"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                 </div>
 
@@ -286,7 +286,7 @@ export default function CheckoutPage() {
                   <select
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                    className="w-full bg-slate-100/70 border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49]"
+                    className="w-full bg-slate-100/70 border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884]"
                   >
                     <option value="Bangladesh">Bangladesh</option>
                   </select>
@@ -303,14 +303,14 @@ export default function CheckoutPage() {
                     placeholder="House number and street name"
                     value={streetAddress1}
                     onChange={(e) => setStreetAddress1(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                   <input
                     type="text"
                     placeholder="Apartment, suite, unit, etc. (optional)"
                     value={streetAddress2}
                     onChange={(e) => setStreetAddress2(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                   {fieldErrors.address && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.address[0]}</p>
@@ -328,7 +328,7 @@ export default function CheckoutPage() {
                       required
                       value={townCity}
                       onChange={(e) => setTownCity(e.target.value)}
-                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                     />
                   </div>
 
@@ -340,7 +340,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={postcode}
                       onChange={(e) => setPostcode(e.target.value)}
-                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                      className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                     />
                   </div>
                 </div>
@@ -353,7 +353,7 @@ export default function CheckoutPage() {
                   <select
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
-                    className="w-full bg-slate-100/70 border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49]"
+                    className="w-full bg-slate-100/70 border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884]"
                   >
                     {districtsList.length > 0 ? (
                       districtsList.map((d) => {
@@ -395,7 +395,7 @@ export default function CheckoutPage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                   {fieldErrors.customer_phone && (
                     <p className="text-rose-500 text-[11px] mt-1 font-semibold">{fieldErrors.customer_phone[0]}</p>
@@ -409,7 +409,7 @@ export default function CheckoutPage() {
                       type="checkbox"
                       checked={shipDifferent}
                       onChange={(e) => setShipDifferent(e.target.checked)}
-                      className="rounded border-slate-300 text-[#002B49] focus:ring-[#002B49] w-4 h-4"
+                      className="rounded border-slate-300 text-[#002884] focus:ring-[#002884] w-4 h-4"
                     />
                     <span>Ship to a different address?</span>
                   </label>
@@ -558,7 +558,7 @@ export default function CheckoutPage() {
                     placeholder="Notes about your order, e.g. special notes for delivery."
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002B49] focus:ring-1 focus:ring-[#002B49]"
+                    className="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#002884] focus:ring-1 focus:ring-[#002884]"
                   />
                 </div>
 
@@ -567,9 +567,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* RIGHT SIDE: Your Order Box (Col 4) */}
-            <div className="lg:col-span-4 bg-white border-2 border-[#ff8c00] rounded-xl p-6 shadow-md space-y-6">
+            <div className="lg:col-span-4 bg-white border-2 border-[#E50914] rounded-xl p-6 shadow-md space-y-6">
               
-              <h2 className="text-xl font-extrabold text-[#002B49] border-b border-slate-100 pb-3">
+              <h2 className="text-xl font-extrabold text-[#002884] border-b border-slate-100 pb-3">
                 Your order
               </h2>
 
@@ -626,7 +626,7 @@ export default function CheckoutPage() {
                       <div className="py-3 border-t border-b border-slate-200 space-y-2">
                         <div className="flex justify-between items-center text-slate-800">
                           <span className="font-bold">Shipment</span>
-                          <span className="text-xs font-black text-[#FF6600]">৳{shippingFee.toFixed(2)}</span>
+                          <span className="text-xs font-black text-[#E50914]">৳{shippingFee.toFixed(2)}</span>
                         </div>
 
                         <div className="space-y-1.5 pt-1">
@@ -636,7 +636,7 @@ export default function CheckoutPage() {
                               if (!shipDifferent && district !== "Dhaka") setDistrict("Dhaka");
                               if (shipDifferent && shipDistrict !== "Dhaka") setShipDistrict("Dhaka");
                             }}
-                            className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition ${shippingMethod === "inside_dhaka" ? "bg-orange-50/80 border-[#FF6600] text-[#002B49] font-bold" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                            className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition ${shippingMethod === "inside_dhaka" ? "bg-red-50/80 border-[#E50914] text-[#002884] font-bold" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
                           >
                             <div className="flex items-center gap-2">
                               <input
@@ -648,11 +648,11 @@ export default function CheckoutPage() {
                                   if (!shipDifferent && district !== "Dhaka") setDistrict("Dhaka");
                                   if (shipDifferent && shipDistrict !== "Dhaka") setShipDistrict("Dhaka");
                                 }}
-                                className="accent-[#FF6600] cursor-pointer"
+                                className="accent-[#E50914] cursor-pointer"
                               />
                               <span>Inside Dhaka</span>
                             </div>
-                            <span className="font-extrabold text-[#002B49]">৳80.00</span>
+                            <span className="font-extrabold text-[#002884]">৳80.00</span>
                           </label>
 
                           <label 
@@ -661,7 +661,7 @@ export default function CheckoutPage() {
                               if (!shipDifferent && district === "Dhaka") setDistrict("Gazipur");
                               if (shipDifferent && shipDistrict === "Dhaka") setShipDistrict("Gazipur");
                             }}
-                            className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition ${shippingMethod === "outside_dhaka" ? "bg-orange-50/80 border-[#FF6600] text-[#002B49] font-bold" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                            className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition ${shippingMethod === "outside_dhaka" ? "bg-red-50/80 border-[#E50914] text-[#002884] font-bold" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
                           >
                             <div className="flex items-center gap-2">
                               <input
@@ -673,11 +673,11 @@ export default function CheckoutPage() {
                                   if (!shipDifferent && district === "Dhaka") setDistrict("Gazipur");
                                   if (shipDifferent && shipDistrict === "Dhaka") setShipDistrict("Gazipur");
                                 }}
-                                className="accent-[#FF6600] cursor-pointer"
+                                className="accent-[#E50914] cursor-pointer"
                               />
                               <span>Outside Dhaka</span>
                             </div>
-                            <span className="font-extrabold text-[#002B49]">৳120.00</span>
+                            <span className="font-extrabold text-[#002884]">৳120.00</span>
                           </label>
                         </div>
                       </div>
@@ -685,7 +685,7 @@ export default function CheckoutPage() {
                       {/* Total */}
                       <div className="py-2 flex justify-between items-baseline text-slate-900 font-black">
                         <span className="text-sm">Total</span>
-                        <span className="text-xl text-[#002B49]">
+                        <span className="text-xl text-[#002884]">
                           ৳{grandTotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                         </span>
                       </div>
@@ -693,11 +693,11 @@ export default function CheckoutPage() {
                       {/* Payment Option: Cash on delivery */}
                       <div className="space-y-2 pt-3 border-t border-slate-200">
                         <div className="flex items-center gap-2.5 font-bold text-slate-800">
-                          <span className="w-3.5 h-3.5 rounded-full border-4 border-[#002B49] bg-white inline-block"></span>
+                          <span className="w-3.5 h-3.5 rounded-full border-4 border-[#002884] bg-white inline-block"></span>
                           <span>Cash on delivery</span>
                         </div>
 
-                        <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600 leading-relaxed border-l-4 border-l-[#002B49]">
+                        <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600 leading-relaxed border-l-4 border-l-[#002884]">
                           Pay with cash upon delivery to your doorstep anywhere in Bangladesh.
                         </div>
                       </div>
@@ -706,7 +706,7 @@ export default function CheckoutPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting || hasOutOfStockItems || cart.length === 0}
-                        className="w-full bg-[#002B49] hover:bg-[#FF6600] disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-extrabold text-sm py-3.5 px-6 rounded-full shadow-md transition duration-200 cursor-pointer text-center flex items-center justify-center gap-2 mt-4"
+                        className="w-full bg-[#002884] hover:bg-[#E50914] disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-extrabold text-sm py-3.5 px-6 rounded-full shadow-md transition duration-200 cursor-pointer text-center flex items-center justify-center gap-2 mt-4"
                       >
                         {isSubmitting ? (
                           <>
@@ -740,15 +740,15 @@ export default function CheckoutPage() {
         {/* Bottom Trust Badges Bar (100% Money back | Non-contact shipping | Fast delivery) */}
         <div className="mt-12 bg-white border border-slate-200 rounded-xl p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs font-bold text-slate-700">
           <div className="flex items-center justify-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#002B49]" />
+            <ShieldCheck className="w-4 h-4 text-[#002884]" />
             <span>100% Money back</span>
           </div>
           <div className="flex items-center justify-center gap-2 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0">
-            <Truck className="w-4 h-4 text-[#002B49]" />
+            <Truck className="w-4 h-4 text-[#002884]" />
             <span>Non-contact shipping</span>
           </div>
           <div className="flex items-center justify-center gap-2 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0">
-            <RotateCcw className="w-4 h-4 text-[#002B49]" />
+            <RotateCcw className="w-4 h-4 text-[#002884]" />
             <span>Fast delivery</span>
           </div>
         </div>
