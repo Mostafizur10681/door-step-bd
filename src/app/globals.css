@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --brand-navy: #002B49;
+  --brand-navy-dark: #001C30;
+  --brand-navy-light: #003D66;
+  --brand-orange: #FF6600;
+  --brand-orange-hover: #E65A00;
+  --brand-orange-light: #FFF7ED;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Hide Next.js Development Overlay Toast Badge */
+[data-nextjs-toast],
+next-route-announcer,
+[data-next-badge],
+#next-logo,
+button[aria-label="Open Next.js DevTools"] {
+  display: none !important;
+}
+
+/* Custom slim chat scrollbar */
+.custom-chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+}
+.custom-chat-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-chat-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.35);
+  border-radius: 9999px;
+}
+.custom-chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.6);
+}
+
+/* ============================================================
+   SKELETON LOADER
+   Explicit Color: #E2E8F0
+============================================================ */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background-color: #E2E8F0 !important;
+  background: linear-gradient(
+    90deg,
+    #E2E8F0 0%,
+    #cbd5e1 35%,
+    #E2E8F0 70%,
+    #E2E8F0 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: skeleton-shimmer 1.5s infinite ease-in-out !important;
+}
+
+.skeleton-box,
+[data-skeleton] {
+  background-color: #E2E8F0 !important;
+}
