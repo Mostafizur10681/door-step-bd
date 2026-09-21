@@ -66,6 +66,12 @@ jobs:
             # =========================================
             echo "🏗️ Building Next.js..."
 
+            # Ensure .env has production API URL for build time inlining
+            if [ ! -f ".env" ] || ! grep -q "NEXT_PUBLIC_API_URL" .env; then
+              echo "NEXT_PUBLIC_API_URL=https://admin.doorstepbd.org" >> .env
+            fi
+
+            export NEXT_PUBLIC_API_URL="https://admin.doorstepbd.org"
             npm run build
 
             # =========================================

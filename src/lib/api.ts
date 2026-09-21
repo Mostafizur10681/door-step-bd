@@ -1,4 +1,32 @@
-export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/+$/, "");
+export function resolveApiBaseUrl(): string {
+  // 1. In browser: If running on production domain, always point to admin.doorstepbd.org
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    const isLocal = host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0";
+    if (!isLocal) {
+      const envUrl = process.env.NEXT_PUBLIC_API_URL;
+      if (!envUrl || envUrl.includes("127.0.0.1") || envUrl.includes("localhost")) {
+        return "https://admin.doorstepbd.org";
+      }
+      return envUrl.replace(/\/+$/, "");
+    }
+  }
+
+  // 2. In production Node.js / SSR server environment
+  if (process.env.NODE_ENV === "production") {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!envUrl || envUrl.includes("127.0.0.1") || envUrl.includes("localhost")) {
+      return "https://admin.doorstepbd.org";
+    }
+    return envUrl.replace(/\/+$/, "");
+  }
+
+  // 3. Local development fallback
+  const rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  return rawUrl.replace(/\/+$/, "");
+}
+
+export const API_BASE_URL = resolveApiBaseUrl();
 export const API_V1 = `${API_BASE_URL}/api/v1`;
 
 export function getMediaUrl(image?: string | null, fallback: string = "/prod_maca.png"): string {
@@ -14,13 +42,14 @@ export function getMediaUrl(image?: string | null, fallback: string = "/prod_mac
   ) {
     return trimmed;
   }
+  const baseUrl = resolveApiBaseUrl();
   if (trimmed.startsWith("storage/")) {
-    return `${API_BASE_URL}/${trimmed}`;
+    return `${baseUrl}/${trimmed}`;
   }
   if (/^[A-Za-z0-9+/=]+$/.test(trimmed) && trimmed.length > 100) {
     return `data:image/png;base64,${trimmed}`;
   }
-  return `${API_BASE_URL}/storage/${trimmed}`;
+  return `${baseUrl}/storage/${trimmed}`;
 }
 
 export interface ApiProduct {
@@ -202,7 +231,8 @@ export interface FetchOptions extends RequestInit {
 }
 
 export async function fetchFromApi<T>(endpoint: string, options?: FetchOptions): Promise<T> {
-  const url = endpoint.startsWith("http") ? endpoint : `${API_V1}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+  const base = resolveApiBaseUrl();
+  const url = endpoint.startsWith("http") ? endpoint : `${base}/api/v1${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
 
   // Attach Sanctum token if available in localStorage
   let headers: Record<string, string> = {
