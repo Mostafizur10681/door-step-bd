@@ -15,25 +15,34 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_KEY }}
+          port: 22
+          script_stop: true
           script: |
             set -e
 
             cd /var/www/doorstepbd.org
 
-            echo "Pulling latest code..."
+            echo "========================================="
+            echo "🚀 Deploying Door Step BD"
+            echo "📁 /var/www/doorstepbd.org"
+            echo "========================================="
+
+            echo "📥 Pulling latest code..."
             git fetch origin main
             git reset --hard origin/main
 
-            echo "Installing dependencies..."
+            echo "📦 Installing dependencies..."
             npm ci
 
-            echo "Building Next.js..."
+            echo "🏗️ Building Next.js..."
             npm run build
 
-            echo "Restarting application..."
+            echo "🔄 Restarting application..."
             pm2 restart doorstepbd || pm2 start npm --name "doorstepbd" -- start
 
             pm2 save
 
-            echo "Deployment completed successfully!"
+            echo "========================================="
+            echo "✅ Deployment completed successfully!"
+            echo "========================================="
