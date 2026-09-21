@@ -108,6 +108,7 @@ export function Footer() {
               />
             </div>
 
+
             {/* Address */}
             <div className="space-y-1 text-slate-300 text-xs leading-relaxed">
               {footer.address ? (
