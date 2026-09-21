@@ -19,6 +19,7 @@ import {
 import { useShop } from "@/context/ShopContext";
 import { ProductGridSkeleton } from "@/components/common/Skeletons";
 import { isProductOutOfStock } from "@/lib/productAdapter";
+import { API_V1 } from "@/lib/api";
 
 export interface CatalogProduct {
   id: string | number;
@@ -138,14 +139,12 @@ export function GhorerBazarCatalog({
     if (fetchedRef.current) return;
     fetchedRef.current = true;
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
     if (!initialProducts || initialProducts.length === 0) {
       setLoading(true);
 
       Promise.all([
-        fetch(`${apiUrl}/api/v1/categories?all=1`).then((res) => res.json()).catch(() => ({ data: [] })),
-        fetch(`${apiUrl}/api/v1/products?per_page=100`).then((res) => res.json()).catch(() => ({ data: [] }))
+        fetch(`${API_V1}/categories?all=1`).then((res) => res.json()).catch(() => ({ data: [] })),
+        fetch(`${API_V1}/products?per_page=100`).then((res) => res.json()).catch(() => ({ data: [] }))
       ])
         .then(([catsRes, prodsRes]) => {
           const rawCats = catsRes?.data || (Array.isArray(catsRes) ? catsRes : []);
@@ -235,7 +234,7 @@ export function GhorerBazarCatalog({
         .catch(() => {})
         .finally(() => setLoading(false));
     } else {
-      fetch(`${apiUrl}/api/v1/categories?all=1`)
+      fetch(`${API_V1}/categories?all=1`)
         .then((res) => res.json())
         .then((data) => {
           const list = data?.data || (Array.isArray(data) ? data : []);

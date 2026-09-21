@@ -8,6 +8,7 @@ import { Search, Heart, ShoppingCart, User, Truck, X, ChevronDown, ChevronRight,
 import { useShop } from "@/context/ShopContext";
 import productsData from "@/data/products.json";
 import { DoorStepLogo } from "@/components/common/DoorStepLogo";
+import { API_V1 } from "@/lib/api";
 
 type SubCategory = {
   id: number;
@@ -78,7 +79,7 @@ export function Header() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/categories?all=1`);
+        const res = await fetch(`${API_V1}/categories?all=1`);
         if (!res.ok) return;
         const json = await res.json();
         const catsData = json.data || json;
@@ -103,7 +104,7 @@ export function Header() {
 
     const loadProducts = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/products?per_page=100`);
+        const res = await fetch(`${API_V1}/products?per_page=100`);
         if (!res.ok) throw new Error("API not ready");
         const json = await res.json();
         const prods = json.data?.data || json.data || [];

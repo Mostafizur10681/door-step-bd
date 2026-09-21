@@ -7,6 +7,7 @@ import { SkinCareSection } from "@/components/SkinCareSection";
 import { SecureDeliveryBanner } from "@/components/SecureDeliveryBanner";
 import { OrganicFoodSection } from "@/components/OrganicFoodSection";
 import { TrustBadgesBar } from "@/components/TrustBadgesBar";
+import { API_V1 } from "@/lib/api";
 
 export const metadata = {
   title: "Door Step BD - Online Shopping in Bangladesh | Organic Food, Beauty & Health",
@@ -15,7 +16,7 @@ export const metadata = {
 
 async function getHomeProducts() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/products?per_page=50`, {
+    const res = await fetch(`${API_V1}/products?per_page=50`, {
       cache: "no-store",
       signal: AbortSignal.timeout(3500),
     });

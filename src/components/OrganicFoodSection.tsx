@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Star, Heart, Eye, ShoppingBag, ChevronRight, Tag, SlidersHorizontal, PackageX } from "lucide-react";
 import { useShop } from "@/context/ShopContext";
 import { isProductOutOfStock } from "@/lib/productAdapter";
+import { API_V1 } from "@/lib/api";
 
 const defaultDiscountedProducts = [
   {
@@ -147,7 +148,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
 
     const fetchApiProducts = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/products?per_page=50`);
+        const res = await fetch(`${API_V1}/products?per_page=50`);
         if (!res.ok) return;
         const json = await res.json();
         const list = json.data?.data || json.data || [];

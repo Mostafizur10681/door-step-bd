@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useShop } from "@/context/ShopContext";
 import { User, Mail, Lock, Phone, ArrowRight, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { API_V1 } from "@/lib/api";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -32,8 +33,6 @@ export default function AccountPage() {
     setError(null);
     setFieldErrors({});
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
     // Client-side validations for register
     if (mode === "register") {
       if (password !== confirmPassword) {
@@ -50,7 +49,7 @@ export default function AccountPage() {
 
     if (mode === "login") {
       try {
-        const res = await fetch(`${apiUrl}/api/v1/auth/customer/login`, {
+        const res = await fetch(`${API_V1}/auth/customer/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +94,7 @@ export default function AccountPage() {
     } else {
       // Register new customer account
       try {
-        const res = await fetch(`${apiUrl}/api/v1/auth/customer/register`, {
+        const res = await fetch(`${API_V1}/auth/customer/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

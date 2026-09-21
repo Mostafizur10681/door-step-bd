@@ -13,6 +13,7 @@ import {
   MessageCircleQuestion,
   Phone
 } from "lucide-react";
+import { API_V1 } from "@/lib/api";
 
 export default function FAQPage() {
   const [faqs, setFaqs] = useState<any[]>([]);
@@ -21,7 +22,7 @@ export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/faqs`)
+    fetch(`${API_V1}/faqs`)
       .then((res) => res.json())
       .then((data) => {
         const list = data?.data || (Array.isArray(data) ? data : []);
@@ -43,7 +44,7 @@ export default function FAQPage() {
     {
       category: "Orders & Shipping",
       q: "How can I track my shipment package?",
-      a: "Simply click 'Track Order' in the website header or visit http://localhost:3000/track-order and enter your Order Number (e.g. SHP-2026-8891) for live courier updates."
+      a: "Simply click 'Track Order' in the website header or visit /track-order and enter your Order Number (e.g. SHP-2026-8891) for live courier updates."
     },
     {
       category: "Orders & Shipping",
@@ -68,7 +69,7 @@ export default function FAQPage() {
     {
       category: "Returns & Refunds",
       q: "How do I request a product return?",
-      a: "You can submit an online return ticket at http://localhost:3000/returns with your Order Number and phone number."
+      a: "You can submit an online return ticket at /returns with your Order Number and phone number."
     },
     {
       category: "Returns & Refunds",

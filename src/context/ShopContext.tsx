@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
-import { validateAndApplyCoupon, ApiCouponResult } from "@/lib/api";
+import { validateAndApplyCoupon, ApiCouponResult, API_V1 } from "@/lib/api";
 import { isProductOutOfStock } from "@/lib/productAdapter";
 
 export interface UserProfile {
@@ -75,7 +75,7 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       // Check API profile if token exists
       const token = localStorage.getItem("shopia_token");
       if (token) {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/auth/profile`, {
+        fetch(`${API_V1}/auth/profile`, {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Accept": "application/json"
@@ -186,7 +186,7 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     try {
       const token = localStorage.getItem("shopia_token");
       if (token) {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/auth/logout`, {
+        fetch(`${API_V1}/auth/logout`, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -212,7 +212,7 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     const token = typeof window !== "undefined" ? localStorage.getItem("shopia_token") : null;
     if (token) {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/auth/profile`, {
+        const res = await fetch(`${API_V1}/auth/profile`, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -243,7 +243,7 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     const token = typeof window !== "undefined" ? localStorage.getItem("shopia_token") : null;
     if (token) {
       try {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/auth/delete-account`, {
+        await fetch(`${API_V1}/auth/delete-account`, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,

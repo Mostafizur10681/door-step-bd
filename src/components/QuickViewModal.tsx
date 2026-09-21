@@ -22,6 +22,7 @@ import {
 import { useShop } from "@/context/ShopContext";
 import { ProductImageModal } from "@/components/ProductImageModal";
 import { isProductOutOfStock } from "@/lib/productAdapter";
+import { API_V1 } from "@/lib/api";
 
 export function QuickViewModal() {
   const { quickViewProduct, setQuickViewProduct, addToCart, addToWishlist, isInWishlist, showToast } = useShop();
@@ -63,14 +64,13 @@ export function QuickViewModal() {
     setQuantity(1);
     setSelectedImageIndex(0);
     const prodIdOrSlug = quickViewProduct.slug || quickViewProduct.id;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
     if (!prodIdOrSlug) return;
 
     setLoadingDetails(true);
 
     // Fetch full product object
-    fetch(`${apiUrl}/api/v1/products/${prodIdOrSlug}`)
+    fetch(`${API_V1}/products/${prodIdOrSlug}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch product details");
         return res.json();
@@ -155,7 +155,7 @@ export function QuickViewModal() {
 
     // Fetch related products for recommendations
     if (quickViewProduct.categoryId || quickViewProduct.category) {
-      fetch(`${apiUrl}/api/v1/products?limit=4`)
+      fetch(`${API_V1}/products?limit=4`)
         .then((res) => res.json())
         .then((data) => {
           if (data && (data.data || data.products)) {

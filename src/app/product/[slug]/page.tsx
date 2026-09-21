@@ -9,6 +9,7 @@ import { TrustBadgesBar } from "@/components/TrustBadgesBar";
 import { ProductImageModal } from "@/components/ProductImageModal";
 import { useShop } from "@/context/ShopContext";
 import { ProductDetailsSkeleton } from "@/components/common/Skeletons";
+import { API_V1 } from "@/lib/api";
 import {
   Heart,
   Share2,
@@ -91,10 +92,8 @@ export default function ProductDetailsPage({
     if (!slugParam) return;
     setLoading(true);
     setSelectedImageIndex(0);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
     // 1. Fetch single product by slug or ID
-    fetch(`${apiUrl}/api/v1/products/${slugParam}`)
+    fetch(`${API_V1}/products/${slugParam}`)
       .then((res) => {
         if (!res.ok) throw new Error("Product not found");
         return res.json();
@@ -235,7 +234,7 @@ export default function ProductDetailsPage({
       });
 
     // 2. Fetch related products from API
-    fetch(`${apiUrl}/api/v1/products?per_page=8`)
+    fetch(`${API_V1}/products?per_page=8`)
       .then((res) => res.json())
       .then((data) => {
         const list = data?.data?.data || data?.data || [];
@@ -266,9 +265,8 @@ export default function ProductDetailsPage({
 
   const fetchReviews = async (productId: number | string) => {
     setLoadingReviews(true);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
     try {
-      const res = await fetch(`${apiUrl}/api/v1/reviews?product_id=${productId}`);
+      const res = await fetch(`${API_V1}/reviews?product_id=${productId}`);
       if (res.ok) {
         const json = await res.json();
         const list = json.data?.data || json.data || (Array.isArray(json) ? json : []);
@@ -291,7 +289,6 @@ export default function ProductDetailsPage({
     }
 
     setSubmittingReview(true);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
     const payload = {
       product_id: product.id,
@@ -308,7 +305,7 @@ export default function ProductDetailsPage({
       };
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
-      const res = await fetch(`${apiUrl}/api/v1/reviews`, {
+      const res = await fetch(`${API_V1}/reviews`, {
         method: "POST",
         headers,
         body: JSON.stringify(payload),
