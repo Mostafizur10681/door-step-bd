@@ -738,10 +738,10 @@ export default function ProductDetailsPage({
                   <p className="text-[11px] text-slate-500">Call anytime for quick COD booking</p>
                 </div>
                 <a
-                  href="tel:01681135030"
+                  href="tel:01734340066"
                   className="bg-[#002884] text-white font-bold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm hover:bg-[#001D5C] transition shrink-0"
                 >
-                  <PhoneCall className="w-3.5 h-3.5" /> 01681-135030
+                  <PhoneCall className="w-3.5 h-3.5" /> 01734-340066
                 </a>
               </div>
 

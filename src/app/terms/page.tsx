@@ -135,10 +135,10 @@ export default function TermsAndConditionsPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
             <a 
-              href="tel:01681135030" 
+              href="tel:01734340066" 
               className="bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
             >
-              Call Hotline: 01681-135030
+              Call Hotline: 01734-340066
             </a>
             <a 
               href="mailto:info@doorstepbd.com" 

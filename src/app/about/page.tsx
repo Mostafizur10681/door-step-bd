@@ -134,7 +134,7 @@ const defaultAboutData: AboutData = {
   team: [],
   cta_title: "Have Questions or Need Recommendations?",
   cta_subtitle: "Our dedicated support team is here to assist you with order inquiries, product guidance, and delivery updates.",
-  cta_phone: "01681-135030",
+  cta_phone: "01734-340066",
   cta_email: "info@doorstepbd.com"
 };
 

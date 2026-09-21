@@ -704,10 +704,10 @@ export function QuickViewModal() {
                     <p className="text-[11px] text-slate-500">Call anytime for quick COD booking</p>
                   </div>
                   <a
-                    href="tel:01681135030"
+                    href="tel:01734340066"
                     className="bg-[#002884] hover:bg-[#001D5C] text-white font-black text-xs px-4 py-2 rounded-full flex items-center justify-center gap-1.5 shadow-xs transition shrink-0"
                   >
-                    <PhoneCall className="w-3.5 h-3.5 text-[#E50914]" /> 01681-135030
+                    <PhoneCall className="w-3.5 h-3.5 text-[#E50914]" /> 01734-340066
                   </a>
                 </div>
 

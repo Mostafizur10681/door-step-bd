@@ -12,7 +12,7 @@ const DEFAULT_FOOTER: ApiFooterSettings = {
   logo_image: "/logo.png",
   address: "41/1, Sher-E-Bangla Rd,\nMohammadpur, Dhaka 1207",
   map_url: "https://maps.google.com/?q=41/1+Sher-E-Bangla+Rd+Mohammadpur+Dhaka",
-  contact_phone: "01681-135030",
+  contact_phone: "01734-340066",
   contact_email: "info@doorstepbd.com",
   working_hours_1: "Saturday- Thursday: 9:00am- 10:00pm",
   working_hours_2: "Friday: 15:00pm – 11:00pm",
@@ -213,10 +213,10 @@ export function Footer() {
               <div className="flex items-center gap-2.5 text-white">
                 <Phone className="w-5 h-5 text-[#E50914] shrink-0" />
                 <a
-                  href={`tel:${(footer.contact_phone || "01681135030").replace(/[^0-9+]/g, "")}`}
+                  href={`tel:${(footer.contact_phone || "01734340066").replace(/[^0-9+]/g, "")}`}
                   className="text-lg sm:text-xl font-extrabold tracking-tight hover:text-[#E50914] transition"
                 >
-                  {footer.contact_phone || "01681-135030"}
+                  {footer.contact_phone || "01734-340066"}
                 </a>
               </div>
 

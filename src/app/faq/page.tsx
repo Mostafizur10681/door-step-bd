@@ -197,10 +197,10 @@ export default function FAQPage() {
             <p className="text-xs text-blue-200">Our customer support team is available 7 days a week.</p>
           </div>
           <a
-            href="tel:01681135030"
+            href="tel:01734340066"
             className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-6 py-3 rounded-full transition shadow-md whitespace-nowrap shrink-0 flex items-center gap-2"
           >
-            <Phone className="w-4 h-4" /> Call 01681-135030
+            <Phone className="w-4 h-4" /> Call 01734-340066
           </a>
         </div>
 

@@ -209,7 +209,7 @@ export default function ReturnsPolicyPage() {
                   <input
                     type="tel"
                     required
-                    placeholder="e.g. 01681-135030"
+                    placeholder="e.g. 01734-340066"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30"
@@ -261,10 +261,10 @@ export default function ReturnsPolicyPage() {
             <p className="text-xs text-blue-200">Our customer support hotline is open 7 days a week.</p>
           </div>
           <a
-            href="tel:01681135030"
+            href="tel:01734340066"
             className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-6 py-3 rounded-full transition shadow-md whitespace-nowrap shrink-0"
           >
-            Call Support: 01681-135030
+            Call Support: 01734-340066
           </a>
         </div>
 

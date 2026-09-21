@@ -141,10 +141,10 @@ export default function PrivacyPolicyPage() {
               Email Privacy Team: info@doorstepbd.com
             </a>
             <a 
-              href="tel:01681135030" 
+              href="tel:01734340066" 
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm px-8 py-3.5 rounded-full transition"
             >
-              Hotline: 01681-135030
+              Hotline: 01734-340066
             </a>
           </div>
         </section>

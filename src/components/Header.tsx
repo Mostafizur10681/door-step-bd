@@ -685,10 +685,10 @@ export function Header() {
             <div className="p-5 bg-slate-50 border-t border-slate-100 space-y-2">
               <p className="text-xs text-slate-400 font-bold">Order Hotline Support</p>
               <a
-                href="tel:01681135030"
+                href="tel:01734340066"
                 className="bg-[#002884] hover:bg-[#001D5C] text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-xs transition"
               >
-                <Phone className="w-3.5 h-3.5 text-[#E50914]" /> 01681-135030
+                <Phone className="w-3.5 h-3.5 text-[#E50914]" /> 01734-340066
               </a>
             </div>
           </div>

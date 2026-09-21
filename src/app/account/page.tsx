@@ -71,7 +71,7 @@ export default function AccountPage() {
               id: u.id,
               name: u.name || email.split("@")[0] || "Customer",
               email: u.email || email.trim(),
-              phone: u.phone || "01681-135030",
+              phone: u.phone || "01734-340066",
               address: u.customer_profile?.shipping_address || u.address || "Dhaka, Bangladesh",
             },
             token
