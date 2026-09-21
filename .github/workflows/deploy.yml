@@ -17,10 +17,27 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
           port: 22
+          script_stop: true
           script: |
             set -e
 
-            # Fix git safe directory
+            # =========================================
+            # Node.js / NVM Environment
+            # =========================================
+            export HOME=/home/doorstep-deploy
+            export NVM_DIR="$HOME/.nvm"
+
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+            nvm use 20.20.2
+
+            echo "Node: $(node -v)"
+            echo "NPM: $(npm -v)"
+            echo "PM2: $(pm2 -v)"
+
+            # =========================================
+            # Git Safe Directory
+            # =========================================
             git config --global --add safe.directory /var/www/doorstepbd.org
 
             cd /var/www/doorstepbd.org
@@ -30,19 +47,38 @@ jobs:
             echo "📁 /var/www/doorstepbd.org"
             echo "========================================="
 
+            # =========================================
+            # Pull Latest Code
+            # =========================================
             echo "📥 Pulling latest code..."
+
             git fetch origin main
             git reset --hard origin/main
 
+            # =========================================
+            # Install Dependencies
+            # =========================================
             echo "📦 Installing dependencies..."
+
             npm ci
 
+            # =========================================
+            # Build Next.js
+            # =========================================
             echo "🏗️ Building Next.js..."
+
             npm run build
 
+            # =========================================
+            # Restart PM2 Application
+            # =========================================
             echo "🔄 Restarting application..."
+
             pm2 restart doorstepbd || pm2 start npm --name "doorstepbd" -- start
 
+            # =========================================
+            # Save PM2 Process List
+            # =========================================
             pm2 save
 
             echo "========================================="
