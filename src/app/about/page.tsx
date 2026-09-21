@@ -21,7 +21,7 @@ import {
   Mail,
   Users
 } from "lucide-react";
-import { getAboutPage } from "@/lib/api";
+import { getAboutPage, getMediaUrl } from "@/lib/api";
 
 interface AboutFeature {
   icon?: string;
@@ -175,7 +175,60 @@ export default function AboutPage() {
         const response = await getAboutPage();
         if (response && response.success && response.data) {
           const apiData = response.data;
-          const clean = (str?: string) => str ? str.replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD").replace(/@shopiabd\.com|@smtmartbd\.com/gi, "@doorstepbd.com") : str;
+          
+          const clean = (val?: any): string => {
+            if (val === null || val === undefined) return "";
+            const str = String(val);
+            return str
+              .replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD")
+              .replace(/@shopiabd\.com|@smtmartbd\.com/gi, "@doorstepbd.com");
+          };
+
+          const parseArray = (input: any): any[] => {
+            if (Array.isArray(input)) return input;
+            if (typeof input === "string" && input.trim()) {
+              try {
+                const parsed = JSON.parse(input);
+                if (Array.isArray(parsed)) return parsed;
+              } catch {
+                return input.split("\n").map((s) => s.trim()).filter(Boolean);
+              }
+            }
+            if (input && typeof input === "object") {
+              return Object.values(input);
+            }
+            return [];
+          };
+
+          const rawPoints = parseArray(apiData.story_points);
+          const safePoints = rawPoints.length > 0
+            ? rawPoints.map((p: any) => clean(typeof p === "object" ? p?.title || p?.text || p?.value || JSON.stringify(p) : p)).filter(Boolean)
+            : defaultAboutData.story_points;
+
+          const rawFeatures = parseArray(apiData.features);
+          const safeFeatures = rawFeatures.length > 0
+            ? rawFeatures.map((f: any) => ({
+                icon: typeof f === "object" ? f?.icon : undefined,
+                title: clean(typeof f === "object" ? f?.title || f?.name : f),
+                desc: clean(typeof f === "object" ? f?.desc || f?.description || f?.subtitle : ""),
+              }))
+            : defaultAboutData.features;
+
+          const rawStats = parseArray(apiData.stats);
+          const safeStats = rawStats.length > 0
+            ? rawStats.map((s: any) => ({
+                label: clean(typeof s === "object" ? s?.label || s?.title || s?.name : ""),
+                value: clean(typeof s === "object" ? s?.value || s?.count : s),
+              }))
+            : defaultAboutData.stats;
+
+          const rawTeam = parseArray(apiData.team);
+          const safeTeam = rawTeam.map((m: any) => ({
+            name: clean(typeof m === "object" ? m?.name : m),
+            role: clean(typeof m === "object" ? m?.role || m?.designation : ""),
+            bio: clean(typeof m === "object" ? m?.bio || m?.description : ""),
+            image: typeof m === "object" && m?.image ? getMediaUrl(m.image, "") : "",
+          }));
 
           setData({
             hero_title: clean(apiData.hero_title) || defaultAboutData.hero_title,
@@ -185,11 +238,11 @@ export default function AboutPage() {
             story_badge: clean(apiData.story_badge) || defaultAboutData.story_badge,
             story_description_1: clean(apiData.story_description_1) || defaultAboutData.story_description_1,
             story_description_2: clean(apiData.story_description_2) || defaultAboutData.story_description_2,
-            story_since: apiData.story_since || defaultAboutData.story_since,
-            experience_badge_text: apiData.experience_badge_text || defaultAboutData.experience_badge_text,
+            story_since: clean(apiData.story_since) || defaultAboutData.story_since,
+            experience_badge_text: clean(apiData.experience_badge_text) || defaultAboutData.experience_badge_text,
             experience_badge_subtext: clean(apiData.experience_badge_subtext) || defaultAboutData.experience_badge_subtext,
-            story_points: Array.isArray(apiData.story_points) && apiData.story_points.length > 0 ? apiData.story_points.map((p: any) => typeof p === "string" ? clean(p) : p) : defaultAboutData.story_points,
-            story_image: apiData.story_image || defaultAboutData.story_image,
+            story_points: safePoints,
+            story_image: apiData.story_image ? getMediaUrl(apiData.story_image, "/prod_honey.png") : defaultAboutData.story_image,
             mission_title: clean(apiData.mission_title) || defaultAboutData.mission_title,
             mission_description: clean(apiData.mission_description) || defaultAboutData.mission_description,
             vision_title: clean(apiData.vision_title) || defaultAboutData.vision_title,
@@ -197,15 +250,15 @@ export default function AboutPage() {
             why_choose_badge: clean(apiData.why_choose_badge) || defaultAboutData.why_choose_badge,
             why_choose_title: clean(apiData.why_choose_title) || defaultAboutData.why_choose_title,
             why_choose_subtitle: clean(apiData.why_choose_subtitle) || defaultAboutData.why_choose_subtitle,
-            features: Array.isArray(apiData.features) && apiData.features.length > 0 ? apiData.features.map((f: any) => ({ ...f, title: clean(f.title), desc: clean(f.desc) })) : defaultAboutData.features,
-            stats: Array.isArray(apiData.stats) && apiData.stats.length > 0 ? apiData.stats : defaultAboutData.stats,
+            features: safeFeatures,
+            stats: safeStats,
             team_badge: clean(apiData.team_badge) || defaultAboutData.team_badge,
             team_title: clean(apiData.team_title) || defaultAboutData.team_title,
             team_subtitle: clean(apiData.team_subtitle) || defaultAboutData.team_subtitle,
-            team: Array.isArray(apiData.team) ? apiData.team : [],
+            team: safeTeam,
             cta_title: clean(apiData.cta_title) || defaultAboutData.cta_title,
             cta_subtitle: clean(apiData.cta_subtitle) || defaultAboutData.cta_subtitle,
-            cta_phone: apiData.cta_phone || defaultAboutData.cta_phone,
+            cta_phone: clean(apiData.cta_phone) || defaultAboutData.cta_phone,
             cta_email: clean(apiData.cta_email) || defaultAboutData.cta_email,
           });
         }
@@ -219,11 +272,23 @@ export default function AboutPage() {
     loadAboutData();
   }, []);
 
-  const storyImgSrc = data.story_image && data.story_image.trim() !== "" ? data.story_image : "/prod_honey.png";
-  const pointsList = data.story_points && data.story_points.length > 0 ? data.story_points : defaultAboutData.story_points || [];
-  const statsList = data.stats && data.stats.length > 0 ? data.stats : defaultAboutData.stats || [];
-  const featuresList = data.features && data.features.length > 0 ? data.features : defaultAboutData.features || [];
-  const teamList = data.team && data.team.length > 0 ? data.team : [];
+  const storyImgSrc = data.story_image && typeof data.story_image === "string" && data.story_image.trim() !== "" 
+    ? getMediaUrl(data.story_image, "/prod_honey.png") 
+    : "/prod_honey.png";
+
+  const pointsList = Array.isArray(data.story_points) && data.story_points.length > 0 
+    ? data.story_points 
+    : (defaultAboutData.story_points || []);
+
+  const statsList = Array.isArray(data.stats) && data.stats.length > 0 
+    ? data.stats 
+    : (defaultAboutData.stats || []);
+
+  const featuresList = Array.isArray(data.features) && data.features.length > 0 
+    ? data.features 
+    : (defaultAboutData.features || []);
+
+  const teamList = Array.isArray(data.team) ? data.team : [];
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans space-y-16 pb-20">
@@ -448,7 +513,7 @@ export default function AboutPage() {
                 <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 text-center">
                   <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center">
                     {member.image ? (
-                      <img src={member.image} alt={member.name || "Team Member"} className="w-full h-full object-cover" />
+                      <img src={getMediaUrl(member.image, "")} alt={member.name || "Team Member"} className="w-full h-full object-cover" />
                     ) : (
                       <Users className="w-10 h-10 text-slate-400" />
                     )}
@@ -480,7 +545,7 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
             {data.cta_phone && (
               <a 
-                href={`tel:${data.cta_phone.replace(/[^0-9+]/g, "")}`} 
+                href={`tel:${String(data.cta_phone).replace(/[^0-9+]/g, "")}`} 
                 className="inline-flex items-center gap-2 bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
               >
                 <PhoneCall className="w-4 h-4" /> Call Hotline: {data.cta_phone}
