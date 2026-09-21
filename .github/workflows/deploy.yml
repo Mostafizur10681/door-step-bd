@@ -17,9 +17,11 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
           port: 22
-          script_stop: true
           script: |
             set -e
+
+            # Fix git dubious ownership issue
+            git config --global --add safe.directory /var/www/doorstepbd.org
 
             cd /var/www/doorstepbd.org
 
