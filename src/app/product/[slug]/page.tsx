@@ -435,10 +435,10 @@ export default function ProductDetailsPage({
 
       {/* Breadcrumb Bar */}
       <div className="bg-white border-b border-slate-200/80 py-3.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs text-slate-500 overflow-x-auto whitespace-nowrap">
-          <Link href="/" className="hover:text-[#002884] transition">Home</Link>
+        <div className="max-w-[1500px] mx-auto flex items-center gap-2 text-xs text-slate-500 overflow-x-auto whitespace-nowrap">
+          <Link href="/" className="hover:text-[#122B5A] transition">Home</Link>
           <span>/</span>
-          <Link href={`/all-products?category=${encodeURIComponent(product.category)}`} className="hover:text-[#002884] transition text-slate-600 font-medium">
+          <Link href={`/all-products?category=${encodeURIComponent(product.category)}`} className="hover:text-[#122B5A] transition text-slate-600 font-medium">
             {product.category}
           </Link>
           {product.subCategory && (
@@ -452,7 +452,7 @@ export default function ProductDetailsPage({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-8 space-y-10">
+      <div className="max-w-[1500px] mx-auto px-4 pt-8 space-y-10">
 
         {/* Main 3-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -478,7 +478,7 @@ export default function ProductDetailsPage({
                 ) : null}
 
                 {product.isNew && !isOutOfStock && (
-                  <div className="absolute top-4 right-4 z-10 bg-[#002884] text-white font-bold text-[11px] px-3 py-1 rounded-full shadow">
+                  <div className="absolute top-4 right-4 z-10 bg-[#122B5A] text-white font-bold text-[11px] px-3 py-1 rounded-full shadow">
                     NEW ARRIVAL
                   </div>
                 )}
@@ -515,7 +515,7 @@ export default function ProductDetailsPage({
                       }}
                       className={`relative w-16 h-16 rounded-xl border-2 overflow-hidden shrink-0 bg-slate-50 transition-all cursor-pointer ${
                         selectedImageIndex === idx
-                          ? "border-[#002884] ring-2 ring-[#002884]/30 scale-105 shadow-sm opacity-100"
+                          ? "border-[#122B5A] ring-2 ring-[#122B5A]/30 scale-105 shadow-sm opacity-100"
                           : "border-slate-200 hover:border-slate-400 opacity-60 hover:opacity-100"
                       }`}
                     >
@@ -533,7 +533,7 @@ export default function ProductDetailsPage({
               <div className="space-y-2 border-b border-slate-100 pb-4">
                 <div className="flex items-center justify-between text-xs text-slate-500 flex-wrap gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#002884] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
+                    <span className="font-bold text-[#122B5A] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
                       {product.category}
                     </span>
                     {product.brand && (
@@ -578,7 +578,7 @@ export default function ProductDetailsPage({
 
               {/* Price Row */}
               <div className="flex items-baseline gap-3">
-                <div className="text-3xl sm:text-4xl font-black text-[#002884]">
+                <div className="text-3xl sm:text-4xl font-black text-[#122B5A]">
                   ৳ {product.price?.toLocaleString()}
                 </div>
                 {Boolean(product.originalPrice && product.originalPrice > product.price) && (
@@ -605,7 +605,7 @@ export default function ProductDetailsPage({
                     <div key={attrName} className="space-y-1.5">
                       <div className="text-xs font-bold text-slate-700 flex items-center justify-between">
                         <span>Select {attrName}:</span>
-                        <span className="text-[#002884] font-extrabold">{selectedAttributes[attrName]}</span>
+                        <span className="text-[#122B5A] font-extrabold">{selectedAttributes[attrName]}</span>
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         {values.map((val) => {
@@ -616,7 +616,7 @@ export default function ProductDetailsPage({
                               type="button"
                               onClick={() => setSelectedAttributes((prev) => ({ ...prev, [attrName]: val }))}
                               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isSelected
-                                ? "bg-[#002884] text-white border-[#002884] shadow-sm scale-105"
+                                ? "bg-[#122B5A] text-white border-[#122B5A] shadow-sm scale-105"
                                 : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                                 }`}
                             >
@@ -667,7 +667,7 @@ export default function ProductDetailsPage({
                     className={`flex-1 w-full font-extrabold text-xs sm:text-base h-[48px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
                       isOutOfStock
                         ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
-                        : "bg-[#E50914] hover:bg-[#C80000] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
+                        : "bg-[#122B5A] hover:bg-[#0B1B38] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
                     }`}
                   >
                     {isOutOfStock ? (
@@ -691,7 +691,7 @@ export default function ProductDetailsPage({
                     className={`flex-1 w-full font-extrabold text-xs sm:text-base h-[48px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-2 text-center whitespace-nowrap ${
                       isOutOfStock
                         ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
-                        : "bg-[#002884] hover:bg-[#072450] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
+                        : "bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold shadow-md hover:shadow-lg cursor-pointer active:scale-95"
                     }`}
                   >
                     <span>{isOutOfStock ? "Unavailable" : "Buy Now"}</span>
@@ -724,22 +724,22 @@ export default function ProductDetailsPage({
                         }
                       }
                     }}
-                    className="flex items-center gap-1.5 hover:text-[#002884] transition font-bold cursor-pointer"
+                    className="flex items-center gap-1.5 hover:text-[#122B5A] transition font-bold cursor-pointer"
                   >
-                    <Share2 className="w-4 h-4 text-[#002884]" /> Share Product
+                    <Share2 className="w-4 h-4 text-[#122B5A]" /> Share Product
                   </button>
                 </div>
               </div>
 
               {/* Phone Order Box */}
-              <div className="bg-[#002884]/5 border border-[#002884]/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+              <div className="bg-[#122B5A]/5 border border-[#122B5A]/20 rounded-2xl p-4 flex items-center justify-between gap-3">
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-slate-800">Direct Phone Order Hotline</p>
                   <p className="text-[11px] text-slate-500">Call anytime for quick COD booking</p>
                 </div>
                 <a
                   href="tel:01734340066"
-                  className="bg-[#002884] text-white font-bold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm hover:bg-[#001D5C] transition shrink-0"
+                  className="bg-[#122B5A] text-white font-bold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm hover:bg-[#0B1B38] transition shrink-0"
                 >
                   <PhoneCall className="w-3.5 h-3.5" /> 01734-340066
                 </a>
@@ -751,7 +751,7 @@ export default function ProductDetailsPage({
           {/* Right Column Sidebar: Related Products (Col 3) */}
           <div className="lg:col-span-3 bg-white rounded-3xl border border-slate-200/80 p-5 shadow-sm space-y-4">
             <h2 className="font-extrabold text-slate-900 text-sm border-b border-slate-100 pb-3 flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#E50914]" /> Related Products
+              <Sparkles className="w-4 h-4 text-[#122B5A]" /> Related Products
             </h2>
 
             <div className="space-y-4">
@@ -774,13 +774,13 @@ export default function ProductDetailsPage({
                   {/* Title & Price */}
                   <div>
                     <Link href={`/product/${rel.slug || rel.id}`}>
-                      <h3 className="font-bold text-slate-800 text-xs line-clamp-2 hover:text-[#002884] transition leading-snug">
+                      <h3 className="font-bold text-slate-800 text-xs line-clamp-2 hover:text-[#122B5A] transition leading-snug">
                         {rel.name}
                       </h3>
                     </Link>
 
                     <div className="mt-1 flex items-baseline gap-1.5">
-                      <span className="text-[#E50914] font-black text-xs">
+                      <span className="text-[#122B5A] font-black text-xs">
                         ৳{rel.price?.toLocaleString()}
                       </span>
                       {Boolean(rel.originalPrice && rel.originalPrice > rel.price) && (
@@ -811,7 +811,7 @@ export default function ProductDetailsPage({
               type="button"
               onClick={() => setActiveTab("description")}
               className={`pb-3 border-b-2 whitespace-nowrap transition cursor-pointer font-bold ${activeTab === "description"
-                ? "border-[#002884] text-[#002884]"
+                ? "border-[#122B5A] text-[#122B5A]"
                 : "border-transparent text-slate-400 hover:text-slate-700"
                 }`}
             >
@@ -821,7 +821,7 @@ export default function ProductDetailsPage({
               type="button"
               onClick={() => setActiveTab("additional")}
               className={`pb-3 border-b-2 whitespace-nowrap transition cursor-pointer font-bold ${activeTab === "additional"
-                ? "border-[#002884] text-[#002884]"
+                ? "border-[#122B5A] text-[#122B5A]"
                 : "border-transparent text-slate-400 hover:text-slate-700"
                 }`}
             >
@@ -831,7 +831,7 @@ export default function ProductDetailsPage({
               type="button"
               onClick={() => setActiveTab("reviews")}
               className={`pb-3 border-b-2 whitespace-nowrap transition cursor-pointer font-bold ${activeTab === "reviews"
-                ? "border-[#002884] text-[#002884]"
+                ? "border-[#122B5A] text-[#122B5A]"
                 : "border-transparent text-slate-400 hover:text-slate-700"
                 }`}
             >
@@ -865,21 +865,21 @@ export default function ProductDetailsPage({
                   </h4>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-700">
                     <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#002884] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#122B5A] shrink-0" />
                       <span>Product Name: <strong>{product.name}</strong></span>
                     </li>
                     {product.brand && (
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#002884] shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#122B5A] shrink-0" />
                         <span>Brand: <strong>{product.brand}</strong></span>
                       </li>
                     )}
                     <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#002884] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#122B5A] shrink-0" />
                       <span>Category: <strong>{product.category} {product.subCategory ? `(${product.subCategory})` : ""}</strong></span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#002884] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#122B5A] shrink-0" />
                       <span>Stock Status: <strong>{product.stock > 0 ? `${product.stock} units in stock` : "Out of stock"}</strong></span>
                     </li>
                   </ul>
@@ -945,7 +945,7 @@ export default function ProductDetailsPage({
                 {/* Rating Overview Box */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200/80 items-center">
                   <div className="md:col-span-4 text-center md:text-left space-y-1">
-                    <div className="text-4xl font-black text-[#002884]">
+                    <div className="text-4xl font-black text-[#122B5A]">
                       {averageRating} <span className="text-lg text-slate-400 font-normal">/ 5</span>
                     </div>
                     <div className="flex items-center justify-center md:justify-start text-amber-400 gap-1">
@@ -1014,7 +1014,7 @@ export default function ProductDetailsPage({
                 {user ? (
                   <form onSubmit={handleReviewSubmit} className="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 space-y-4">
                     <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-[#002884]" /> Write a Customer Review
+                      <MessageSquare className="w-4 h-4 text-[#122B5A]" /> Write a Customer Review
                     </h4>
 
                     {/* Rating Selector */}
@@ -1054,14 +1054,14 @@ export default function ProductDetailsPage({
                         placeholder="Share your experience with this product (e.g. quality, fitting, packaging)..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#002884]/30"
+                        className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#122B5A]/30"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={submittingReview}
-                      className="bg-[#002884] hover:bg-[#072450] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-sm hover:shadow transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      className="bg-[#122B5A] hover:bg-[#072450] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-sm hover:shadow transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
                     >
                       {submittingReview ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
                       Submit Review
@@ -1069,7 +1069,7 @@ export default function ProductDetailsPage({
                   </form>
                 ) : (
                   <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 sm:p-8 text-center space-y-3">
-                    <div className="w-12 h-12 bg-blue-100/60 text-[#002884] rounded-full flex items-center justify-center mx-auto">
+                    <div className="w-12 h-12 bg-blue-100/60 text-[#122B5A] rounded-full flex items-center justify-center mx-auto">
                       <User className="w-6 h-6" />
                     </div>
                     <div className="space-y-1">
@@ -1081,7 +1081,7 @@ export default function ProductDetailsPage({
                     <div>
                       <Link
                         href="/account?mode=login"
-                        className="inline-flex items-center gap-2 bg-[#002884] hover:bg-[#072450] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-sm hover:shadow transition cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-[#122B5A] hover:bg-[#072450] text-white font-bold text-xs px-6 py-2.5 rounded-full shadow-sm hover:shadow transition cursor-pointer"
                       >
                         <LogIn className="w-4 h-4" />
                         Log In to Write a Review

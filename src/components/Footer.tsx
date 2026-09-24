@@ -90,8 +90,8 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[#002884] text-slate-200 font-sans border-t border-[#001D5C] pt-10 sm:pt-12 pb-8 text-xs sm:text-sm selection:bg-[#E50914] selection:text-white">
-      <div className="max-w-[1680px] mx-auto px-4 sm:px-8">
+    <footer className="bg-[#122B5A] text-slate-200 font-sans border-t border-[#0B1B38] pt-10 sm:pt-12 pb-8 text-xs sm:text-sm selection:bg-[#FFB800] selection:text-[#122B5A]">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-8">
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-8 pb-10 border-b border-white/10">
@@ -126,7 +126,7 @@ export function Footer() {
                     href={footer.map_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#E50914] underline hover:text-white transition font-medium text-xs"
+                    className="inline-flex items-center gap-1 text-[#FFB800] underline hover:text-white transition font-medium text-xs"
                   >
                     <span>Show on map</span>
                   </a>
@@ -141,7 +141,7 @@ export function Footer() {
                   href={footer.facebook_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#FFB800] hover:scale-110 transition-all p-1"
                   aria-label="Facebook"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@ export function Footer() {
                   href={footer.instagram_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#FFB800] hover:scale-110 transition-all p-1"
                   aria-label="Instagram"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -169,7 +169,7 @@ export function Footer() {
                   href={footer.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#FFB800] hover:scale-110 transition-all p-1"
                   aria-label="Youtube"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@ export function Footer() {
                   href={footer.pinterest_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1 font-bold text-sm leading-none"
+                  className="hover:text-[#FFB800] hover:scale-110 transition-all p-1 font-bold text-sm leading-none"
                   aria-label="Pinterest"
                 >
                   P
@@ -195,7 +195,7 @@ export function Footer() {
                   href={footer.linkedin_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E50914] hover:scale-110 transition-all p-1"
+                  className="hover:text-[#FFB800] hover:scale-110 transition-all p-1"
                   aria-label="Linkedin"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -212,10 +212,10 @@ export function Footer() {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2.5 text-white">
-                <Phone className="w-5 h-5 text-[#E50914] shrink-0" />
+                <Phone className="w-5 h-5 text-[#FFB800] shrink-0" />
                 <a
                   href={`tel:${(footer.contact_phone || "01734340066").replace(/[^0-9+]/g, "")}`}
-                  className="text-lg sm:text-xl font-extrabold tracking-tight hover:text-[#E50914] transition"
+                  className="text-lg sm:text-xl font-extrabold tracking-tight hover:text-[#FFB800] transition"
                 >
                   {footer.contact_phone || "01734-340066"}
                 </a>
@@ -229,10 +229,10 @@ export function Footer() {
 
             {footer.contact_email && (
               <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-slate-300 text-xs">
-                <Mail className="w-4 h-4 text-[#E50914] shrink-0" />
+                <Mail className="w-4 h-4 text-[#FFB800] shrink-0" />
                 <a
                   href={`mailto:${footer.contact_email}`}
-                  className="hover:text-[#E50914] transition break-all"
+                  className="hover:text-[#FFB800] transition break-all"
                 >
                   {footer.contact_email}
                 </a>
@@ -250,7 +250,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#FFB800] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -269,7 +269,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#FFB800] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -288,7 +288,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     href={link.url || "#"}
-                    className="hover:text-[#E50914] hover:translate-x-0.5 transition-all inline-block"
+                    className="hover:text-[#FFB800] hover:translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>

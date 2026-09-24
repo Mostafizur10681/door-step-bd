@@ -16,16 +16,16 @@ export default function NotFound() {
     <div className="bg-slate-50 min-h-screen font-sans flex items-center justify-center py-16 px-4 relative overflow-hidden">
       
       {/* Decorative Glow Background Spheres */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#002884]/10 via-[#E50914]/10 to-[#E50914]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#122B5A]/10 via-[#E50914]/10 to-[#E50914]/10 rounded-full blur-3xl pointer-events-none" />
       
       <div className="max-w-2xl w-full bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200/80 p-8 sm:p-14 text-center space-y-8 shadow-xl relative z-10">
         
         {/* Floating Creative 404 Visual Indicator */}
         <div className="relative inline-block">
-          <span className="text-7xl sm:text-9xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#002884] via-[#E50914] to-[#e60000] drop-shadow-sm select-none">
+          <span className="text-7xl sm:text-9xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#122B5A] via-[#E50914] to-[#e60000] drop-shadow-sm select-none">
             404
           </span>
-          <div className="absolute -bottom-2 right-0 bg-[#E50914] text-white font-extrabold text-[10px] sm:text-xs px-3 py-1 rounded-full shadow-md rotate-6">
+          <div className="absolute -bottom-2 right-0 bg-[#FFB800] text-[#122B5A] font-bold font-extrabold text-[10px] sm:text-xs px-3 py-1 rounded-full shadow-md rotate-6">
             Lost in Space?
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function NotFound() {
               <Link
                 key={idx}
                 href={item.href}
-                className="bg-slate-50 hover:bg-[#002884] hover:text-white text-slate-700 font-bold text-xs p-3 rounded-2xl border border-slate-100 transition-all duration-300 flex flex-col items-center gap-1.5 shadow-2xs group"
+                className="bg-slate-50 hover:bg-[#122B5A] hover:text-white text-slate-700 font-bold text-xs p-3 rounded-2xl border border-slate-100 transition-all duration-300 flex flex-col items-center gap-1.5 shadow-2xs group"
               >
                 <span className="text-xl group-hover:scale-125 transition-transform">{item.icon}</span>
                 <span>{item.title}</span>
@@ -64,13 +64,13 @@ export default function NotFound() {
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#002884] hover:bg-[#E50914] text-white font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
           >
             <Home className="w-4 h-4" /> Back to Homepage
           </Link>
           <Link
             href="/sales"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all"
           >
             <ShoppingBag className="w-4 h-4" /> View Special Sales
           </Link>

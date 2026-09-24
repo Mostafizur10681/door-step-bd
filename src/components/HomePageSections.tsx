@@ -184,10 +184,10 @@ export function HeroSlider() {
                 {/* Responsive Gradient Shade for Crystal-Clear Typography on all devices */}
                 {hasOverlay && (
                   <div className={`absolute inset-0 flex items-center ${hasText ? "bg-gradient-to-r from-black/60 via-black/25 to-transparent" : "pointer-events-none"}`}>
-                    <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 w-full pointer-events-auto">
+                    <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-12 w-full pointer-events-auto">
                       <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl space-y-2 sm:space-y-3.5 md:space-y-4 text-white">
                         {slide.tagline && (
-                          <div className="inline-flex items-center gap-1.5 bg-[#E50914] text-white text-[9px] sm:text-xs font-black uppercase tracking-widest px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-lg">
+                          <div className="inline-flex items-center gap-1.5 bg-[#FFB800] text-[#122B5A] text-[9px] sm:text-xs font-black uppercase tracking-widest px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-lg">
                             {slide.tagline}
                           </div>
                         )}
@@ -206,9 +206,9 @@ export function HeroSlider() {
 
                         {hasCta && (
                           <div className="pt-1 sm:pt-2">
-                            <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#E50914] hover:bg-[#C80000] text-white text-[11px] sm:text-xs md:text-sm font-extrabold uppercase px-4 sm:px-7 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] text-[11px] sm:text-xs md:text-sm font-extrabold uppercase px-4 sm:px-7 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105">
                               {slide.ctaText || slide.cta_text}
-                              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#122B5A]" />
                             </span>
                           </div>
                         )}
@@ -230,7 +230,7 @@ export function HeroSlider() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous Slide"
-            className="absolute left-2.5 sm:left-5 md:left-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#E50914] text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 shadow-xl opacity-90 sm:opacity-80 group-hover:opacity-100 hover:scale-110 active:scale-95 cursor-pointer"
+            className="absolute left-2.5 sm:left-5 md:left-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#FFB800] text-white hover:text-[#122B5A] backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 shadow-xl opacity-90 sm:opacity-80 group-hover:opacity-100 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
@@ -240,7 +240,7 @@ export function HeroSlider() {
             type="button"
             onClick={handleNext}
             aria-label="Next Slide"
-            className="absolute right-2.5 sm:right-5 md:right-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#E50914] text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 shadow-xl opacity-90 sm:opacity-80 group-hover:opacity-100 hover:scale-110 active:scale-95 cursor-pointer"
+            className="absolute right-2.5 sm:right-5 md:right-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#FFB800] text-white hover:text-[#122B5A] backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 shadow-xl opacity-90 sm:opacity-80 group-hover:opacity-100 hover:scale-110 active:scale-95 cursor-pointer"
           >
             <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
@@ -255,7 +255,7 @@ export function HeroSlider() {
                 aria-label={`Go to slide ${idx + 1}`}
                 className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   currentIndex === idx 
-                    ? "w-6 sm:w-8 bg-[#E50914] shadow-sm shadow-[#E50914]/60" 
+                    ? "w-6 sm:w-8 bg-[#FFB800] shadow-sm shadow-[#FFB800]/60" 
                     : "w-1.5 sm:w-2 bg-white/60 hover:bg-white"
                 }`}
               />
@@ -284,18 +284,18 @@ export function CategoryGrid() {
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Shop by Category</h2>
           <p className="text-xs text-slate-500">Pure, organic & authentic everyday essentials</p>
         </div>
-        <Link href="/categories" className="text-sm font-bold text-[#002884] hover:text-[#E50914] flex items-center gap-1">
+        <Link href="/categories" className="text-sm font-bold text-[#122B5A] hover:text-[#FFB800] flex items-center gap-1">
           See All Categories <ChevronRightIcon className="w-4 h-4" />
         </Link>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
         {categories.map((cat, idx) => (
-          <Link key={idx} href={`/categories/${cat.name.toLowerCase().replace(/\s+/g, '-')}`} className="bg-white border border-slate-200/80 rounded-2xl p-4 text-center hover:shadow-xl hover:border-[#E50914]/40 transition group cursor-pointer">
+          <Link key={idx} href={`/categories/${cat.name.toLowerCase().replace(/\s+/g, '-')}`} className="bg-white border border-slate-200/80 rounded-2xl p-4 text-center hover:shadow-xl hover:border-[#FFB800]/60 transition group cursor-pointer">
             <div className={`w-14 h-14 mx-auto rounded-2xl ${cat.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner`}>
               {cat.icon}
             </div>
-            <h3 className="font-bold text-slate-900 text-sm mt-3 group-hover:text-[#E50914] transition">{cat.name}</h3>
+            <h3 className="font-bold text-slate-900 text-sm mt-3 group-hover:text-[#122B5A] transition">{cat.name}</h3>
             <span className="text-[11px] text-slate-400">{cat.count}</span>
           </Link>
         ))}
@@ -306,23 +306,23 @@ export function CategoryGrid() {
 
 export function ProductCard({ product }: { product: any }) {
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 hover:shadow-xl hover:border-[#E50914]/30 transition group flex flex-col justify-between relative">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 hover:shadow-xl hover:border-[#FFB800]/40 transition group flex flex-col justify-between relative">
       {/* Badges */}
       <div className="absolute top-5 left-5 z-10 flex flex-col gap-1.5">
         {Boolean(product.discountPercentage && product.discountPercentage > 0) && (
-          <span className="bg-[#E50914] text-white font-bold text-[10px] px-2 py-0.5 rounded-md shadow-md">
+          <span className="bg-[#FFB800] text-[#122B5A] font-bold text-[10px] px-2 py-0.5 rounded-md shadow-md">
             -{product.discountPercentage}% OFF
           </span>
         )}
         {product.isNew && (
-          <span className="bg-[#002884] text-white font-bold text-[10px] px-2 py-0.5 rounded-md shadow-md">
+          <span className="bg-[#122B5A] text-white font-bold text-[10px] px-2 py-0.5 rounded-md shadow-md">
             NEW
           </span>
         )}
       </div>
 
       {/* Wishlist Button */}
-      <button className="absolute top-5 right-5 z-10 bg-white/80 hover:bg-white text-slate-400 hover:text-[#E50914] p-2 rounded-full shadow-md backdrop-blur-md transition">
+      <button className="absolute top-5 right-5 z-10 bg-white/80 hover:bg-white text-slate-400 hover:text-[#FFB800] p-2 rounded-full shadow-md backdrop-blur-md transition">
         <Heart className="w-4 h-4" />
       </button>
 
@@ -345,7 +345,7 @@ export function ProductCard({ product }: { product: any }) {
             <span className="font-bold">{product.rating}</span>
             <span className="text-slate-400">({product.reviewsCount})</span>
           </div>
-          <h3 className="font-bold text-slate-900 text-sm line-clamp-2 group-hover:text-[#002884] transition leading-snug">
+          <h3 className="font-bold text-slate-900 text-sm line-clamp-2 group-hover:text-[#122B5A] transition leading-snug">
             {product.name}
           </h3>
         </div>
@@ -359,11 +359,11 @@ export function ProductCard({ product }: { product: any }) {
               ৳{product.originalPrice}
             </div>
           )}
-          <div className="text-[#E50914] font-black text-lg">
+          <div className="text-[#122B5A] font-black text-lg">
             ৳{product.price}
           </div>
         </div>
-        <button className="bg-[#002884] hover:bg-[#E50914] text-white p-2.5 rounded-xl shadow-md transition-colors flex items-center justify-center cursor-pointer">
+        <button className="bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] p-2.5 rounded-xl shadow-md transition-colors flex items-center justify-center cursor-pointer font-bold">
           <ShoppingBag className="w-4 h-4" />
         </button>
       </div>
@@ -375,15 +375,15 @@ export function FlashSaleSection() {
   const flashSaleProducts = productsData.filter((p) => p.isFlashSale);
 
   return (
-    <div className="bg-[#002884] rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden space-y-6">
+    <div className="bg-[#122B5A] rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/20 pb-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#E50914] text-white rounded-xl flex items-center justify-center font-bold shadow-lg">
-            <Zap className="w-6 h-6 fill-white" />
+          <div className="w-10 h-10 bg-[#FFB800] text-[#122B5A] rounded-xl flex items-center justify-center font-bold shadow-lg">
+            <Zap className="w-6 h-6 fill-[#122B5A]" />
           </div>
           <div>
             <h2 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-              Flash Sale Offers <span className="text-[#E50914] text-xs font-bold bg-white px-2.5 py-0.5 rounded-full shadow-xs">Limited Time</span>
+              Flash Sale Offers <span className="text-[#122B5A] text-xs font-bold bg-[#FFB800] px-2.5 py-0.5 rounded-full shadow-xs">Limited Time</span>
             </h2>
             <p className="text-xs text-blue-200">Grab pure & healthy organic offers at discounted prices!</p>
           </div>
@@ -393,9 +393,9 @@ export function FlashSaleSection() {
         <div className="flex items-center gap-2 text-xs font-bold">
           <span className="text-blue-200">Ends In:</span>
           <div className="flex items-center gap-1">
-            <span className="bg-[#E50914] px-2.5 py-1 rounded-lg text-white">08h</span> :
-            <span className="bg-[#E50914] px-2.5 py-1 rounded-lg text-white">42m</span> :
-            <span className="bg-[#E50914] px-2.5 py-1 rounded-lg text-white">19s</span>
+            <span className="bg-[#FFB800] px-2.5 py-1 rounded-lg text-[#122B5A] font-bold">08h</span> :
+            <span className="bg-[#FFB800] px-2.5 py-1 rounded-lg text-[#122B5A] font-bold">42m</span> :
+            <span className="bg-[#FFB800] px-2.5 py-1 rounded-lg text-[#122B5A] font-bold">19s</span>
           </div>
         </div>
       </div>

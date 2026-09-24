@@ -141,13 +141,13 @@ const defaultAboutData: AboutData = {
 function renderFeatureIcon(iconName?: string) {
   switch (iconName) {
     case "ShieldCheck":
-      return <ShieldCheck className="w-8 h-8 text-[#002884]" />;
+      return <ShieldCheck className="w-8 h-8 text-[#122B5A]" />;
     case "Award":
-      return <Award className="w-8 h-8 text-[#E50914]" />;
+      return <Award className="w-8 h-8 text-[#122B5A]" />;
     case "Truck":
-      return <Truck className="w-8 h-8 text-[#002884]" />;
+      return <Truck className="w-8 h-8 text-[#122B5A]" />;
     case "HeartHandshake":
-      return <HeartHandshake className="w-8 h-8 text-[#E50914]" />;
+      return <HeartHandshake className="w-8 h-8 text-[#122B5A]" />;
     case "Sparkles":
       return <Sparkles className="w-8 h-8 text-amber-500" />;
     case "CheckCircle2":
@@ -161,7 +161,7 @@ function renderFeatureIcon(iconName?: string) {
     case "Headphones":
       return <Headphones className="w-8 h-8 text-rose-500" />;
     default:
-      return <Sparkles className="w-8 h-8 text-[#002884]" />;
+      return <Sparkles className="w-8 h-8 text-[#122B5A]" />;
   }
 }
 
@@ -294,7 +294,7 @@ export default function AboutPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-16 pb-20">
       
       {/* 1. Hero Header Banner */}
-      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-16 sm:py-24 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4 relative z-10">
@@ -334,7 +334,7 @@ export default function AboutPage() {
             {/* Floating Experience Badge */}
             {(data.experience_badge_text || data.experience_badge_subtext) && (
               <div className="absolute -bottom-6 -right-4 sm:bottom-6 sm:right-6 bg-white p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#002884] text-white font-black text-xl flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-[#122B5A] text-white font-black text-xl flex items-center justify-center shrink-0">
                   {data.experience_badge_text || "#1"}
                 </div>
                 <div>
@@ -353,11 +353,11 @@ export default function AboutPage() {
           <div className="lg:col-span-6 space-y-6">
             <div className="space-y-2">
               {data.story_badge && (
-                <span className="text-[#E50914] font-bold text-xs uppercase tracking-widest block">
+                <span className="text-[#122B5A] font-bold text-xs uppercase tracking-widest block">
                   {data.story_badge}
                 </span>
               )}
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#002884] tracking-tight leading-snug">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#122B5A] tracking-tight leading-snug">
                 {data.story_title}
               </h2>
             </div>
@@ -389,7 +389,7 @@ export default function AboutPage() {
             <div className="pt-4">
               <Link 
                 href="/" 
-                className="inline-flex items-center gap-2 bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all"
+                className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-sm px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all"
               >
                 Explore Products <ArrowRight className="w-4 h-4" />
               </Link>
@@ -404,7 +404,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 text-center">
               {statsList.map((stat, idx) => (
                 <div key={idx} className={`${idx !== 0 ? "pt-6 sm:pt-0" : ""} space-y-1`}>
-                  <div className="text-3xl sm:text-5xl font-black text-[#002884] tracking-tight">
+                  <div className="text-3xl sm:text-5xl font-black text-[#122B5A] tracking-tight">
                     {stat.value}
                   </div>
                   <div className="text-xs sm:text-sm font-semibold text-slate-500 uppercase tracking-wider">
@@ -421,11 +421,11 @@ export default function AboutPage() {
           <section className="space-y-10">
             <div className="text-center space-y-2 max-w-xl mx-auto">
               {data.why_choose_badge && (
-                <span className="text-[#E50914] font-bold text-xs uppercase tracking-widest block">
+                <span className="text-[#122B5A] font-bold text-xs uppercase tracking-widest block">
                   {data.why_choose_badge}
                 </span>
               )}
-              <h2 className="text-3xl font-extrabold text-[#002884] tracking-tight">
+              <h2 className="text-3xl font-extrabold text-[#122B5A] tracking-tight">
                 {data.why_choose_title || "Our Core Promises to You"}
               </h2>
               {data.why_choose_subtitle && (
@@ -439,7 +439,7 @@ export default function AboutPage() {
               {featuresList.map((val, idx) => (
                 <div 
                   key={idx} 
-                  className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#002884]/30 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4"
+                  className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/30 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-inner">
                     {renderFeatureIcon(val.icon)}
@@ -464,7 +464,7 @@ export default function AboutPage() {
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
                   <Target className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#002884]">
+                <h3 className="text-2xl font-bold text-[#122B5A]">
                   {data.mission_title || "Our Mission"}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
@@ -478,7 +478,7 @@ export default function AboutPage() {
                 <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
                   <Eye className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#002884]">
+                <h3 className="text-2xl font-bold text-[#122B5A]">
                   {data.vision_title || "Our Vision"}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
@@ -494,11 +494,11 @@ export default function AboutPage() {
           <section className="space-y-10">
             <div className="text-center space-y-2 max-w-xl mx-auto">
               {data.team_badge && (
-                <span className="text-[#E50914] font-bold text-xs uppercase tracking-widest block">
+                <span className="text-[#122B5A] font-bold text-xs uppercase tracking-widest block">
                   {data.team_badge}
                 </span>
               )}
-              <h2 className="text-3xl font-extrabold text-[#002884] tracking-tight">
+              <h2 className="text-3xl font-extrabold text-[#122B5A] tracking-tight">
                 {data.team_title || "Meet Our Team"}
               </h2>
               {data.team_subtitle && (
@@ -520,7 +520,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h4 className="font-extrabold text-slate-800 text-base">{member.name}</h4>
-                    <p className="text-xs font-semibold text-[#E50914] mt-0.5">{member.role}</p>
+                    <p className="text-xs font-semibold text-[#122B5A] mt-0.5">{member.role}</p>
                   </div>
                   {member.bio && (
                     <p className="text-xs text-slate-500 leading-relaxed">{member.bio}</p>
@@ -532,7 +532,7 @@ export default function AboutPage() {
         )}
 
         {/* 7. Contact CTA Box */}
-        <section className="bg-[#002884] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
+        <section className="bg-[#122B5A] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3 relative z-10">
             <h2 className="text-3xl font-extrabold tracking-tight">
               {data.cta_title || "Have Questions or Need Recommendations?"}
@@ -546,7 +546,7 @@ export default function AboutPage() {
             {data.cta_phone && (
               <a 
                 href={`tel:${String(data.cta_phone).replace(/[^0-9+]/g, "")}`} 
-                className="inline-flex items-center gap-2 bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
+                className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
               >
                 <PhoneCall className="w-4 h-4" /> Call Hotline: {data.cta_phone}
               </a>

@@ -7,32 +7,32 @@ import { Scale, FileText, CheckCircle2, ShieldAlert, ShoppingBag, Truck, Refresh
 export default function TermsAndConditionsPage() {
   const termsSections = [
     {
-      icon: <ShoppingBag className="w-6 h-6 text-[#002884]" />,
+      icon: <ShoppingBag className="w-6 h-6 text-[#122B5A]" />,
       title: "1. Account & Order Acceptance",
       content: "By placing an order on Door Step BD, you agree that all provided contact details, delivery address, and phone numbers are accurate. We reserve the right to verify, hold, or cancel any order suspected of fraudulent activity."
     },
     {
-      icon: <Truck className="w-6 h-6 text-[#E50914]" />,
+      icon: <Truck className="w-6 h-6 text-[#122B5A]" />,
       title: "2. Shipping & Delivery Terms",
       content: "Estimated delivery timelines (Inside Dhaka: 24-48 hours, Outside Dhaka: 3-5 working days) are approximate. Delivery delays caused by unexpected weather conditions, political strikes, or courier logistics are beyond our control."
     },
     {
-      icon: <RefreshCw className="w-6 h-6 text-[#002884]" />,
+      icon: <RefreshCw className="w-6 h-6 text-[#122B5A]" />,
       title: "3. Returns & Exchange Policy",
       content: "Products can be returned or exchanged within 7 days of delivery if you receive a damaged, expired, or incorrect item. Items must remain unopened and in original packaging. Please inspect your package upon delivery."
     },
     {
-      icon: <Scale className="w-6 h-6 text-[#E50914]" />,
+      icon: <Scale className="w-6 h-6 text-[#122B5A]" />,
       title: "4. Pricing & Product Information",
       content: "While we strive to maintain accurate product descriptions, images, and prices, minor typographical errors may occur. Prices in Bangladeshi Taka (৳) are subject to update without prior notice."
     },
     {
-      icon: <ShieldAlert className="w-6 h-6 text-[#002884]" />,
+      icon: <ShieldAlert className="w-6 h-6 text-[#122B5A]" />,
       title: "5. Intellectual Property Rights",
       content: "All trademarks, product images, brand names, and website contents displayed on Door Step BD belong exclusively to Door Step BD and their respective brand owners. Unauthorized copying is prohibited."
     },
     {
-      icon: <FileText className="w-6 h-6 text-[#E50914]" />,
+      icon: <FileText className="w-6 h-6 text-[#122B5A]" />,
       title: "6. Limitation of Liability & Governing Law",
       content: "Door Step BD operates in full accordance with the consumer protection laws of Bangladesh. Any legal disputes arising from the use of our services shall be resolved under the jurisdiction of courts in Dhaka, Bangladesh."
     }
@@ -42,11 +42,11 @@ export default function TermsAndConditionsPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-16 pb-20">
       
       {/* 1. Hero Header Banner */}
-      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-16 sm:py-24 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4 relative z-10">
-          <span className="inline-flex items-center gap-2 bg-red-500/20 border border-red-400/30 text-red-200 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-amber-500/20 border border-red-400/30 text-red-200 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-red-300" /> Legal Terms &amp; Policies
           </span>
           <h1 className="text-4xl sm:text-6xl font-black tracking-wide leading-tight">
@@ -64,16 +64,16 @@ export default function TermsAndConditionsPage() {
         {/* 2. Agreement Overview Card */}
         <section className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200/80 space-y-6">
           <div className="space-y-2">
-            <span className="text-[#E50914] font-bold text-xs uppercase tracking-widest block">
+            <span className="text-[#122B5A] font-bold text-xs uppercase tracking-widest block">
               USER AGREEMENT
             </span>
-            <h2 className="text-3xl font-extrabold text-[#002884] tracking-tight">
+            <h2 className="text-3xl font-extrabold text-[#122B5A] tracking-tight">
               Welcome to Door Step BD
             </h2>
           </div>
 
           <p className="text-slate-600 text-sm leading-relaxed">
-            By accessing or purchasing from <strong className="text-slate-800">Door Step BD</strong> (<Link href="/" className="text-[#002884] underline font-semibold">https://www.doorstepbd.com</Link>), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our website or services.
+            By accessing or purchasing from <strong className="text-slate-800">Door Step BD</strong> (<Link href="/" className="text-[#122B5A] underline font-semibold">https://www.doorstepbd.com</Link>), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our website or services.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -94,10 +94,10 @@ export default function TermsAndConditionsPage() {
         {/* 3. Detailed Terms Grid */}
         <section className="space-y-8">
           <div className="text-center space-y-2 max-w-xl mx-auto">
-            <span className="text-[#E50914] font-bold text-xs uppercase tracking-widest block">
+            <span className="text-[#122B5A] font-bold text-xs uppercase tracking-widest block">
               TERMS DETAILS
             </span>
-            <h2 className="text-3xl font-extrabold text-[#002884] tracking-tight">
+            <h2 className="text-3xl font-extrabold text-[#122B5A] tracking-tight">
               Store Terms &amp; Conditions
             </h2>
           </div>
@@ -106,7 +106,7 @@ export default function TermsAndConditionsPage() {
             {termsSections.map((sec, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 hover:border-[#002884]/30 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4"
+                className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 hover:border-[#122B5A]/30 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4"
               >
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-inner">
                   {sec.icon}
@@ -123,7 +123,7 @@ export default function TermsAndConditionsPage() {
         </section>
 
         {/* 4. Contact Support Box */}
-        <section className="bg-[#002884] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
+        <section className="bg-[#122B5A] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3 relative z-10">
             <h2 className="text-3xl font-extrabold tracking-tight">
               Questions Regarding Terms or Orders?
@@ -136,7 +136,7 @@ export default function TermsAndConditionsPage() {
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
             <a 
               href="tel:01734340066" 
-              className="bg-[#E50914] hover:bg-[#C80000] text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
+              className="bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
             >
               Call Hotline: 01734-340066
             </a>

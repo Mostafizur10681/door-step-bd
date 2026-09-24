@@ -55,19 +55,19 @@ export default function CartPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen py-10 font-sans">
-      <div className="max-w-7xl mx-auto px-4 space-y-8">
+      <div className="max-w-[1500px] mx-auto px-4 space-y-8">
         
         {/* Breadcrumb Navigation */}
         <div className="text-xs text-slate-500 flex items-center gap-1.5">
-          <Link href="/" className="hover:text-[#002884] transition">Home</Link>
+          <Link href="/" className="hover:text-[#122B5A] transition">Home</Link>
           <span>&gt;</span>
           <span className="text-slate-800 font-medium">Shopping cart</span>
         </div>
 
         {/* Page Title */}
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#002884] tracking-tight flex items-baseline gap-2">
-            Shopping cart <span className="text-[#002884]/70 text-lg font-semibold">({totalItemsCount})</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#122B5A] tracking-tight flex items-baseline gap-2">
+            Shopping cart <span className="text-[#122B5A]/70 text-lg font-semibold">({totalItemsCount})</span>
           </h1>
         </div>
 
@@ -90,9 +90,9 @@ export default function CartPage() {
               {/* Product Rows */}
               {cart.length === 0 ? (
                 <div className="p-10 text-center text-slate-400 space-y-3">
-                  <ShoppingBag className="w-12 h-12 mx-auto opacity-30 text-[#002884]" />
+                  <ShoppingBag className="w-12 h-12 mx-auto opacity-30 text-[#122B5A]" />
                   <p className="text-base font-semibold text-slate-600">Your shopping cart is empty</p>
-                  <Link href="/" className="inline-block text-xs font-bold bg-[#002884] text-white px-5 py-2.5 rounded-full hover:bg-[#E50914] transition">
+                  <Link href="/" className="inline-block text-xs font-bold bg-[#122B5A] text-white px-5 py-2.5 rounded-full hover:bg-[#FFB800] transition">
                     Explore Products
                   </Link>
                 </div>
@@ -126,7 +126,7 @@ export default function CartPage() {
                         </div>
 
                         <div>
-                          <Link href={`/product/${item.slug || item.id}`} className="font-semibold text-slate-800 text-sm hover:text-[#002884] transition line-clamp-2">
+                          <Link href={`/product/${item.slug || item.id}`} className="font-semibold text-slate-800 text-sm hover:text-[#122B5A] transition line-clamp-2">
                             {item.name}
                           </Link>
                           {isItemOutOfStock && (
@@ -176,7 +176,7 @@ export default function CartPage() {
                       </div>
 
                       {/* Subtotal (Col 2) */}
-                      <div className="sm:col-span-2 text-left sm:text-right font-bold text-sm text-[#002884]">
+                      <div className="sm:col-span-2 text-left sm:text-right font-bold text-sm text-[#122B5A]">
                         <span className="sm:hidden text-xs text-slate-400 font-normal mr-2">Subtotal:</span>
                         ৳{(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString("en-US", { minimumFractionDigits: 2 })}
                       </div>
@@ -200,7 +200,7 @@ export default function CartPage() {
                       value={couponInput}
                       onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                       disabled={isApplying || Boolean(appliedCoupon)}
-                      className="bg-slate-100 border border-slate-200 rounded-full px-5 py-2.5 text-sm text-slate-800 uppercase font-mono font-bold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#002884]/30 w-full disabled:opacity-60"
+                      className="bg-slate-100 border border-slate-200 rounded-full px-5 py-2.5 text-sm text-slate-800 uppercase font-mono font-bold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#122B5A]/30 w-full disabled:opacity-60"
                     />
                   </div>
                   
@@ -217,7 +217,7 @@ export default function CartPage() {
                     <button 
                       type="submit"
                       disabled={isApplying || !couponInput.trim()}
-                      className="bg-[#002884] hover:bg-[#001D5C] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs px-6 py-2.5 rounded-full transition shadow-md whitespace-nowrap flex items-center gap-2 cursor-pointer"
+                      className="bg-[#122B5A] hover:bg-[#0B1B38] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs px-6 py-2.5 rounded-full transition shadow-md whitespace-nowrap flex items-center gap-2 cursor-pointer"
                     >
                       {isApplying ? (
                         <>
@@ -236,13 +236,13 @@ export default function CartPage() {
                   <button 
                     type="button"
                     onClick={() => clearCart()}
-                    className="bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-600 font-bold text-xs px-5 py-2.5 rounded-full transition border border-slate-200 cursor-pointer"
+                    className="bg-slate-100 hover:bg-amber-50 hover:text-red-600 text-slate-600 font-bold text-xs px-5 py-2.5 rounded-full transition border border-slate-200 cursor-pointer"
                   >
                     Clear All
                   </button>
                   <Link 
                     href="/all-products"
-                    className="bg-[#002884] hover:bg-[#001D5C] text-white font-bold text-xs px-5 py-2.5 rounded-full transition shadow-md cursor-pointer"
+                    className="bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold text-xs px-5 py-2.5 rounded-full transition shadow-md cursor-pointer"
                   >
                     Update Cart
                   </Link>
@@ -295,7 +295,7 @@ export default function CartPage() {
 
           {/* Right Column: Cart Totals Summary Box */}
           <div className="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm space-y-6">
-            <h2 className="text-base font-bold text-[#002884] pb-3 border-b border-slate-100">
+            <h2 className="text-base font-bold text-[#122B5A] pb-3 border-b border-slate-100">
               Cart totals
             </h2>
 
@@ -303,7 +303,7 @@ export default function CartPage() {
               {/* Subtotal */}
               <div className="flex items-center justify-between font-semibold text-slate-700">
                 <span>Subtotal</span>
-                <span className="text-[#002884] font-extrabold text-base">
+                <span className="text-[#122B5A] font-extrabold text-base">
                   ৳{subtotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                 </span>
               </div>
@@ -333,9 +333,9 @@ export default function CartPage() {
               </div>
 
               {/* Total */}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between text-lg font-black text-[#002884]">
+              <div className="pt-4 border-t border-slate-200 flex items-center justify-between text-lg font-black text-[#122B5A]">
                 <span>Total</span>
-                <span className="text-[#002884] text-xl">
+                <span className="text-[#122B5A] text-xl">
                   ৳{grandTotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                 </span>
               </div>
@@ -359,7 +359,7 @@ export default function CartPage() {
               ) : (
                 <Link 
                   href="/checkout" 
-                  className="w-full bg-[#002884] hover:bg-[#E50914] text-white font-bold text-sm py-3.5 px-4 rounded-full shadow-lg hover:shadow-xl transition-all text-center block cursor-pointer"
+                  className="w-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold text-sm py-3.5 px-4 rounded-full shadow-lg hover:shadow-xl transition-all text-center block cursor-pointer"
                 >
                   Proceed to checkout
                 </Link>
@@ -367,7 +367,7 @@ export default function CartPage() {
               
               <Link 
                 href="/all-products" 
-                className="w-full text-center block text-xs font-bold text-[#002884] hover:underline pt-1 cursor-pointer"
+                className="w-full text-center block text-xs font-bold text-[#122B5A] hover:underline pt-1 cursor-pointer"
               >
                 Continue To Shopping
               </Link>
@@ -379,15 +379,15 @@ export default function CartPage() {
         {/* Bottom Feature Badges */}
         <div className="grid grid-cols-1 md:grid-cols-3 bg-white border border-slate-200/80 rounded-xl overflow-hidden shadow-xs divide-y md:divide-y-0 md:divide-x divide-slate-100 text-slate-700 text-xs font-bold py-4">
           <div className="flex items-center justify-center gap-3 py-2 px-4">
-            <ShieldCheck className="w-5 h-5 text-[#002884]" />
+            <ShieldCheck className="w-5 h-5 text-[#122B5A]" />
             <span>100% Money back</span>
           </div>
           <div className="flex items-center justify-center gap-3 py-2 px-4">
-            <Truck className="w-5 h-5 text-[#002884]" />
+            <Truck className="w-5 h-5 text-[#122B5A]" />
             <span>Non-contact shipping</span>
           </div>
           <div className="flex items-center justify-center gap-3 py-2 px-4">
-            <RefreshCw className="w-5 h-5 text-[#002884]" />
+            <RefreshCw className="w-5 h-5 text-[#122B5A]" />
             <span>Fast delivery</span>
           </div>
         </div>

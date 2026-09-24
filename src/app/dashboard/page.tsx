@@ -345,7 +345,7 @@ function DashboardContent() {
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans py-10 pb-20">
-      <div className="max-w-7xl mx-auto px-4 space-y-8">
+      <div className="max-w-[1500px] mx-auto px-4 space-y-8">
 
         {/* Top Header Banner */}
         <div className="bg-gradient-to-r from-[#002B49] via-[#092a5e] to-[#FF6600] rounded-3xl p-6 sm:p-10 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">

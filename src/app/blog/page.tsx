@@ -110,7 +110,7 @@ export default function BlogPage() {
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
       
       {/* Hero Banner Section */}
-      <section className="bg-gradient-to-r from-[#002884] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-3 relative z-10">
           <span className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-300/30 text-amber-300 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-amber-400" /> Door Step BD Health &amp; Tech Journal
@@ -147,7 +147,7 @@ export default function BlogPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                 activeCategory === cat
-                  ? "bg-[#002884] text-white shadow-xs"
+                  ? "bg-[#122B5A] text-white shadow-xs"
                   : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -158,7 +158,7 @@ export default function BlogPage() {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <Loader2 className="w-10 h-10 text-[#002884] animate-spin" />
+            <Loader2 className="w-10 h-10 text-[#122B5A] animate-spin" />
             <p className="text-sm font-medium text-slate-500">Loading blog posts from database...</p>
           </div>
         ) : (
@@ -182,7 +182,7 @@ export default function BlogPage() {
 
                 <div className="lg:col-span-6 p-6 sm:p-10 flex flex-col justify-center space-y-4">
                   <div className="flex items-center gap-3 text-xs font-bold text-slate-400">
-                    <span className="bg-[#002884]/10 text-[#002884] px-3 py-1 rounded-full">
+                    <span className="bg-[#122B5A]/10 text-[#122B5A] px-3 py-1 rounded-full">
                       {featuredPost.category?.name || "General"}
                     </span>
                     <span className="flex items-center gap-1">
@@ -191,7 +191,7 @@ export default function BlogPage() {
                   </div>
 
                   <Link href={`/blog/${featuredPost.slug}`}>
-                    <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 leading-snug hover:text-[#002884] transition">
+                    <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 leading-snug hover:text-[#122B5A] transition">
                       {featuredPost.title}
                     </h2>
                   </Link>
@@ -202,11 +202,11 @@ export default function BlogPage() {
 
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
                     <span className="font-bold text-slate-700 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-[#002884]" /> {featuredPost.author_name || "Admin"}
+                      <User className="w-3.5 h-3.5 text-[#122B5A]" /> {featuredPost.author_name || "Admin"}
                     </span>
                     <Link
                       href={`/blog/${featuredPost.slug}`}
-                      className="bg-[#002884] hover:bg-[#E50914] text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-xs"
+                      className="bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-xs"
                     >
                       Read Full Post <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
@@ -247,7 +247,7 @@ export default function BlogPage() {
                             sizes="(max-width: 768px) 100vw, 33vw"
                             className="object-cover group-hover:scale-105 transition duration-300"
                           />
-                          <span className="absolute top-3 left-3 bg-[#002884] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase z-10">
+                          <span className="absolute top-3 left-3 bg-[#122B5A] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase z-10">
                             {post.category?.name || "General"}
                           </span>
                         </div>
@@ -264,7 +264,7 @@ export default function BlogPage() {
                           </div>
 
                           <Link href={`/blog/${post.slug}`}>
-                            <h4 className="font-extrabold text-slate-900 text-sm sm:text-base line-clamp-2 hover:text-[#002884] transition leading-snug">
+                            <h4 className="font-extrabold text-slate-900 text-sm sm:text-base line-clamp-2 hover:text-[#122B5A] transition leading-snug">
                               {post.title}
                             </h4>
                           </Link>
@@ -282,7 +282,7 @@ export default function BlogPage() {
                         </span>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="font-bold text-[#002884] group-hover:text-[#E50914] transition flex items-center gap-1"
+                          className="font-bold text-[#122B5A] group-hover:text-[#122B5A] transition flex items-center gap-1"
                         >
                           Read Article <ArrowRight className="w-3.5 h-3.5" />
                         </Link>

@@ -155,7 +155,7 @@ export function ProductImageModal({
               }}
               className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 shrink-0 transition-all cursor-pointer bg-white ${
                 currentIndex === idx
-                  ? "border-[#E50914] ring-4 ring-[#E50914]/30 scale-105"
+                  ? "border-[#FFB800] ring-4 ring-[#FFB800]/30 scale-105"
                   : "border-white/20 opacity-60 hover:opacity-100"
               }`}
             >

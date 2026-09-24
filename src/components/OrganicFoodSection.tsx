@@ -165,7 +165,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
   }, [initialProducts]);
 
   return (
-    <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-8 py-6">
+    <div className="w-full max-w-[1500px] mx-auto px-4 sm:px-8 py-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-slate-200/80 rounded-2xl overflow-hidden bg-white shadow-xs">
 
         {/* Left Side: Responsive Product Cards Grid (Col 8, 2-cols mobile) */}
@@ -220,7 +220,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
                     }}
                     title="Quick View"
                     aria-label="Quick View"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#002884] hover:text-white hover:border-[#002884] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/org:opacity-100 opacity-90"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-slate-200/90 text-slate-600 hover:bg-[#122B5A] hover:text-white hover:border-[#122B5A] hover:scale-105 flex items-center justify-center shadow-xs transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover/org:opacity-100 opacity-90"
                   >
                     <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
@@ -238,11 +238,11 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
                       ) : (
                         <>
                           {Boolean(prod.discountPercentage && prod.discountPercentage > 0) ? (
-                            <span className="bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                            <span className="bg-[#FFB800] text-[#122B5A] font-bold text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                               -{prod.discountPercentage}%
                             </span>
                           ) : prod.isSale ? (
-                            <span className="bg-[#E50914] text-white text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                            <span className="bg-[#FFB800] text-[#122B5A] font-bold text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
                               SALE
                             </span>
                           ) : null}
@@ -267,7 +267,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
 
                   {/* Product Title */}
                   <Link href={`/product/${prod.slug || prod.id}`}>
-                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#E50914] transition leading-tight sm:leading-snug min-h-[28px] sm:min-h-[32px] mt-0.5 mb-1.5">
+                    <h3 className="font-semibold text-slate-800 text-[11px] sm:text-xs line-clamp-2 hover:text-[#122B5A] transition leading-tight sm:leading-snug min-h-[28px] sm:min-h-[32px] mt-0.5 mb-1.5">
                       {prod.name}
                     </h3>
                   </Link>
@@ -277,7 +277,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
                 <div className="mt-1 sm:mt-2 space-y-2 pt-1.5 sm:pt-2 border-t border-slate-100">
                   <div className="flex items-center justify-between gap-1 flex-wrap">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[#E50914] font-black text-xs sm:text-sm">
+                      <span className="text-[#122B5A] font-black text-xs sm:text-sm">
                         ৳{typeof prod.price === "number" ? prod.price.toFixed(0) : prod.price}
                       </span>
                       {Boolean(prod.originalPrice && prod.originalPrice > prod.price) && (
@@ -315,7 +315,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
                         setQuickViewProduct(prod);
                       }}
                       aria-label={`Select options for ${prod.name}`}
-                      className="w-full bg-[#002884] hover:bg-[#E50914] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
                       <span>Select Options</span>
@@ -329,7 +329,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
                         addToCart(prod, 1);
                       }}
                       aria-label={`Add ${prod.name} to Cart`}
-                      className="w-full bg-[#E50914] hover:bg-[#C80000] text-white text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+                      className="w-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-[10px] sm:text-xs font-bold py-2 px-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
                     >
                       <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
                       <span>Add to Cart</span>
@@ -342,7 +342,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
         </div>
 
         {/* Right Side: Deep Navy Banner Box (Col 4) */}
-        <div className="lg:col-span-4 bg-[#002884] p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-center relative overflow-hidden order-1 lg:order-2">
+        <div className="lg:col-span-4 bg-[#122B5A] p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-center relative overflow-hidden order-1 lg:order-2">
           {/* Subtle background circular pattern design */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/5 rounded-full pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] border border-white/5 rounded-full pointer-events-none" />
@@ -357,7 +357,7 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
               Exclusive Deals <br />
               & Big Discounts <br />
-              <span className="text-[#E50914]">On Top Products</span>
+              <span className="text-amber-300">On Top Products</span>
             </h2>
 
             <p className="text-white/80 text-xs sm:text-sm font-medium leading-relaxed max-w-xs mx-auto">
@@ -367,10 +367,10 @@ export function OrganicFoodSection({ products: initialProducts }: OrganicFoodSec
             <div className="pt-2">
               <Link
                 href="/discount"
-                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-[#E50914] hover:bg-[#C80000] text-white font-black text-xs sm:text-sm rounded-full shadow-md transition-all duration-300 group/btn cursor-pointer active:scale-95"
+                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold text-xs sm:text-sm rounded-full shadow-md transition-all duration-300 group/btn cursor-pointer active:scale-95"
               >
                 <span>See More</span>
-                <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
+                <ChevronRight className="w-4 h-4 text-[#122B5A] group-hover/btn:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
