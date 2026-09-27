@@ -4,6 +4,9 @@ import { OurBrandsSection } from "@/components/home/OurBrandsSection";
 import { OurServicesSection } from "@/components/home/OurServicesSection";
 import { OurCategoriesSection } from "@/components/home/OurCategoriesSection";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = {
   title: "Doorstep Power Solution - Industrial Generators, Substations & Solar Energy in Bangladesh",
   description:

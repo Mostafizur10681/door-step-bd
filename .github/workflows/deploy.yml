@@ -110,15 +110,35 @@ jobs:
             npm run build
 
             # =========================================
-            # Restart PM2 Application
+            # Restart PM2 Application & Reload Web Server
             # =========================================
-            echo "🔄 Restarting PM2 process..."
-            pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart doorstepbd.org --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || pm2 start npm --name "doorstepbd" -- start || sudo -u doorstep-deploy pm2 restart doorstepbd || true
+            echo "🔄 Restarting PM2 process across potential user contexts..."
+            
+            # Restart under current user
+            pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart doorstepbd.org --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || true
 
-            # =========================================
-            # Save PM2 Process List
-            # =========================================
+            # Restart under doorstep-deploy if running as root or sudoer
+            if [ -d "/home/doorstep-deploy" ]; then
+              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
+            fi
+
+            # Restart under root if applicable
+            sudo pm2 restart doorstepbd --update-env 2>/dev/null || sudo pm2 restart all --update-env 2>/dev/null || true
+
+            # Fallback: Start doorstepbd if not already in pm2 list
+            if ! pm2 describe doorstepbd >/dev/null 2>&1 && ! pm2 describe 0 >/dev/null 2>&1; then
+              pm2 start npm --name "doorstepbd" -- start || true
+            fi
+
+            # Save PM2 state
             pm2 save || true
+            if [ -d "/home/doorstep-deploy" ]; then
+              sudo -u doorstep-deploy pm2 save 2>/dev/null || true
+            fi
+
+            # Reload Nginx web server
+            echo "🌐 Reloading Nginx..."
+            sudo systemctl reload nginx 2>/dev/null || sudo nginx -s reload 2>/dev/null || true
 
             echo "========================================="
             echo "✅ Deployment completed successfully!"
