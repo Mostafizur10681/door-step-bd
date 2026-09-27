@@ -22,35 +22,48 @@ jobs:
             set -e
 
             # =========================================
-            # Environment Setup
+            # Load NVM and Node environment
             # =========================================
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
             if [ -d "/home/doorstep-deploy/.nvm" ]; then
-              export HOME="/home/doorstep-deploy"
               export NVM_DIR="/home/doorstep-deploy/.nvm"
-              export PM2_HOME="/home/doorstep-deploy/.pm2"
-              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            elif [ -d "$HOME/.nvm" ]; then
-              export NVM_DIR="$HOME/.nvm"
-              export PM2_HOME="$HOME/.pm2"
-              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            fi
+
+            if [ -d "/root/.nvm" ]; then
+              export NVM_DIR="/root/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             fi
 
             if command -v nvm >/dev/null 2>&1; then
-              nvm use 20.20.2 2>/dev/null || nvm use 20 2>/dev/null || nvm use default 2>/dev/null || true
+              nvm use 20.20.2 2>/dev/null || nvm use 20 2>/dev/null || nvm use default 2>/dev/null || nvm use --lts 2>/dev/null || true
+            fi
+
+            # Ensure all node, npm, and pm2 binary locations are in PATH
+            if [ -d "/home/doorstep-deploy/.nvm/versions/node" ]; then
+              LATEST_NODE_DIR=$(ls -d /home/doorstep-deploy/.nvm/versions/node/* 2>/dev/null | tail -n 1)
+              [ -n "$LATEST_NODE_DIR" ] && export PATH="$LATEST_NODE_DIR/bin:$PATH"
+            fi
+
+            if [ -d "/root/.nvm/versions/node" ]; then
+              LATEST_ROOT_NODE=$(ls -d /root/.nvm/versions/node/* 2>/dev/null | tail -n 1)
+              [ -n "$LATEST_ROOT_NODE" ] && export PATH="$LATEST_ROOT_NODE/bin:$PATH"
             fi
 
             export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:$HOME/.npm-global/bin:$HOME/.local/bin"
 
             echo "========================================="
-            echo "🔧 Environment"
+            echo "🔧 Deployment Environment"
             echo "========================================="
             echo "User: $(whoami)"
-            echo "Node: $(node -v 2>/dev/null || echo 'Not found')"
-            echo "NPM: $(npm -v 2>/dev/null || echo 'Not found')"
-            echo "PM2: $(pm2 -v 2>/dev/null || echo 'Not found')"
+            echo "Node: $(node -v 2>/dev/null || echo 'Not found in PATH')"
+            echo "NPM: $(npm -v 2>/dev/null || echo 'Not found in PATH')"
+            echo "PM2: $(pm2 -v 2>/dev/null || echo 'Not found in PATH')"
 
             # =========================================
-            # Git Directory Configuration
+            # Git Safe Directory
             # =========================================
             git config --global --add safe.directory /var/www/doorstepbd.org || true
 
@@ -64,14 +77,14 @@ jobs:
             # =========================================
             # Pull Latest Code
             # =========================================
-            echo "📥 Pulling latest code..."
+            echo "📥 Pulling latest code from main..."
             git fetch origin main
             git reset --hard origin/main
 
             # =========================================
-            # Clean Next.js Cache & Build Artifacts
+            # Clean Previous Next.js Build
             # =========================================
-            echo "🧹 Cleaning previous build..."
+            echo "🧹 Cleaning previous build cache..."
             rm -rf .next
 
             # =========================================
@@ -81,7 +94,7 @@ jobs:
             npm ci || npm install --legacy-peer-deps
 
             # =========================================
-            # Configure Environment Variables
+            # Configure Production Environment
             # =========================================
             echo "⚙️ Configuring environment..."
             export NEXT_PUBLIC_API_URL="https://admin.doorstepbd.org"
@@ -97,23 +110,26 @@ jobs:
             npm run build
 
             # =========================================
-            # Restart Application via PM2
+            # Restart PM2 Application
             # =========================================
-            echo "🔄 Restarting application..."
+            echo "🔄 Restarting application on PM2..."
 
             pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart 0 --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || pm2 start npm --name "doorstepbd" -- start || true
 
-            if [ -d "/home/doorstep-deploy/.pm2" ]; then
-              PM2_HOME="/home/doorstep-deploy/.pm2" pm2 restart doorstepbd --update-env 2>/dev/null || PM2_HOME="/home/doorstep-deploy/.pm2" pm2 restart all --update-env 2>/dev/null || true
+            if [ -d "/home/doorstep-deploy" ]; then
+              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
             fi
 
             pm2 save 2>/dev/null || true
 
             # =========================================
-            # Reload Web Server
+            # Clear Nginx Cache & Restart Nginx
             # =========================================
-            echo "🌐 Reloading web server..."
-            sudo systemctl reload nginx 2>/dev/null || sudo nginx -s reload 2>/dev/null || true
+            echo "🧹 Clearing Nginx proxy cache..."
+            sudo rm -rf /var/cache/nginx/* /tmp/nginx* 2>/dev/null || true
+
+            echo "🌐 Restarting Nginx web server..."
+            sudo systemctl restart nginx 2>/dev/null || sudo systemctl reload nginx 2>/dev/null || sudo nginx -s reload 2>/dev/null || true
 
             echo "========================================="
             echo "✅ Deployment completed successfully!"
