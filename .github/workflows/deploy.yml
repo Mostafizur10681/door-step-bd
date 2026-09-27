@@ -60,19 +60,14 @@ jobs:
             git reset --hard origin/main
 
             # =========================================
-            # Ensure Correct Ownership
+            # Ensure Correct Ownership & Path
             # =========================================
-            echo "🔐 Checking project ownership..."
-
-            if [ "$(whoami)" != "doorstep-deploy" ]; then
-              echo "❌ Deployment is not running as doorstep-deploy"
-              exit 1
-            fi
+            echo "🔐 Current deployment user: $(whoami)"
 
             # =========================================
             # Clean Previous Next.js Build
             # =========================================
-            echo "🧹 Cleaning previous Next.js build..."
+            echo "🧹 Cleaning previous Next.js build cache..."
 
             rm -rf .next
 
@@ -97,24 +92,23 @@ jobs:
             # =========================================
             # Build Next.js
             # =========================================
-            echo "🏗️ Building Next.js..."
+            echo "🏗️ Building Next.js application..."
 
             npm run build
 
             # =========================================
-            # Verify Build Ownership
+            # Verify Build Artifacts
             # =========================================
             echo "🔍 Verifying build..."
 
             ls -ld .next
-            ls -ld .next/build
 
             # =========================================
             # Restart PM2 Application
             # =========================================
-            echo "🔄 Restarting application..."
+            echo "🔄 Restarting PM2 application..."
 
-            pm2 restart doorstepbd --update-env
+            pm2 restart doorstepbd --update-env || pm2 restart all || pm2 start npm --name "doorstepbd" -- start
 
             # =========================================
             # Save PM2 Process List

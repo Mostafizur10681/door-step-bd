@@ -6,7 +6,8 @@ import { OurCategoriesSection } from "@/components/home/OurCategoriesSection";
 
 export const metadata = {
   title: "Doorstep Power Solution - Industrial Generators, Substations & Solar Energy in Bangladesh",
-  description: "Leader in industrial power solutions since 2020. Providing heavy diesel & gas generators, substation engineering, solar power, and 24/7 maintenance across Bangladesh.",
+  description:
+    "Leader in industrial power solutions since 2020. Providing heavy diesel & gas generators, substation engineering, solar power, and 24/7 maintenance across Bangladesh.",
 };
 
 export default function Home() {
