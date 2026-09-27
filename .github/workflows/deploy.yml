@@ -110,6 +110,13 @@ jobs:
             npm run build
 
             # =========================================
+            # Ensure Proper File & Directory Permissions
+            # =========================================
+            echo "🔐 Setting readable permissions for Nginx and PM2..."
+            chmod -R 755 /var/www/doorstepbd.org
+            chmod -R 755 /var/www/doorstepbd.org/.next 2>/dev/null || true
+
+            # =========================================
             # Restart PM2 Application
             # =========================================
             echo "🔄 Restarting application on PM2..."
