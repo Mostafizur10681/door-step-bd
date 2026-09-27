@@ -157,6 +157,25 @@ jobs:
             echo "🌐 Restarting Nginx web server..."
             sudo systemctl restart nginx 2>/dev/null || sudo systemctl reload nginx 2>/dev/null || sudo nginx -s reload 2>/dev/null || true
 
+            # =========================================
+            # Server Diagnostics
+            # =========================================
+            echo "========================================="
+            echo "🔍 Server Diagnostics"
+            echo "========================================="
+            echo "--- Nginx Sites Enabled ---"
+            cat /etc/nginx/sites-enabled/* 2>/dev/null || true
+
+            echo "--- PM2 Processes ---"
+            pm2 list 2>/dev/null || true
+            if [ -d "/home/doorstep-deploy" ]; then
+              sudo -u doorstep-deploy pm2 list 2>/dev/null || true
+            fi
+            sudo pm2 list 2>/dev/null || true
+
+            echo "--- Listening Ports ---"
+            ss -tulpn 2>/dev/null || netstat -tulpn 2>/dev/null || true
+
             echo "========================================="
             echo "✅ Deployment completed successfully!"
             echo "========================================="
