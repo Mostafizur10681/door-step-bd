@@ -110,35 +110,49 @@ jobs:
             npm run build
 
             # =========================================
-            # Restart PM2 Application & Reload Web Server
+            # Stop Old Processes & Clear Port 3000
             # =========================================
-            echo "🔄 Restarting PM2 process across potential user contexts..."
-            
-            # Restart under current user
-            pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart doorstepbd.org --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || true
+            echo "🛑 Stopping old Next.js instances..."
+            pm2 delete doorstepbd 2>/dev/null || true
+            pm2 delete all 2>/dev/null || true
 
-            # Restart under doorstep-deploy if running as root or sudoer
             if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
+              sudo -u doorstep-deploy pm2 delete doorstepbd 2>/dev/null || true
+              sudo -u doorstep-deploy pm2 delete all 2>/dev/null || true
             fi
+            sudo pm2 delete doorstepbd 2>/dev/null || true
+            sudo pm2 delete all 2>/dev/null || true
 
-            # Restart under root if applicable
-            sudo pm2 restart doorstepbd --update-env 2>/dev/null || sudo pm2 restart all --update-env 2>/dev/null || true
+            # Kill any orphaned process listening on port 3000
+            fuser -k 3000/tcp 2>/dev/null || true
+            kill -9 $(lsof -t -i:3000 2>/dev/null) 2>/dev/null || true
+            pkill -f "next-server" 2>/dev/null || true
 
-            # Fallback: Start doorstepbd if not already in pm2 list
-            if ! pm2 describe doorstepbd >/dev/null 2>&1 && ! pm2 describe 0 >/dev/null 2>&1; then
-              pm2 start npm --name "doorstepbd" -- start || true
-            fi
+            sleep 2
 
-            # Save PM2 state
+            # =========================================
+            # Start Fresh PM2 Next.js Application
+            # =========================================
+            echo "🚀 Starting fresh Next.js application on PM2..."
+            cd /var/www/doorstepbd.org
+
+            pm2 start npm --name "doorstepbd" -- start
             pm2 save || true
+
             if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy pm2 save 2>/dev/null || true
+              sudo -u doorstep-deploy bash -c "cd /var/www/doorstepbd.org && pm2 start npm --name 'doorstepbd' -- start && pm2 save" 2>/dev/null || true
             fi
 
-            # Reload Nginx web server
+            # =========================================
+            # Reload Nginx Web Server
+            # =========================================
             echo "🌐 Reloading Nginx..."
             sudo systemctl reload nginx 2>/dev/null || sudo nginx -s reload 2>/dev/null || true
+
+            sleep 4
+
+            echo "🔍 Testing local response on http://127.0.0.1:3000..."
+            curl -sI http://127.0.0.1:3000/ || true
 
             echo "========================================="
             echo "✅ Deployment completed successfully!"
