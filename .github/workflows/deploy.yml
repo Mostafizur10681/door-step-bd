@@ -117,36 +117,35 @@ jobs:
             chmod -R 755 /var/www/doorstepbd.org/.next 2>/dev/null || true
 
             # =========================================
-            # Restart PM2 Application
+            # Restart Application & Clean Port 3000
             # =========================================
-            echo "🔄 Restarting application on PM2..."
+            echo "🔄 Stopping old instances and clearing port 3000..."
 
-            pm2 restart doorstepbd --update-env 2>/dev/null || true
-            pm2 reload doorstepbd 2>/dev/null || true
-            pm2 restart all --update-env 2>/dev/null || true
+            # Find and kill any process holding port 3000
+            PORT_PID=$(ss -lptn 'sport = :3000' 2>/dev/null | grep -o 'pid=[0-9]*' | head -n 1 | cut -d= -f2 || true)
+            if [ -n "$PORT_PID" ]; then
+              echo "Killing PID $PORT_PID holding port 3000..."
+              kill -9 "$PORT_PID" 2>/dev/null || sudo kill -9 "$PORT_PID" 2>/dev/null || true
+            fi
+
+            # Clean PM2 process list
+            pm2 delete all 2>/dev/null || true
+            if [ -d "/home/doorstep-deploy" ]; then
+              sudo -u doorstep-deploy pm2 delete all 2>/dev/null || true
+            fi
+            sudo pm2 delete all 2>/dev/null || true
+
+            sleep 2
+
+            # Start fresh PM2 worker in project directory
+            echo "🚀 Starting fresh PM2 worker..."
+            cd /var/www/doorstepbd.org
+            pm2 start npm --name "doorstepbd" -- start || true
+            pm2 save 2>/dev/null || true
 
             if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || true
-              sudo -u doorstep-deploy pm2 reload doorstepbd 2>/dev/null || true
-              sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
+              sudo -u doorstep-deploy bash -c "cd /var/www/doorstepbd.org && pm2 start npm --name 'doorstepbd' -- start && pm2 save" 2>/dev/null || true
             fi
-
-            sudo pm2 restart doorstepbd --update-env 2>/dev/null || true
-            sudo pm2 reload doorstepbd 2>/dev/null || true
-            sudo pm2 restart all --update-env 2>/dev/null || true
-
-            # Force worker respawn on port 3000
-            fuser -k 3000/tcp 2>/dev/null || true
-            sudo fuser -k 3000/tcp 2>/dev/null || true
-
-            sleep 3
-
-            # Ensure doorstepbd is running
-            if ! pm2 describe doorstepbd >/dev/null 2>&1 && ! pm2 describe 0 >/dev/null 2>&1; then
-              pm2 start npm --name "doorstepbd" -- start 2>/dev/null || true
-            fi
-
-            pm2 save 2>/dev/null || true
 
             # =========================================
             # Clear Nginx Cache & Restart Nginx
