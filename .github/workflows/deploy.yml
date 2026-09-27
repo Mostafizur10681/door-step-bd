@@ -114,10 +114,29 @@ jobs:
             # =========================================
             echo "🔄 Restarting application on PM2..."
 
-            pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart 0 --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || pm2 start npm --name "doorstepbd" -- start || true
+            pm2 restart doorstepbd --update-env 2>/dev/null || true
+            pm2 reload doorstepbd 2>/dev/null || true
+            pm2 restart all --update-env 2>/dev/null || true
 
             if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
+              sudo -u doorstep-deploy pm2 restart doorstepbd --update-env 2>/dev/null || true
+              sudo -u doorstep-deploy pm2 reload doorstepbd 2>/dev/null || true
+              sudo -u doorstep-deploy pm2 restart all --update-env 2>/dev/null || true
+            fi
+
+            sudo pm2 restart doorstepbd --update-env 2>/dev/null || true
+            sudo pm2 reload doorstepbd 2>/dev/null || true
+            sudo pm2 restart all --update-env 2>/dev/null || true
+
+            # Force worker respawn on port 3000
+            fuser -k 3000/tcp 2>/dev/null || true
+            sudo fuser -k 3000/tcp 2>/dev/null || true
+
+            sleep 3
+
+            # Ensure doorstepbd is running
+            if ! pm2 describe doorstepbd >/dev/null 2>&1 && ! pm2 describe 0 >/dev/null 2>&1; then
+              pm2 start npm --name "doorstepbd" -- start 2>/dev/null || true
             fi
 
             pm2 save 2>/dev/null || true
