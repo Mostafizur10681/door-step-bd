@@ -130,55 +130,74 @@ export function CategoryBarSkeleton({ count = 8 }: { count?: number }) {
 }
 
 /**
- * Homepage Full Skeleton (Hero + Badges + Product Carousels + Banners)
+ * Homepage Full Skeleton (Power Solution Hero + Brands + Services + Categories)
  */
 export function HomePageSkeleton() {
   return (
-    <div className="w-full space-y-8 pb-12">
+    <div className="w-full space-y-12 pb-16">
       {/* 1. Hero Banner */}
-      <HeroBannerSkeleton />
+      <div className="w-full mx-auto">
+        <Skeleton className="w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[1500/570] rounded-none" />
+      </div>
 
-      {/* 2. Best Selling Carousel */}
-      <ProductSliderSkeleton />
+      {/* 2. Ours Brands Section Skeleton */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-4">
+          <div className="space-y-2">
+            <Skeleton className="w-36 h-3.5 rounded" />
+            <Skeleton className="w-64 h-7 rounded-lg" />
+          </div>
+          <Skeleton className="w-28 h-9 rounded" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div key={idx} className="bg-white border border-slate-200/80 rounded-lg p-5 flex flex-col items-center justify-center space-y-3 h-36">
+              <Skeleton className="w-20 h-12 rounded" />
+              <Skeleton className="w-16 h-3 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* 3. Latest Products Carousel */}
-      <ProductSliderSkeleton />
-
-      {/* 4. Skin Care Section Banner & Grid */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <Skeleton className="h-80 lg:h-auto rounded-2xl" />
-          <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <ProductCardSkeleton key={idx} />
+      {/* 3. Our Services Section Skeleton */}
+      <div className="bg-slate-900 py-16 px-4 sm:px-8">
+        <div className="max-w-[1500px] mx-auto space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
+            <div className="space-y-2">
+              <Skeleton className="w-32 h-3.5 rounded bg-slate-800" />
+              <Skeleton className="w-56 h-7 rounded-lg bg-slate-800" />
+            </div>
+            <Skeleton className="w-28 h-9 rounded bg-slate-800" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className="bg-slate-800/80 rounded-xl p-6 space-y-4 border border-slate-700">
+                <Skeleton className="w-14 h-14 rounded-xl bg-slate-700" />
+                <Skeleton className="w-36 h-5 rounded bg-slate-700" />
+                <Skeleton className="w-full h-12 rounded bg-slate-700/60" />
+              </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* 5. Delivery Notice Banner */}
-      <div className="max-w-7xl mx-auto px-4">
-        <Skeleton className="w-full h-20 rounded-2xl" />
-      </div>
-
-      {/* 6. Organic Food Section */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <ProductCardSkeleton key={idx} />
-            ))}
+      {/* 4. Our Categories Section Skeleton */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-4">
+          <div className="space-y-2">
+            <Skeleton className="w-36 h-3.5 rounded" />
+            <Skeleton className="w-64 h-7 rounded-lg" />
           </div>
-          <Skeleton className="h-80 lg:h-auto rounded-2xl" />
+          <Skeleton className="w-28 h-9 rounded" />
         </div>
-      </div>
-
-      {/* 7. Trust Badges */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Skeleton className="h-16 rounded-xl" />
-          <Skeleton className="h-16 rounded-xl" />
-          <Skeleton className="h-16 rounded-xl" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div key={idx} className="bg-white border border-slate-200/80 rounded-xl p-4 space-y-3">
+              <Skeleton className="w-full h-40 rounded-lg" />
+              <Skeleton className="w-28 h-4 rounded" />
+              <Skeleton className="w-16 h-3 rounded" />
+            </div>
+          ))}
         </div>
       </div>
     </div>
