@@ -113,8 +113,8 @@ jobs:
             # Ensure Proper File & Directory Permissions
             # =========================================
             echo "🔐 Setting readable permissions for Nginx and PM2..."
-            chmod -R 755 /var/www/doorstepbd.org
-            chmod -R 755 /var/www/doorstepbd.org/.next 2>/dev/null || true
+            sudo chmod -R 755 /var/www 2>/dev/null || chmod -R 755 /var/www/doorstepbd.org 2>/dev/null || true
+            sudo chmod -R 777 /var/www/doorstepbd.org/.next 2>/dev/null || chmod -R 777 /var/www/doorstepbd.org/.next 2>/dev/null || true
 
             # =========================================
             # Restart Application & Clean Port 3000
