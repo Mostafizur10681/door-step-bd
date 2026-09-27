@@ -907,3 +907,70 @@ export async function validateAndApplyCoupon(code: string, subtotal: number, use
     };
   }
 }
+
+export interface ApiBrand {
+  id: number;
+  name: string;
+  slug: string;
+  logo?: string | null;
+  logo_url?: string | null;
+  category_tag?: string | null;
+  badge?: string | null;
+  sub_title?: string | null;
+  description?: string | null;
+  capacity_range?: string | null;
+  warranty_text?: string | null;
+  key_capabilities?: string[] | null;
+  cta_text?: string | null;
+  cta_link?: string | null;
+  status?: boolean | number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export async function getBrands(params?: { per_page?: number; all?: number }): Promise<{ success: boolean; data: ApiBrand[] }> {
+  try {
+    const query = new URLSearchParams();
+    if (params?.per_page) query.append("per_page", String(params.per_page));
+    if (params?.all) query.append("all", "1");
+    const qs = query.toString() ? `?${query.toString()}` : "";
+    const res = await fetch(`${API_V1}/brands${qs}`);
+    if (!res.ok) return { success: false, data: [] };
+    const json = await res.json();
+    const data = json.data || json;
+    return { success: true, data: Array.isArray(data) ? data : [] };
+  } catch (err) {
+    return { success: false, data: [] };
+  }
+}
+
+export interface ApiService {
+  id: number | string;
+  title: string;
+  slug: string;
+  icon?: string | null;
+  image?: string | null;
+  short_description?: string | null;
+  description?: string | null;
+  status?: string | boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export async function getServices(params?: { per_page?: number; all?: number }): Promise<{ success: boolean; data: ApiService[] }> {
+  try {
+    const query = new URLSearchParams();
+    if (params?.per_page) query.append("per_page", String(params.per_page));
+    if (params?.all) query.append("all", "1");
+    const qs = query.toString() ? `?${query.toString()}` : "";
+    const res = await fetch(`${API_V1}/services${qs}`);
+    if (!res.ok) return { success: false, data: [] };
+    const json = await res.json();
+    const data = json.data || json;
+    return { success: true, data: Array.isArray(data) ? data : [] };
+  } catch (err) {
+    return { success: false, data: [] };
+  }
+}
+
+

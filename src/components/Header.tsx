@@ -11,7 +11,7 @@ import {
 import { useShop } from "@/context/ShopContext";
 import productsData from "@/data/products.json";
 import { DoorStepLogo } from "@/components/common/DoorStepLogo";
-import { API_V1 } from "@/lib/api";
+import { API_V1, getServices, ApiService } from "@/lib/api";
 
 type SubCategory = {
   id: number;
@@ -33,6 +33,7 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [services, setServices] = useState<ApiService[]>([]);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | number | null>(null);
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const { wishlist, cart, user, updateQuantity, removeFromCart } = useShop();
@@ -70,6 +71,17 @@ export function Header() {
       }
     };
 
+    const loadServices = async () => {
+      try {
+        const res = await getServices({ all: 1 });
+        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+          setServices(res.data);
+        }
+      } catch {
+        // Fallback silently
+      }
+    };
+
     const loadProducts = async () => {
       try {
         const res = await fetch(`${API_V1}/products?per_page=100`);
@@ -104,6 +116,7 @@ export function Header() {
     };
 
     loadCategories();
+    loadServices();
     loadProducts();
   }, []);
 
@@ -406,6 +419,49 @@ export function Header() {
               ABOUT US
             </Link>
 
+            {/* OUR BRANDS */}
+            <Link 
+              href="/brands" 
+              className="py-3.5 px-4 hover:text-[#FFB800] transition-colors whitespace-nowrap"
+            >
+              OUR BRANDS
+            </Link>
+
+            {/* SERVICES (with Dropdown & Direct Link) */}
+            <div className="relative group py-3.5 px-4">
+              <Link 
+                href="/services" 
+                className="flex items-center gap-1.5 hover:text-[#FFB800] transition-colors whitespace-nowrap cursor-pointer"
+              >
+                <span>SERVICES</span>
+                <ChevronDown className="w-3.5 h-3.5 text-white/70 group-hover:text-[#FFB800] group-hover:rotate-180 transition-transform duration-200" />
+              </Link>
+
+              {/* Dynamic Services Dropdown Menu */}
+              <div className="absolute left-0 top-full pt-1 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 z-50 min-w-[260px]">
+                <div className="bg-white text-slate-800 rounded-sm shadow-2xl border border-slate-200 py-2 text-left animate-in fade-in zoom-in-95 duration-150 divide-y divide-slate-100">
+                  <Link
+                    href="/services"
+                    className="block px-4 py-2.5 text-xs font-black text-[#122B5A] hover:bg-amber-50/70 transition"
+                  >
+                    All Services (Overview)
+                  </Link>
+                  {services && services.length > 0 ? (
+                    services.map((svc) => (
+                      <Link
+                        key={svc.id}
+                        href="/services"
+                        className="flex items-center justify-between px-4 py-2 text-xs font-semibold text-slate-700 hover:text-[#122B5A] hover:bg-amber-50/70 transition"
+                      >
+                        <span className="truncate">{svc.title}</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      </Link>
+                    ))
+                  ) : null}
+                </div>
+              </div>
+            </div>
+
             {/* SOLUTIONS (with Dropdown & Direct Link) */}
             <div className="relative group py-3.5 px-4">
               <Link 
@@ -628,6 +684,49 @@ export function Header() {
                 >
                   ABOUT US
                 </Link>
+
+                <Link
+                  href="/brands"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition"
+                >
+                  OUR BRANDS
+                </Link>
+
+                {/* SERVICES (Collapsible Services Tree) */}
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedMobileCategory(expandedMobileCategory === "services" ? null : "services")}
+                    className="w-full px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition flex items-center justify-between text-left cursor-pointer"
+                  >
+                    <span>SERVICES</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${expandedMobileCategory === "services" ? 'rotate-180 text-[#FFB800]' : ''}`} />
+                  </button>
+                  {expandedMobileCategory === "services" && (
+                    <div className="ml-4 mt-1 mb-1 space-y-0.5 border-l-2 border-[#FFB800]/50 pl-3">
+                      <Link
+                        href="/services"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block px-2 py-1.5 rounded-md text-xs font-bold text-[#122B5A] hover:bg-amber-50 transition"
+                      >
+                        All Services Overview
+                      </Link>
+                      {services && services.length > 0 ? (
+                        services.map((svc) => (
+                          <Link
+                            key={svc.id}
+                            href="/services"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block px-2 py-1 rounded-md text-xs font-semibold text-slate-700 hover:text-[#122B5A] hover:bg-amber-50 transition truncate"
+                          >
+                            {svc.title}
+                          </Link>
+                        ))
+                      ) : null}
+                    </div>
+                  )}
+                </div>
 
                 {/* SOLUTIONS (Collapsible Categories Tree) */}
                 <div>

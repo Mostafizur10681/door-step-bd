@@ -17,7 +17,7 @@ export default function Home() {
         <HeroSlider />
       </section>
 
-      {/* 2. Our Trusted Brands Section (Directly under Banner with 6 Cards in 2 Rows & View All) */}
+      {/* 2. Ours Brands Section (Directly under Banner with 6 Cards in 2 Rows & View All) */}
       <section className="w-full">
         <OurBrandsSection />
       </section>
