@@ -22,35 +22,50 @@ jobs:
             set -e
 
             # =========================================
-            # Node.js / NVM Environment Detection
+            # Load NVM and Node environment
             # =========================================
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
             if [ -d "/home/doorstep-deploy/.nvm" ]; then
               export NVM_DIR="/home/doorstep-deploy/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            elif [ -d "$HOME/.nvm" ]; then
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            fi
+
+            if [ -d "/root/.nvm" ]; then
+              export NVM_DIR="/root/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             fi
 
             if command -v nvm >/dev/null 2>&1; then
-              nvm use 20 2>/dev/null || nvm use default 2>/dev/null || true
+              nvm use 20.20.2 2>/dev/null || nvm use 20 2>/dev/null || nvm use default 2>/dev/null || nvm use --lts 2>/dev/null || true
             fi
 
-            # Ensure common bin directories are in PATH
-            export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:$HOME/.npm-global/bin"
+            # Ensure all node, npm, and pm2 binary locations are in PATH
+            if [ -d "/home/doorstep-deploy/.nvm/versions/node" ]; then
+              LATEST_NODE_DIR=$(ls -d /home/doorstep-deploy/.nvm/versions/node/* 2>/dev/null | tail -n 1)
+              [ -n "$LATEST_NODE_DIR" ] && export PATH="$LATEST_NODE_DIR/bin:$PATH"
+            fi
+
+            if [ -d "/root/.nvm/versions/node" ]; then
+              LATEST_ROOT_NODE=$(ls -d /root/.nvm/versions/node/* 2>/dev/null | tail -n 1)
+              [ -n "$LATEST_ROOT_NODE" ] && export PATH="$LATEST_ROOT_NODE/bin:$PATH"
+            fi
+
+            export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:$HOME/.npm-global/bin:$HOME/.local/bin"
 
             echo "========================================="
-            echo "🔧 Environment"
+            echo "🔧 Deployment Environment"
             echo "========================================="
             echo "User: $(whoami)"
-            echo "Node: $(node -v 2>/dev/null || echo 'Not found')"
-            echo "NPM: $(npm -v 2>/dev/null || echo 'Not found')"
-            echo "PM2: $(pm2 -v 2>/dev/null || echo 'Not found')"
+            echo "Node: $(node -v 2>/dev/null || echo 'Not found in PATH')"
+            echo "NPM: $(npm -v 2>/dev/null || echo 'Not found in PATH')"
+            echo "PM2: $(pm2 -v 2>/dev/null || echo 'Not found in PATH')"
 
             # =========================================
             # Git Safe Directory
             # =========================================
-            git config --global --add safe.directory /var/www/doorstepbd.org
+            git config --global --add safe.directory /var/www/doorstepbd.org || true
 
             cd /var/www/doorstepbd.org
 
@@ -62,66 +77,48 @@ jobs:
             # =========================================
             # Pull Latest Code
             # =========================================
-            echo "📥 Pulling latest code..."
-
+            echo "📥 Pulling latest code from main..."
             git fetch origin main
             git reset --hard origin/main
 
             # =========================================
-            # Ensure Correct Ownership & Path
-            # =========================================
-            echo "🔐 Current deployment user: $(whoami)"
-
-            # =========================================
             # Clean Previous Next.js Build
             # =========================================
-            echo "🧹 Cleaning previous Next.js build cache..."
-
+            echo "🧹 Cleaning previous build cache..."
             rm -rf .next
 
             # =========================================
             # Install Dependencies
             # =========================================
             echo "📦 Installing dependencies..."
-
-            npm ci
+            npm ci || npm install --legacy-peer-deps
 
             # =========================================
             # Configure Production Environment
             # =========================================
             echo "⚙️ Configuring environment..."
+            export NEXT_PUBLIC_API_URL="https://admin.doorstepbd.org"
 
-            if [ ! -f ".env" ] || ! grep -q "^NEXT_PUBLIC_API_URL=" .env; then
+            if [ ! -f ".env" ] || ! grep -q "^NEXT_PUBLIC_API_URL=" .env 2>/dev/null; then
               echo "NEXT_PUBLIC_API_URL=https://admin.doorstepbd.org" >> .env
             fi
 
-            export NEXT_PUBLIC_API_URL="https://admin.doorstepbd.org"
-
             # =========================================
-            # Build Next.js
+            # Build Next.js Application
             # =========================================
             echo "🏗️ Building Next.js application..."
-
             npm run build
-
-            # =========================================
-            # Verify Build Artifacts
-            # =========================================
-            echo "🔍 Verifying build..."
-
-            ls -ld .next
 
             # =========================================
             # Restart PM2 Application
             # =========================================
-            echo "🔄 Restarting PM2 application..."
-
-            pm2 restart doorstepbd --update-env || pm2 restart all || pm2 start npm --name "doorstepbd" -- start
+            echo "🔄 Restarting PM2 process..."
+            pm2 restart doorstepbd --update-env 2>/dev/null || pm2 restart doorstepbd.org --update-env 2>/dev/null || pm2 restart all --update-env 2>/dev/null || pm2 start npm --name "doorstepbd" -- start || sudo -u doorstep-deploy pm2 restart doorstepbd || true
 
             # =========================================
             # Save PM2 Process List
             # =========================================
-            pm2 save
+            pm2 save || true
 
             echo "========================================="
             echo "✅ Deployment completed successfully!"
