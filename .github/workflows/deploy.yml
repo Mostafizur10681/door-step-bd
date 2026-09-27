@@ -22,22 +22,30 @@ jobs:
             set -e
 
             # =========================================
-            # Node.js / NVM Environment
+            # Node.js / NVM Environment Detection
             # =========================================
-            export HOME=/home/doorstep-deploy
-            export NVM_DIR="$HOME/.nvm"
+            if [ -d "/home/doorstep-deploy/.nvm" ]; then
+              export NVM_DIR="/home/doorstep-deploy/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            elif [ -d "$HOME/.nvm" ]; then
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            fi
 
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            if command -v nvm >/dev/null 2>&1; then
+              nvm use 20 2>/dev/null || nvm use default 2>/dev/null || true
+            fi
 
-            nvm use 20.20.2
+            # Ensure common bin directories are in PATH
+            export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:$HOME/.npm-global/bin"
 
             echo "========================================="
             echo "🔧 Environment"
             echo "========================================="
             echo "User: $(whoami)"
-            echo "Node: $(node -v)"
-            echo "NPM: $(npm -v)"
-            echo "PM2: $(pm2 -v)"
+            echo "Node: $(node -v 2>/dev/null || echo 'Not found')"
+            echo "NPM: $(npm -v 2>/dev/null || echo 'Not found')"
+            echo "PM2: $(pm2 -v 2>/dev/null || echo 'Not found')"
 
             # =========================================
             # Git Safe Directory
