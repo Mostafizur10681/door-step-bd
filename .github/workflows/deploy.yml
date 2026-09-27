@@ -147,6 +147,18 @@ jobs:
               sudo -u doorstep-deploy bash -c "cd /var/www/doorstepbd.org && pm2 start npm --name 'doorstepbd' -- start && pm2 save" 2>/dev/null || true
             fi
 
+            # Restart potential systemd units
+            sudo systemctl restart doorstepbd 2>/dev/null || sudo systemctl restart doorstep 2>/dev/null || sudo systemctl restart next 2>/dev/null || true
+
+            # Sync .next to any alternative deployment folders if they exist
+            for d in /var/www/doorstepbd /var/www/doorstep /home/doorstep-deploy/doorstepbd.org /home/doorstep-deploy/doorstepbd; do
+              if [ -d "$d" ] && [ "$d" != "/var/www/doorstepbd.org" ]; then
+                echo "Syncing .next to $d..."
+                cp -r /var/www/doorstepbd.org/.next "$d/" 2>/dev/null || true
+                chmod -R 755 "$d/.next" 2>/dev/null || true
+              fi
+            done
+
             # =========================================
             # Clear Nginx Cache & Restart Nginx
             # =========================================
