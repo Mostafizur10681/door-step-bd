@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect } from "react";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -14,6 +15,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    const handleChunkError = (event: ErrorEvent | PromiseRejectionEvent) => {
+      const errorMsg =
+        (event instanceof ErrorEvent ? event.message : event.reason?.message || event.reason || "") + "";
+      if (
+        errorMsg.includes("ChunkLoadError") ||
+        errorMsg.includes("Failed to load chunk") ||
+        errorMsg.includes("Loading chunk")
+      ) {
+        const storageKey = "chunk_load_retry";
+        const lastRetry = parseInt(sessionStorage.getItem(storageKey) || "0", 10);
+        const now = Date.now();
+        // Prevent infinite loops, reload at most once every 10 seconds
+        if (now - lastRetry > 10000) {
+          sessionStorage.setItem(storageKey, now.toString());
+          window.location.reload();
+        }
+      }
+    };
+
+    window.addEventListener("error", handleChunkError);
+    window.addEventListener("unhandledrejection", handleChunkError);
+    return () => {
+      window.removeEventListener("error", handleChunkError);
+      window.removeEventListener("unhandledrejection", handleChunkError);
+    };
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
