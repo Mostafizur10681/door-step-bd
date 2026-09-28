@@ -82,10 +82,16 @@ jobs:
             git reset --hard origin/main
 
             # =========================================
-            # Clean Previous Next.js Build
+            # Backup Previous Chunks (Zero-Downtime Assets)
             # =========================================
-            echo "🧹 Cleaning previous build cache..."
-            rm -rf .next
+            echo "📦 Backing up previous chunks to prevent 404 ChunkLoadError for active clients..."
+            mkdir -p /tmp/doorstep_chunks_backup
+            if [ -d ".next/static/chunks" ]; then
+              cp -rn .next/static/chunks/* /tmp/doorstep_chunks_backup/ 2>/dev/null || true
+            fi
+
+            # Clean build cache safely
+            rm -rf .next/cache 2>/dev/null || true
 
             # =========================================
             # Install Dependencies
@@ -97,6 +103,7 @@ jobs:
             # Configure Production Environment
             # =========================================
             echo "⚙️ Configuring environment..."
+            export NODE_ENV=production
             export NEXT_PUBLIC_API_URL="https://admin.doorstepbd.org"
 
             if [ ! -f ".env" ] || ! grep -q "^NEXT_PUBLIC_API_URL=" .env 2>/dev/null; then
@@ -110,6 +117,14 @@ jobs:
             npm run build
 
             # =========================================
+            # Merge Back Previous Chunks
+            # =========================================
+            echo "🔄 Merging previous chunks into build..."
+            if [ -d "/tmp/doorstep_chunks_backup" ] && [ -d ".next/static/chunks" ]; then
+              cp -rn /tmp/doorstep_chunks_backup/* .next/static/chunks/ 2>/dev/null || true
+            fi
+
+            # =========================================
             # Ensure Proper File & Directory Permissions
             # =========================================
             echo "🔐 Setting readable permissions for Nginx and PM2..."
@@ -117,34 +132,21 @@ jobs:
             sudo chmod -R 777 /var/www/doorstepbd.org/.next 2>/dev/null || chmod -R 777 /var/www/doorstepbd.org/.next 2>/dev/null || true
 
             # =========================================
-            # Restart Application & Clean Port 3000
+            # Restart Application via PM2
             # =========================================
-            echo "🔄 Stopping old instances and clearing port 3000..."
-
-            # Find and kill any process holding port 3000
-            PORT_PID=$(ss -lptn 'sport = :3000' 2>/dev/null | grep -o 'pid=[0-9]*' | head -n 1 | cut -d= -f2 || true)
-            if [ -n "$PORT_PID" ]; then
-              echo "Killing PID $PORT_PID holding port 3000..."
-              kill -9 "$PORT_PID" 2>/dev/null || sudo kill -9 "$PORT_PID" 2>/dev/null || true
-            fi
-
-            # Clean PM2 process list
-            pm2 delete all 2>/dev/null || true
-            if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy pm2 delete all 2>/dev/null || true
-            fi
-            sudo pm2 delete all 2>/dev/null || true
-
-            sleep 2
-
-            # Start fresh PM2 worker in project directory
-            echo "🚀 Starting fresh PM2 worker..."
+            echo "🔄 Reloading PM2 workers..."
             cd /var/www/doorstepbd.org
-            pm2 start npm --name "doorstepbd" -- start || true
+
+            # Restart doorstepbd with updated environment
+            if pm2 describe doorstepbd >/dev/null 2>&1; then
+              pm2 restart doorstepbd --update-env || pm2 reload doorstepbd --update-env || true
+            else
+              pm2 start npm --name "doorstepbd" -- start || true
+            fi
             pm2 save 2>/dev/null || true
 
             if [ -d "/home/doorstep-deploy" ]; then
-              sudo -u doorstep-deploy bash -c "cd /var/www/doorstepbd.org && pm2 start npm --name 'doorstepbd' -- start && pm2 save" 2>/dev/null || true
+              sudo -u doorstep-deploy bash -c "cd /var/www/doorstepbd.org && (pm2 restart doorstepbd --update-env || pm2 start npm --name 'doorstepbd' -- start) && pm2 save" 2>/dev/null || true
             fi
 
             # Restart potential systemd units

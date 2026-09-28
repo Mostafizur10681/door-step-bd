@@ -53,6 +53,35 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico?v=3" />
         <meta name="theme-color" content="#122B5A" />
         <title>Door Step BD | Best Online Shopping in Bangladesh</title>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function handleEarlyChunkError(e) {
+                  try {
+                    var msg = (e && (e.message || (e.reason && e.reason.message) || e.reason)) + '';
+                    if (
+                      msg.indexOf('ChunkLoadError') !== -1 ||
+                      msg.indexOf('Failed to load chunk') !== -1 ||
+                      msg.indexOf('Loading chunk') !== -1 ||
+                      msg.indexOf('turbopack') !== -1
+                    ) {
+                      var key = 'chunk_reload_lock';
+                      var last = parseInt(sessionStorage.getItem(key) || '0', 10);
+                      var now = Date.now();
+                      if (now - last > 8000) {
+                        sessionStorage.setItem(key, now.toString());
+                        window.location.reload();
+                      }
+                    }
+                  } catch (err) {}
+                }
+                window.addEventListener('error', handleEarlyChunkError, true);
+                window.addEventListener('unhandledrejection', handleEarlyChunkError, true);
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 antialiased w-full" suppressHydrationWarning>
         <ShopProvider>
