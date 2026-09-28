@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Phone,
@@ -20,11 +21,12 @@ import {
   ChevronUp,
   HelpCircle,
   ArrowRight,
-  Building
+  Building,
+  type LucideIcon
 } from "lucide-react";
-import { getContactSettings, sendContactMessage, ApiContactSettings, getFaqs } from "@/lib/api";
+import { getContactSettings, sendContactMessage, ApiContactSettings, getFaqs, ApiFaq } from "@/lib/api";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Headphones,
   ShieldCheck,
   Truck,
@@ -37,10 +39,14 @@ const iconMap: Record<string, any> = {
   MessageSquare
 };
 
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export default function ContactUsPage() {
   const [settings, setSettings] = useState<ApiContactSettings | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [faqs, setFaqs] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -80,16 +86,14 @@ export default function ContactUsPage() {
         }
 
         if (faqsRes.status === "fulfilled" && faqsRes.value?.success && Array.isArray(faqsRes.value.data)) {
-          const mapped = faqsRes.value.data.map((f: any) => ({
-            q: f.question || f.q,
-            a: f.answer || f.a,
+          const mapped = faqsRes.value.data.map((f: ApiFaq) => ({
+            q: f.question || "",
+            a: f.answer || "",
           }));
           setFaqs(mapped);
         }
       } catch (err) {
         console.error("Error loading contact page data:", err);
-      } finally {
-        setLoading(false);
       }
     }
     loadData();
@@ -138,143 +142,149 @@ export default function ContactUsPage() {
       } else {
         throw new Error(res?.message || "Failed to submit message. Please try again.");
       }
-    } catch (err: any) {
-      if (err?.errors) {
-        setFieldErrors(err.errors);
+    } catch (err: unknown) {
+      const errorObj = err as { errors?: Record<string, string[]>; message?: string };
+      if (errorObj?.errors) {
+        setFieldErrors(errorObj.errors);
       }
       setSubmitStatus({
         type: "error",
-        message: err?.message || "An unexpected error occurred. Please try contacting us via phone or WhatsApp."
+        message: errorObj?.message || "An unexpected error occurred. Please try contacting us via phone or WhatsApp."
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Fallback defaults
-  const badgeText = settings?.badge_text || "💬 Get in Touch • 24/7 Dedicated Support";
-  const heroTitle = settings?.hero_title || "We're Here to Help You Thrive";
+  // Fallback defaults for Power Solutions
+  const badgeText = settings?.badge_text || "⚡ Power Solutions Desk • 24/7 Rapid Technical Support";
+  const heroTitle = settings?.hero_title || "Connect with Our Power Engineering Experts";
   const heroSubtitle =
     settings?.hero_subtitle ||
-    "Have questions about our authentic organic products, order delivery, or partnership opportunities? Reach out to our friendly team anytime.";
+    "Need an industrial generator quote, custom substation design, commercial rooftop solar feasibility study, or emergency technical support? Our certified power engineering team is ready to assist you nationwide.";
   const phone = settings?.phone || "+880 1800-000000";
   const secondaryPhone = settings?.secondary_phone || "+880 1700-000000";
   const email = (settings?.email || "support@doorstepbd.com").replace(/@shopia\.com|@shopiabd\.com/gi, "@doorstepbd.com");
-  const secondaryEmail = (settings?.secondary_email || "wholesale@doorstepbd.com").replace(/@shopia\.com|@shopiabd\.com/gi, "@doorstepbd.com");
+  const secondaryEmail = (settings?.secondary_email || "engineering@doorstepbd.com").replace(/@shopia\.com|@shopiabd\.com/gi, "@doorstepbd.com");
   const whatsappNumber = settings?.whatsapp_number || "8801800000000";
   const address = settings?.address || "41/1, Sher-E-Bangla Rd, Mohammadpur, Dhaka 1207";
-  const businessHoursWeekday = settings?.business_hours_weekday || "Saturday - Thursday: 9:00 AM - 10:00 PM";
-  const businessHoursWeekend = settings?.business_hours_weekend || "Friday: 3:00 PM - 10:00 PM";
-  const responseTimeNote = settings?.response_time_note || "Average reply time: Under 15 mins during business hours";
-  const mapTitle = settings?.map_title || "Visit Our Store & Experience Center";
+  const businessHoursWeekday = settings?.business_hours_weekday || "Saturday - Thursday: 9:00 AM - 8:00 PM (Emergency 24/7)";
+  const businessHoursWeekend = settings?.business_hours_weekend || "Friday: Technical Support On-Call";
+  const responseTimeNote = settings?.response_time_note || "Engineering response time: Under 15 mins during active hours";
+  const mapTitle = settings?.map_title || "Visit Our Engineering & Experience Center";
   const mapSubtitle =
-    settings?.map_subtitle || "Experience our 100% natural, fresh organic food & wellness products in person.";
+    settings?.map_subtitle || "Consult with certified electrical engineers and inspect our live industrial power, generator, and solar systems.";
   const mapUrl =
     settings?.map_url ||
     "https://maps.google.com/maps?q=Mohammadpur%2C%20Dhaka&t=&z=14&ie=UTF8&iwloc=&output=embed";
   const locationDirections =
-    settings?.location_directions || "Near Mohammadpur Bus Stand, easy parking available for shoppers.";
-  const formTitle = settings?.form_title || "Send Us a Message";
+    settings?.location_directions || "Near Mohammadpur Bus Stand with dedicated parking and equipment demonstration floor.";
+  const formTitle = settings?.form_title || "Request a Consultation or Quote";
   const formSubtitle =
     settings?.form_subtitle ||
-    "Fill out the form below and our customer care team will get in touch with you within 24 hours.";
+    "Submit your project requirements or technical query and our lead electrical engineers will provide a comprehensive proposal within 24 hours.";
   const emergencyNotice =
     settings?.emergency_notice ||
-    "⚡ Fast Order Hotline: For immediate order modifications or urgent delivery inquiries, call our hotline directly.";
+    "⚡ 24/7 Emergency Breakdown Support: For critical industrial power outages or urgent on-site generator/UPS assistance, call our emergency hotline directly.";
   const formTopics = settings?.form_topics || [
-    "Order Tracking & Delivery Status",
-    "Product Inquiry & Authenticity",
-    "Returns, Refunds & Replacements",
-    "Wholesale & B2B Bulk Orders",
-    "Payment & Billing Assistance",
-    "Other General Inquiries"
+    "Industrial Generator Sizing & Procurement",
+    "11kV Substation & PFI Switchgear Solutions",
+    "Commercial & Industrial Rooftop Solar / Net Metering",
+    "Online UPS, IPS & Lithium Battery Systems",
+    "Power Quality & Harmonic Audit (AHF)",
+    "Annual Maintenance Contract (AMC) & Emergency Support",
+    "General Engineering Inquiry"
   ];
   const features = settings?.features || [
     {
       icon: "Headphones",
-      title: "24/7 Dedicated Care",
-      desc: "Friendly support team ready to assist via live phone, email & chat."
+      title: "24/7 Engineering Support",
+      desc: "Dedicated electrical engineers on-call for emergency troubleshooting and site dispatch."
     },
     {
       icon: "ShieldCheck",
-      title: "100% Genuine Products",
-      desc: "All items tested and directly sourced with authenticity guarantee."
+      title: "Certified OEM Equipment",
+      desc: "100% genuine industrial generators, Tier-1 solar modules, and certified switchgear components."
     },
     {
       icon: "Truck",
-      title: "Nationwide Delivery",
-      desc: "Fast delivery across 64 districts in Bangladesh with open parcel check."
+      title: "Nationwide Commissioning",
+      desc: "Turnkey delivery, foundation engineering, and on-site testing across all 64 districts in Bangladesh."
     },
     {
       icon: "RotateCcw",
-      title: "7-Day Easy Returns",
-      desc: "Hassle-free replacement or refund for damaged or inaccurate orders."
+      title: "Comprehensive AMC & Warranty",
+      desc: "Full manufacturer warranty backing with guaranteed spare parts availability and preventative maintenance."
     }
   ];
-  const supportTitle = settings?.support_title || "Need Immediate Assistance?";
+  const supportTitle = settings?.support_title || "Need Urgent Engineering Assistance?";
   const supportDesc =
-    settings?.support_desc || "Our customer service specialists are active and eager to assist you right now.";
+    settings?.support_desc || "Our senior electrical and power specialists are on standby to resolve critical facility needs.";
   const supportPhone = settings?.support_phone || phone;
   const supportImage = settings?.support_image;
 
   // Clean WhatsApp phone number for link
   const cleanWaNumber = whatsappNumber.replace(/[^0-9]/g, "");
 
-  const defaultFaqs = [
+  const defaultFaqs: FaqItem[] = [
     {
-      q: "How soon will I receive a reply to my contact form inquiry?",
-      a: "Our customer support team typically responds within 15 to 30 minutes during active business hours (9:00 AM - 10:00 PM), and within 12 hours during holidays or overnight."
+      q: "How do I determine the right generator or solar capacity for my factory or building?",
+      a: "Our certified electrical engineers perform comprehensive on-site load analysis and peak power audits to calculate your exact kVA/kW capacity requirements, ensuring optimum fuel efficiency, reliability, and zero risk of overload."
     },
     {
-      q: "Can I place or modify an urgent order directly over WhatsApp or phone?",
-      a: "Yes! You can message our WhatsApp helpline or call our direct phone hotline to place instant orders, change delivery addresses, or add items to existing pending orders."
+      q: "What warranty and service support do you offer on industrial generators and substations?",
+      a: "All our heavy-duty generators and electrical substations come with comprehensive OEM manufacturer warranties, complete spare parts availability, and 24/7 on-call emergency response with scheduled preventative maintenance."
     },
     {
-      q: "Where is your physical outlet / showroom located?",
-      a: `Our flagship showroom is located at ${address}. You are welcome to visit during our open hours to inspect and purchase products in person.`
+      q: "Can you help with government net-metering approvals for commercial rooftop solar?",
+      a: "Yes. We manage turnkey solar EPC projects including feasibility simulation, engineering design, net-metering regulatory approvals with DPDC/DESCO/BREB/BPDB, installation, and grid synchronization."
     },
     {
-      q: "What is the procedure for returning a damaged product?",
-      a: "Simply take a quick photo of the parcel and defective item, contact our support team via WhatsApp or the contact form, and we will arrange a free exchange or full refund within 48 hours."
+      q: "What is your emergency dispatch response time for power breakdowns?",
+      a: "For contracted clients and critical emergency outages, our rapid field engineering teams are dispatched immediately, with typical on-site arrival within 1 to 2 hours within Dhaka and priority dispatch nationwide."
+    },
+    {
+      q: "Do you supply double-conversion Online UPS systems for sensitive medical and IT equipment?",
+      a: "Yes, we engineer and supply high-frequency, double-conversion Online UPS and Lithium-ion battery backup systems with zero transfer time to protect hospital diagnostic equipment, data centers, and critical industrial automation."
     }
   ];
 
   const displayFaqs = faqs.length > 0 ? faqs.slice(0, 5) : defaultFaqs;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
 
-      {/* 1. Emergency Hotline & Response Strip */}
+      {/* 1. Emergency Hotline & Response Strip (Secondary Gold Background) */}
       {emergencyNotice && (
-        <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 text-slate-950 py-2.5 px-4 shadow-sm">
-          <div className="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-bold text-center sm:text-left">
+        <div className="bg-[#FFB800] text-[#122B5A] py-2.5 px-4 shadow-xs">
+          <div className="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-extrabold text-center sm:text-left">
             <div className="flex items-center gap-2">
               <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#122B5A] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#122B5A]"></span>
               </span>
               <span>{emergencyNotice}</span>
             </div>
             <a
               href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-950 hover:bg-slate-900 text-white text-[11px] font-bold rounded-lg transition-all shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#122B5A] hover:bg-[#0B1B38] text-white text-[11px] font-bold rounded-lg transition-all shadow-xs"
             >
-              <Phone className="w-3 h-3 text-amber-400" />
+              <Phone className="w-3 h-3 text-[#FFB800]" />
               <span>Call Hotline Now</span>
             </a>
           </div>
         </div>
       )}
 
-      {/* 2. Hero Header Section matching Delivery Page Gradient */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/30 rounded-full blur-3xl pointer-events-none"></div>
+      {/* 2. Hero Header Section (Primary Navy & Secondary Gold Gradient) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.12),transparent_50%)] pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative max-w-4xl mx-auto text-center space-y-4 z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider shadow-inner">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
             <span>{badgeText}</span>
           </div>
 
@@ -299,7 +309,7 @@ export default function ContactUsPage() {
                 <Phone className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-900">Phone Support</h3>
+                <h3 className="font-bold text-sm text-[#122B5A]">Phone Support</h3>
                 <p className="text-xs text-slate-500">Live agents available daily</p>
               </div>
               <div className="space-y-1">
@@ -332,8 +342,8 @@ export default function ContactUsPage() {
                 <MessageSquare className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-900">WhatsApp Chat</h3>
-                <p className="text-xs text-slate-500">Instant order & query support</p>
+                <h3 className="font-bold text-sm text-[#122B5A]">WhatsApp Chat</h3>
+                <p className="text-xs text-slate-500">Instant technical & sales support</p>
               </div>
               <div>
                 <span className="font-bold text-sm text-slate-900">{whatsappNumber}</span>
@@ -345,20 +355,15 @@ export default function ContactUsPage() {
                 href={
                   typeof navigator !== "undefined" &&
                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20Door%20Step%20BD,%20I%20would%20like%20to%20inquire%20about...`
-                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20Door%20Step%20BD,%20I%20would%20like%20to%20inquire%20about...`
+                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20power%20solutions...`
+                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20power%20solutions...`
                 }
-                target={
-                  typeof navigator !== "undefined" &&
-                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                    ? "_self"
-                    : "_blank"
-                }
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#122B5A] hover:text-[#082c63] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#122B5A] hover:text-[#0B1B38] transition-colors"
               >
                 <span>Chat on WhatsApp</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#FFB800]" />
               </a>
             </div>
           </div>
@@ -370,8 +375,8 @@ export default function ContactUsPage() {
                 <Mail className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-900">Email Support</h3>
-                <p className="text-xs text-slate-500">For tickets & wholesale inquiries</p>
+                <h3 className="font-bold text-sm text-[#122B5A]">Email Support</h3>
+                <p className="text-xs text-slate-500">For proposals & engineering inquiries</p>
               </div>
               <div className="space-y-1">
                 <a
@@ -393,7 +398,7 @@ export default function ContactUsPage() {
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#122B5A]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
               <span className="truncate">{responseTimeNote}</span>
             </div>
           </div>
@@ -405,7 +410,7 @@ export default function ContactUsPage() {
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-900">Showroom / Store</h3>
+                <h3 className="font-bold text-sm text-[#122B5A]">Showroom / Store</h3>
                 <p className="text-xs text-slate-500">Visit us in person</p>
               </div>
               <p className="text-xs text-slate-700 font-medium line-clamp-2 leading-relaxed">
@@ -432,7 +437,7 @@ export default function ContactUsPage() {
                   <IconComp className="w-5 h-5" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-bold text-xs text-slate-900">{feat.title}</h4>
+                  <h4 className="font-bold text-xs text-[#122B5A]">{feat.title}</h4>
                   <p className="text-[11px] text-slate-500 leading-relaxed">{feat.desc}</p>
                 </div>
               </div>
@@ -449,10 +454,10 @@ export default function ContactUsPage() {
           <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-lg shadow-slate-900/5 space-y-6">
             <div className="space-y-2 border-b border-slate-100 pb-5">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#122B5A]/10 text-[#122B5A] text-xs font-bold">
-                <MessageSquare className="w-3.5 h-3.5" />
+                <MessageSquare className="w-3.5 h-3.5 text-[#122B5A]" />
                 <span>Direct Inquiry Desk</span>
               </div>
-              <h2 className="text-2xl font-extrabold text-slate-900">{formTitle}</h2>
+              <h2 className="text-2xl font-extrabold text-[#122B5A]">{formTitle}</h2>
               <p className="text-xs text-slate-500 leading-relaxed">{formSubtitle}</p>
             </div>
 
@@ -566,7 +571,7 @@ export default function ContactUsPage() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  placeholder="Please describe your question, order number, or product inquiry in detail..."
+                  placeholder="Please describe your power requirements, facility load (kVA/kW), project location, or technical inquiry in detail..."
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#122B5A] focus:ring-2 focus:ring-[#122B5A]/20 font-medium transition-all leading-relaxed"
                 ></textarea>
                 {fieldErrors.message && (
@@ -581,9 +586,9 @@ export default function ContactUsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#122B5A] hover:bg-[#082c63] text-white font-bold text-xs shadow-lg shadow-[#122B5A]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold text-xs shadow-lg shadow-[#122B5A]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4 text-[#FFB800]" />
                   <span>{isSubmitting ? "Sending..." : "Submit Inquiry"}</span>
                 </button>
               </div>
@@ -597,10 +602,10 @@ export default function ContactUsPage() {
             <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-900/5 space-y-4">
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#122B5A]/10 text-[#122B5A] text-xs font-bold">
-                  <MapPin className="w-3.5 h-3.5" />
+                  <MapPin className="w-3.5 h-3.5 text-[#122B5A]" />
                   <span>Location Map</span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">{mapTitle}</h3>
+                <h3 className="text-lg font-bold text-[#122B5A]">{mapTitle}</h3>
                 <p className="text-xs text-slate-500">{mapSubtitle}</p>
               </div>
 
@@ -633,29 +638,31 @@ export default function ContactUsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-0.5">
-                    <span className="font-bold text-slate-900 block">Sat - Thu:</span>
+                    <span className="font-bold text-[#122B5A] block">Sat - Thu:</span>
                     <span className="text-slate-600">{businessHoursWeekday}</span>
                   </div>
                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-0.5">
-                    <span className="font-bold text-slate-900 block">Friday:</span>
+                    <span className="font-bold text-[#122B5A] block">Friday:</span>
                     <span className="text-slate-600">{businessHoursWeekend}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Urgent Help / Representative Box with Delivery Signature Gradient */}
-            <div className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white rounded-3xl p-6 shadow-xl shadow-[#122B5A]/20 border border-white/10 relative overflow-hidden flex flex-col sm:flex-row items-center gap-5">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
+            {/* Urgent Help / Representative Box (Primary Navy & Secondary Gold Gradient) */}
+            <div className="bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white rounded-3xl p-6 shadow-xl shadow-[#122B5A]/20 border border-white/10 relative overflow-hidden flex flex-col sm:flex-row items-center gap-5">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.12),transparent_50%)] pointer-events-none" />
               <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md overflow-hidden shrink-0 border border-white/20 relative flex items-center justify-center z-10">
                 {supportImage ? (
-                  <img
+                  <Image
                     src={supportImage}
                     alt="Support Representative"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="80px"
+                    className="object-cover"
                   />
                 ) : (
-                  <Headphones className="w-10 h-10 text-amber-300" />
+                  <Headphones className="w-10 h-10 text-[#FFB800]" />
                 )}
               </div>
 
@@ -664,9 +671,9 @@ export default function ContactUsPage() {
                 <p className="text-xs text-blue-100/90 leading-relaxed">{supportDesc}</p>
                 <a
                   href={`tel:${supportPhone.replace(/\s+/g, "")}`}
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-xs transition-all shadow-md mt-1 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold text-xs transition-all shadow-md mt-1 cursor-pointer"
                 >
-                  <Phone className="w-3.5 h-3.5" />
+                  <Phone className="w-3.5 h-3.5 text-[#122B5A]" />
                   <span>Call {supportPhone}</span>
                 </a>
               </div>
@@ -680,15 +687,15 @@ export default function ContactUsPage() {
       {/* 6. Frequently Asked Questions Accordion */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#122B5A]/10 text-[#122B5A] text-xs font-bold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#122B5A]/10 text-[#122B5A] text-xs font-bold uppercase tracking-wider">
             <HelpCircle className="w-3.5 h-3.5 text-[#122B5A]" />
             <span>Quick Resolution</span>
           </div>
-          <h2 className="text-2xl font-extrabold text-slate-900">
+          <h2 className="text-2xl font-extrabold text-[#122B5A]">
             Frequently Asked Questions
           </h2>
           <p className="text-xs text-slate-500">
-            Need immediate guidance? Here are the most common questions from customers.
+            Need immediate technical guidance? Here are the most common questions regarding our power engineering solutions.
           </p>
         </div>
 
@@ -722,10 +729,10 @@ export default function ContactUsPage() {
         <div className="mt-8 text-center">
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#122B5A] hover:text-[#082c63] bg-[#122B5A]/10 hover:bg-[#122B5A]/20 px-5 py-2.5 rounded-xl transition-all"
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#122B5A] hover:text-[#0B1B38] bg-[#122B5A]/10 hover:bg-[#122B5A]/20 px-5 py-2.5 rounded-xl transition-all"
           >
             <span>Explore All FAQ Support Topics</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-[#FFB800]" />
           </Link>
         </div>
       </section>
