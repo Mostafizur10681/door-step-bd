@@ -167,7 +167,7 @@ export function OurBrandsSection() {
   }, []);
 
   return (
-    <section className="w-full bg-slate-50/70 py-10 sm:py-16 md:py-20 border-b border-slate-200/80 relative overflow-hidden">
+    <section className="w-full bg-slate-50/70 py-10 sm:py-16 md:py-20 border-b border-slate-200/80 relative overflow-hidden" suppressHydrationWarning>
       {/* Subtle ambient gradient lights */}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#FFB800]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-[#122B5A]/5 rounded-full blur-3xl pointer-events-none" />

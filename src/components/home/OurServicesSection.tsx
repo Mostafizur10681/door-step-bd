@@ -102,7 +102,7 @@ export function OurServicesSection() {
   }, []);
 
   return (
-    <section className="w-full bg-[#f8fafc] py-12 sm:py-16 md:py-20 border-y border-slate-200/80 relative overflow-hidden">
+    <section className="w-full bg-[#f8fafc] py-12 sm:py-16 md:py-20 border-y border-slate-200/80 relative overflow-hidden" suppressHydrationWarning>
       {/* Subtle ambient background glow lights */}
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#FFB800]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-[#122B5A]/5 rounded-full blur-3xl pointer-events-none" />
