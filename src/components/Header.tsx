@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { 
-  Search, Heart, ShoppingCart, User, Truck, X, ChevronDown, ChevronRight, 
-  Plus, Minus, Menu, Phone, MapPin, Mail, PhoneCall, CheckCircle2 
+  Search, User, X, ChevronDown, ChevronRight, 
+  Menu, MapPin, PhoneCall, Phone 
 } from "lucide-react";
 import { useShop } from "@/context/ShopContext";
 import productsData from "@/data/products.json";
@@ -36,13 +36,9 @@ export function Header() {
   const [services, setServices] = useState<ApiService[]>([]);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | number | null>(null);
   const [allProducts, setAllProducts] = useState<any[]>([]);
-  const { wishlist, cart, user, updateQuantity, removeFromCart } = useShop();
+  const { user } = useShop();
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
-
-  const totalCartCount = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
-  const cartSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const totalWishlistCount = wishlist.length;
 
   // Fetch dynamic categories + sub-categories from API
   useEffect(() => {
@@ -137,28 +133,7 @@ export function Header() {
     <header className="w-full font-sans bg-white selection:bg-[#FFB800] selection:text-[#122B5A]">
       
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* 1. TOP UTILITY BAR (Very light gray, subtle and elegant)      */}
-      {/* ───────────────────────────────────────────────────────────── */}
-      <div className="bg-[#f8fafc] border-b border-slate-200/80 text-[11px] sm:text-xs text-slate-600 py-1.5 px-4 sm:px-8">
-        <div className="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-4 text-center sm:text-left">
-          {/* Left Text */}
-          <div className="flex items-center gap-2">
-            <span className="text-slate-500 font-medium">
-              Welcome to Leader of power solution since 2020
-            </span>
-          </div>
-
-          {/* Right Text / Certificate */}
-          <div className="flex items-center gap-4 text-slate-500 font-medium">
-            <span className="hidden md:inline">
-              Global Certificate: <strong className="text-slate-700 font-bold">ISO 9001:2016</strong>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ───────────────────────────────────────────────────────────── */}
-      {/* 2. MAIN MIDDLE HEADER (Logo, Info Badges, Yellow CTA & Cart)  */}
+      {/* MAIN HEADER (Logo, Info Badges, Yellow CTA & Cart)            */}
       {/* ───────────────────────────────────────────────────────────── */}
       <div className="max-w-[1500px] mx-auto px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between gap-4">
         
@@ -239,153 +214,9 @@ export function Header() {
             )}
           </Link>
 
-          {/* Wishlist Link with Badge */}
-          <Link 
-            href="/wishlist" 
-            className="relative text-slate-700 hover:text-[#122B5A] transition flex items-center"
-            title="Wishlist"
-          >
-            <div className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center hover:border-[#122B5A] hover:text-[#122B5A] transition">
-              <Heart className="w-4 h-4" />
-            </div>
-            {totalWishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#FFB800] text-[#122B5A] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
-                {totalWishlistCount}
-              </span>
-            )}
-          </Link>
-
-          {/* Cart Icon with Badge & Dropdown Window */}
-          <div className="relative group py-1">
-            <Link 
-              href="/cart" 
-              className="relative text-slate-700 hover:text-[#122B5A] transition flex items-center"
-              title="Shopping Cart"
-            >
-              <div className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center hover:border-[#122B5A] hover:text-[#122B5A] transition">
-                <ShoppingCart className="w-4 h-4" />
-              </div>
-              <span className="absolute -top-1 -right-1 bg-[#FFB800] text-[#122B5A] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
-                {totalCartCount}
-              </span>
-            </Link>
-
-            {/* Hover Cart Popup Window */}
-            <div className="absolute right-0 top-full pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-50 w-80 sm:w-96">
-              <div className="bg-white rounded-xl shadow-2xl border border-slate-200 p-5 space-y-4 text-slate-800 animate-in fade-in zoom-in-95 duration-200">
-                {cart.length === 0 ? (
-                  <div className="text-center py-6 text-slate-400 space-y-2">
-                    <ShoppingCart className="w-10 h-10 mx-auto opacity-30 text-[#122B5A]" />
-                    <p className="text-sm font-semibold">Your cart is currently empty</p>
-                  </div>
-                ) : (
-                  <>
-                    {/* Cart Items List */}
-                    <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 pr-1 space-y-3">
-                      {cart.map((item, index) => {
-                        const itemKey = item.cartItemId || `${item.id}-${index}`;
-                        return (
-                          <div key={itemKey} className="pt-3 first:pt-0 flex items-start gap-3 relative">
-                            {/* Item Thumbnail */}
-                            <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-lg relative shrink-0 overflow-hidden flex items-center justify-center p-1">
-                              <Image
-                                src={(item.mainImage && item.mainImage.trim() !== "") ? item.mainImage : (item.image || "/prod_maca.png")}
-                                alt={item.name || "Product"}
-                                fill
-                                sizes="56px"
-                                className="object-contain"
-                              />
-                            </div>
-
-                            {/* Item Details */}
-                            <div className="flex-1 min-w-0 pr-6 space-y-1">
-                              <h4 className="text-xs font-semibold text-[#122B5A] truncate leading-tight">
-                                {item.name}
-                              </h4>
-
-                              {/* Quantity Controls */}
-                              <div className="inline-flex items-center border border-slate-200 rounded-full bg-slate-100/80 px-2 py-0.5">
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    updateQuantity(item.cartItemId || item.id, -1);
-                                  }}
-                                  className="w-4 h-4 rounded-full text-slate-600 hover:bg-white flex items-center justify-center text-xs transition cursor-pointer"
-                                >
-                                  <Minus className="w-2.5 h-2.5" />
-                                </button>
-                                <span className="w-5 text-center text-xs font-bold text-slate-800">
-                                  {item.quantity}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    updateQuantity(item.cartItemId || item.id, 1);
-                                  }}
-                                  className="w-4 h-4 rounded-full text-slate-600 hover:bg-white flex items-center justify-center text-xs transition cursor-pointer"
-                                >
-                                  <Plus className="w-2.5 h-2.5" />
-                                </button>
-                              </div>
-
-                              {/* Price */}
-                              <div className="text-xs font-bold text-[#122B5A]">
-                                ৳{item.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                              </div>
-                            </div>
-
-                            {/* Remove Item Button */}
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                removeFromCart(item.cartItemId || item.id);
-                              }}
-                              className="absolute top-2 right-0 text-slate-400 hover:text-rose-600 text-sm font-bold p-1 transition cursor-pointer"
-                              title="Remove item"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Subtotal Section */}
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between font-bold text-sm">
-                      <span className="text-slate-600">Subtotal :</span>
-                      <span className="text-[#122B5A] text-base font-extrabold">
-                        ৳{cartSubtotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                      </span>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-2 gap-2 pt-1">
-                      <Link
-                        href="/cart"
-                        className="w-full border-2 border-[#122B5A] text-[#122B5A] hover:bg-[#122B5A] hover:text-white font-bold text-xs py-2 rounded-lg transition-all text-center block"
-                      >
-                        View Cart
-                      </Link>
-
-                      <Link
-                        href="/checkout"
-                        className="w-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold text-xs py-2 rounded-lg transition-all shadow-sm text-center block"
-                      >
-                        Checkout
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Yellow Action Button: REQUEST A QUOTE / ORDER NOW */}
+          {/* Yellow Action Button: REQUEST A QUOTE */}
           <Link
-            href="/all-products"
+            href="/contact-us"
             className="hidden sm:inline-flex items-center justify-center bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black uppercase text-xs sm:text-xs tracking-wider px-5 sm:px-6 py-2.5 sm:py-3 rounded-sm shadow-xs transition-all active:scale-95 whitespace-nowrap cursor-pointer"
           >
             REQUEST A QUOTE
@@ -450,7 +281,7 @@ export function Header() {
                     services.map((svc) => (
                       <Link
                         key={svc.id}
-                        href="/services"
+                        href={`/services/${svc.slug || svc.id}`}
                         className="flex items-center justify-between px-4 py-2 text-xs font-semibold text-slate-700 hover:text-[#122B5A] hover:bg-amber-50/70 transition"
                       >
                         <span className="truncate">{svc.title}</span>
@@ -462,43 +293,55 @@ export function Header() {
               </div>
             </div>
 
-            {/* SOLUTIONS (with Dropdown & Direct Link) */}
+            {/* PRODUCTS (with Dynamic Category -> Sub Category Flyout Dropdown like Astha Engineering) */}
             <div className="relative group py-3.5 px-4">
               <Link 
-                href="/solutions" 
+                href="/all-products" 
                 className="flex items-center gap-1.5 hover:text-[#FFB800] transition-colors whitespace-nowrap cursor-pointer"
               >
-                <span>SOLUTIONS</span>
+                <span>PRODUCTS</span>
                 {categories && categories.length > 0 && (
                   <ChevronDown className="w-3.5 h-3.5 text-white/70 group-hover:text-[#FFB800] group-hover:rotate-180 transition-transform duration-200" />
                 )}
               </Link>
 
-              {/* Dynamic Categories Dropdown Menu */}
+              {/* Dynamic Categories & Sub-Categories Dropdown Menu */}
               {categories && categories.length > 0 && (
-                <div className="absolute left-0 top-full pt-1 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 z-50 min-w-[220px]">
-                  <div className="bg-white text-slate-800 rounded-sm shadow-2xl border border-slate-200 py-2 text-left animate-in fade-in zoom-in-95 duration-150 divide-y divide-slate-100">
+                <div className="absolute left-0 top-full pt-1 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 z-50 min-w-[240px]">
+                  <div className="bg-white text-slate-800 rounded-sm shadow-2xl border border-slate-200 py-1.5 text-left animate-in fade-in zoom-in-95 duration-150 divide-y divide-slate-100">
+                    <Link
+                      href="/all-products"
+                      className="block px-4 py-2.5 text-xs font-black text-[#122B5A] hover:bg-amber-50/70 transition"
+                    >
+                      All Products &amp; Equipment
+                    </Link>
                     {categories.map((cat) => (
                       <div key={cat.id} className="relative group/sub">
                         <Link
-                          href={`/all-products?category=${cat.slug}`}
+                          href={`/all-products?category=${encodeURIComponent(cat.slug || cat.name)}`}
                           className="flex items-center justify-between px-4 py-2.5 text-xs font-bold hover:text-[#122B5A] hover:bg-amber-50/70 transition"
                         >
-                          <span>{cat.name}</span>
+                          <span className="truncate">{cat.name}</span>
                           {cat.subCategories && cat.subCategories.length > 0 && (
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0 ml-2" />
                           )}
                         </Link>
 
-                        {/* Nested Sub-categories on hover */}
+                        {/* Nested Sub-categories flyout on hover */}
                         {cat.subCategories && cat.subCategories.length > 0 && (
-                          <div className="absolute left-full top-0 pl-1 opacity-0 invisible pointer-events-none group-hover/sub:opacity-100 group-hover/sub:visible group-hover/sub:pointer-events-auto transition-all duration-150 min-w-[190px]">
-                            <div className="bg-white rounded-sm shadow-2xl border border-slate-200 py-1.5 text-left">
+                          <div className="absolute left-full top-0 pl-1 opacity-0 invisible pointer-events-none group-hover/sub:opacity-100 group-hover/sub:visible group-hover/sub:pointer-events-auto transition-all duration-150 min-w-[210px] z-50">
+                            <div className="bg-white rounded-sm shadow-2xl border border-slate-200 py-1.5 text-left divide-y divide-slate-100">
+                              <Link
+                                href={`/all-products?category=${encodeURIComponent(cat.slug || cat.name)}`}
+                                className="block px-4 py-2 text-[11px] font-black text-[#122B5A] hover:bg-amber-50/70 transition"
+                              >
+                                All in {cat.name}
+                              </Link>
                               {cat.subCategories.map((sub) => (
                                 <Link
                                   key={sub.id}
-                                  href={`/all-products?sub_category=${sub.slug}`}
-                                  className="block px-4 py-2 text-xs font-medium text-slate-600 hover:text-[#122B5A] hover:bg-amber-50/70 transition"
+                                  href={`/all-products?sub_category=${encodeURIComponent(sub.slug || sub.name)}`}
+                                  className="block px-4 py-2 text-xs font-medium text-slate-600 hover:text-[#122B5A] hover:bg-amber-50/70 transition truncate"
                                 >
                                   {sub.name}
                                 </Link>
@@ -513,28 +356,12 @@ export function Header() {
               )}
             </div>
 
-            {/* PROJECTS */}
-            <Link 
-              href="/projects" 
-              className="py-3.5 px-4 hover:text-[#FFB800] transition-colors whitespace-nowrap"
-            >
-              PROJECTS
-            </Link>
-
             {/* NEWS */}
             <Link 
               href="/news" 
               className="py-3.5 px-4 hover:text-[#FFB800] transition-colors whitespace-nowrap"
             >
               NEWS
-            </Link>
-
-            {/* SHOP */}
-            <Link 
-              href="/shop" 
-              className="py-3.5 px-4 hover:text-[#FFB800] transition-colors whitespace-nowrap"
-            >
-              SHOP
             </Link>
 
             {/* CONTACT US */}
@@ -661,11 +488,11 @@ export function Header() {
 
               {/* Mobile Quick CTA */}
               <Link
-                href="/all-products"
+                href="/contact-us"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black uppercase text-xs py-2.5 px-4 rounded-sm text-center block shadow-xs"
               >
-                REQUEST A QUOTE / SHOP
+                REQUEST A QUOTE
               </Link>
 
               {/* Navigation Links */}
@@ -716,7 +543,7 @@ export function Header() {
                         services.map((svc) => (
                           <Link
                             key={svc.id}
-                            href="/services"
+                            href={`/services/${svc.slug || svc.id}`}
                             onClick={() => setMobileMenuOpen(false)}
                             className="block px-2 py-1 rounded-md text-xs font-semibold text-slate-700 hover:text-[#122B5A] hover:bg-amber-50 transition truncate"
                           >
@@ -728,29 +555,29 @@ export function Header() {
                   )}
                 </div>
 
-                {/* SOLUTIONS (Collapsible Categories Tree) */}
+                {/* PRODUCTS (Collapsible Categories Tree) */}
                 <div>
                   <button
                     type="button"
-                    onClick={() => setExpandedMobileCategory(expandedMobileCategory === "solutions" ? null : "solutions")}
+                    onClick={() => setExpandedMobileCategory(expandedMobileCategory === "products" ? null : "products")}
                     className="w-full px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition flex items-center justify-between text-left cursor-pointer"
                   >
-                    <span>SOLUTIONS</span>
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${expandedMobileCategory === "solutions" ? 'rotate-180 text-[#FFB800]' : ''}`} />
+                    <span>PRODUCTS</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${expandedMobileCategory === "products" ? 'rotate-180 text-[#FFB800]' : ''}`} />
                   </button>
-                  {expandedMobileCategory === "solutions" && (
+                  {expandedMobileCategory === "products" && (
                     <div className="ml-4 mt-1 mb-1 space-y-0.5 border-l-2 border-[#FFB800]/50 pl-3">
                       <Link
-                        href="/solutions"
+                        href="/all-products"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block px-2 py-1.5 rounded-md text-xs font-bold text-[#122B5A] hover:bg-amber-50 transition"
                       >
-                        All Solutions Overview
+                        All Products &amp; Equipment
                       </Link>
                       {categories.map((cat) => (
                         <div key={cat.id}>
                           <Link
-                            href={`/all-products?category=${cat.slug}`}
+                            href={`/all-products?category=${encodeURIComponent(cat.slug || cat.name)}`}
                             onClick={() => setMobileMenuOpen(false)}
                             className="block px-2 py-1 rounded-md text-xs font-semibold text-slate-700 hover:text-[#122B5A] hover:bg-amber-50 transition"
                           >
@@ -761,7 +588,7 @@ export function Header() {
                               {cat.subCategories.map((sub) => (
                                 <Link
                                   key={sub.id}
-                                  href={`/all-products?sub_category=${sub.slug}`}
+                                  href={`/all-products?sub_category=${encodeURIComponent(sub.slug || sub.name)}`}
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-slate-500 hover:text-[#122B5A] transition"
                                 >
@@ -778,27 +605,11 @@ export function Header() {
                 </div>
 
                 <Link
-                  href="/projects"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition"
-                >
-                  PROJECTS
-                </Link>
-
-                <Link
                   href="/news"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition"
                 >
                   NEWS
-                </Link>
-
-                <Link
-                  href="/shop"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2.5 rounded-lg hover:bg-amber-50 hover:text-[#122B5A] transition"
-                >
-                  SHOP
                 </Link>
 
                 <Link

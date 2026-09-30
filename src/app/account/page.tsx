@@ -210,7 +210,7 @@ export default function AccountPage() {
                 <input
                   type="text"
                   required
-                  placeholder="Mostafizur Rahman"
+                  placeholder="Full Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#122B5A]/30"

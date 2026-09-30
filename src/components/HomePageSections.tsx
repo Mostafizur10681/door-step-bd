@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import slidersData from "@/data/sliders.json";
 import productsData from "@/data/products.json";
 import { 
   Zap, ChevronLeft, ChevronRight, Star, Heart, ShoppingBag, Flame, 
@@ -13,7 +12,8 @@ import {
 import { getBanners } from "@/lib/api";
 
 export function HeroSlider() {
-  const [slides, setSlides] = useState<any[]>(slidersData);
+  const [slides, setSlides] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -22,6 +22,7 @@ export function HeroSlider() {
   // Function to load dynamic banners from API or local storage cache
   const loadDynamicBanners = async () => {
     try {
+      setLoading(true);
       const res = await getBanners();
       if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
         const activeBanners = res.data
@@ -33,12 +34,12 @@ export function HeroSlider() {
             let t1 = b.title_line1 || b.titleLine1 || b.title || "";
             let t2 = b.title_line2 || b.titleLine2 || "";
 
-            const desktopImg = b.desktop_image || b.image || "/hero_honey.png";
-            const mobileImg = b.mobile_image || b.desktop_image || b.image || "/hero_honey.png";
+            const desktopImg = b.desktop_image || b.image || "";
+            const mobileImg = b.mobile_image || b.desktop_image || b.image || "";
 
             return {
               id: b.id,
-              title: b.title || "Special Campaign",
+              title: b.title || "",
               tagline: b.badge || b.tagline || "",
               titleLine1: t1,
               titleLine2: t2,
@@ -55,10 +56,12 @@ export function HeroSlider() {
           return;
         }
       }
-      setSlides(slidersData);
+      setSlides([]);
     } catch (err) {
-      console.error("Failed to load banners:", err);
-      setSlides(slidersData);
+      console.error("Failed to load dynamic banners:", err);
+      setSlides([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,6 +125,14 @@ export function HeroSlider() {
     setTouchEndX(null);
   };
 
+  if (loading) {
+    return (
+      <div className="w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[1500/570] bg-slate-900 animate-pulse relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 opacity-60" />
+      </div>
+    );
+  }
+
   if (!slides || slides.length === 0) return null;
 
   return (
@@ -133,7 +144,7 @@ export function HeroSlider() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* ═══ SSB Leather Style Full-Width Banner Track ═══ */}
+      {/* ═══ Full-Width Dynamic Banner Track ═══ */}
       <div 
         className="flex transition-transform duration-700 ease-out will-change-transform w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[1500/570]"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -172,12 +183,9 @@ export function HeroSlider() {
                     />
                   )}
                   <img
-                    src={slide.desktopImage || slide.image || "/hero_honey.png"}
+                    src={slide.desktopImage || slide.image || slide.mobileImage || ""}
                     alt={slide.title || "Banner"}
                     className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-[1.01]"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/hero_honey.png";
-                    }}
                   />
                 </picture>
 

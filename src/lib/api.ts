@@ -353,9 +353,22 @@ export async function getProductBySlugOrId(idOrSlug: string | number) {
 }
 
 // ── Categories ──
-export async function getCategories(all: boolean = true) {
+export async function getCategories(all: boolean = true): Promise<{ success: boolean; data: ApiCategory[] }> {
   try {
-    return await fetchFromApi<{ success: boolean; data: ApiCategory[] }>(`/categories${all ? "?all=1" : ""}`, { suppressThrow: true });
+    const res = await fetchFromApi<any>(`/categories${all ? "?all=1" : ""}`, { suppressThrow: true });
+    let list: ApiCategory[] = [];
+    if (res) {
+      if (Array.isArray(res)) {
+        list = res;
+      } else if (Array.isArray(res.data)) {
+        list = res.data;
+      } else if (res.data && Array.isArray(res.data.data)) {
+        list = res.data.data;
+      } else if (Array.isArray(res.categories)) {
+        list = res.categories;
+      }
+    }
+    return { success: true, data: list };
   } catch (err) {
     console.warn("API /categories request failed:", err);
     return { success: false, data: [] };
@@ -388,9 +401,9 @@ export async function getBanners(): Promise<{ success: boolean; data: ApiBanner[
         subtitle: b.subtitle || b.description || b.short_description || "",
         badge: b.badge || b.tagline || b.tag || "",
         tagline: b.tagline || b.badge || "",
-        image: getMediaUrl(b.desktop_image || b.image || b.banner_image || b.banner || b.photo, "/hero_honey.png"),
-        desktop_image: getMediaUrl(b.desktop_image || b.image || b.banner_image || b.banner || b.photo, "/hero_honey.png"),
-        mobile_image: b.mobile_image ? getMediaUrl(b.mobile_image, "/hero_honey.png") : undefined,
+        image: getMediaUrl(b.desktop_image || b.image || b.banner_image || b.banner || b.photo, ""),
+        desktop_image: getMediaUrl(b.desktop_image || b.image || b.banner_image || b.banner || b.photo, ""),
+        mobile_image: b.mobile_image ? getMediaUrl(b.mobile_image, "") : undefined,
         cta_text: (b.cta_text !== undefined && b.cta_text !== null) ? b.cta_text : (b.button_text || b.btn_text || ""),
         cta_link: b.cta_link || b.link || b.url || b.link_url || "/all-products",
         bg_color: b.bg_color || b.background_color || "linear-gradient(135deg, #0b2545 0%, #134074 50%, #8d0801 100%)",
@@ -600,20 +613,54 @@ export async function getFaqs() {
   }
 }
 
-// ── Partners ──
-export async function getPartners() {
-  try {
-    return await fetchFromApi<{ success: boolean; data: any[] }>("/partners", { suppressThrow: true });
-  } catch (err) {
-    console.warn("API /partners request failed:", err);
-    return { success: false, data: [] };
-  }
+// ── About Page ──
+export interface ApiAboutData {
+  id?: number | null;
+  hero_title?: string | null;
+  hero_subtitle?: string | null;
+  hero_badge?: string | null;
+  story_title?: string | null;
+  story_badge?: string | null;
+  story_description_1?: string | null;
+  story_description_2?: string | null;
+  story_since?: string | null;
+  experience_badge_text?: string | null;
+  experience_badge_subtext?: string | null;
+  story_points?: any;
+  story_image?: string | null;
+  mission_title?: string | null;
+  mission_description?: string | null;
+  vision_title?: string | null;
+  vision_description?: string | null;
+  why_choose_badge?: string | null;
+  why_choose_title?: string | null;
+  why_choose_subtitle?: string | null;
+  features?: any;
+  stats?: any;
+  team_badge?: string | null;
+  team_title?: string | null;
+  team_subtitle?: string | null;
+  team?: any;
+  cta_title?: string | null;
+  cta_subtitle?: string | null;
+  cta_phone?: string | null;
+  cta_email?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
 }
 
-// ── About Page ──
-export async function getAboutPage() {
+export async function getAboutPage(): Promise<{ success: boolean; data: ApiAboutData | null }> {
   try {
-    return await fetchFromApi<{ success: boolean; data: any }>("/about", { suppressThrow: true });
+    let res = await fetch(`${API_V1}/about`, { cache: "no-store" });
+    if (!res.ok) {
+      res = await fetch(`${API_BASE_URL}/about`, { cache: "no-store" });
+    }
+    if (res.ok) {
+      const json = await res.json();
+      const data = json.data || json;
+      return { success: true, data: data || null };
+    }
+    return { success: false, data: null };
   } catch (err) {
     console.warn("API /about request failed:", err);
     return { success: false, data: null };
@@ -963,14 +1010,76 @@ export async function getServices(params?: { per_page?: number; all?: number }):
     if (params?.per_page) query.append("per_page", String(params.per_page));
     if (params?.all) query.append("all", "1");
     const qs = query.toString() ? `?${query.toString()}` : "";
-    const res = await fetch(`${API_V1}/services${qs}`);
+    const res = await fetch(`${API_V1}/services${qs}`, { cache: "no-store" });
     if (!res.ok) return { success: false, data: [] };
     const json = await res.json();
     const data = json.data || json;
-    return { success: true, data: Array.isArray(data) ? data : [] };
+    return { success: true, data: Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []) };
   } catch (err) {
     return { success: false, data: [] };
   }
 }
 
+export async function getServiceBySlug(slugOrId: string | number): Promise<{ success: boolean; data: ApiService | null }> {
+  try {
+    const res = await fetch(`${API_V1}/services/${slugOrId}`, { cache: "no-store" });
+    if (!res.ok) return { success: false, data: null };
+    const json = await res.json();
+    const data = json.data || json;
+    return { success: true, data: data || null };
+  } catch (err) {
+    console.warn(`Error fetching service ${slugOrId}:`, err);
+    return { success: false, data: null };
+  }
+}
 
+export interface ApiPartner {
+  id: number | string;
+  name?: string;
+  title?: string;
+  slug?: string;
+  logo?: string | null;
+  logo_url?: string | null;
+  image?: string | null;
+  image_url?: string | null;
+  website?: string | null;
+  url?: string | null;
+  link?: string | null;
+  description?: string | null;
+  status?: boolean | number;
+  order?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export async function getPartners(params?: { per_page?: number; all?: number }): Promise<{ success: boolean; data: ApiPartner[] }> {
+  try {
+    const query = new URLSearchParams();
+    if (params?.per_page) query.append("per_page", String(params.per_page));
+    if (params?.all) query.append("all", "1");
+    const qs = query.toString() ? `?${query.toString()}` : "";
+    
+    let res = await fetch(`${API_V1}/partners${qs}`, { cache: "no-store" });
+    if (!res.ok) {
+      res = await fetch(`${API_BASE_URL}/partners${qs}`, { cache: "no-store" });
+    }
+    if (res.ok) {
+      const json = await res.json();
+      let list: ApiPartner[] = [];
+      if (Array.isArray(json)) {
+        list = json;
+      } else if (Array.isArray(json.data)) {
+        list = json.data;
+      } else if (Array.isArray(json.data?.data)) {
+        list = json.data.data;
+      } else if (Array.isArray(json.partners)) {
+        list = json.partners;
+      }
+      return { success: true, data: list };
+    }
+    return { success: false, data: [] };
+  } catch (err) {
+    console.warn("Error fetching partners:", err);
+    return { success: false, data: [] };
+  }
+}

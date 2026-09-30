@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowUpRight, Zap } from "lucide-react";
+import { ArrowUpRight, Zap, ChevronRight, CheckCircle2 } from "lucide-react";
 import { getServices, ApiService, getMediaUrl } from "@/lib/api";
 
 export interface ServiceItem {
   id: string | number;
+  slug: string;
   title: string;
   category: string;
   image: string;
@@ -17,6 +17,7 @@ export interface ServiceItem {
 const DEFAULT_SERVICES: ServiceItem[] = [
   {
     id: "solar",
+    slug: "solar-power-solutions",
     title: "Solar Power Solutions",
     category: "Renewable Energy",
     image: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=800&auto=format&fit=crop",
@@ -24,6 +25,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
   },
   {
     id: "maintenance",
+    slug: "maintenance-overhaul",
     title: "Maintenance & Overhaul",
     category: "Field Services",
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop",
@@ -31,6 +33,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
   },
   {
     id: "electricity",
+    slug: "electricity-substation",
     title: "Electricity & Substation",
     category: "Power Grid",
     image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop",
@@ -38,6 +41,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
   },
   {
     id: "construction",
+    slug: "construction-erection",
     title: "Construction & Erection",
     category: "Infrastructure",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800&auto=format&fit=crop",
@@ -45,6 +49,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
   },
   {
     id: "engineering",
+    slug: "engineering-energy-audits",
     title: "Engineering & Energy Audits",
     category: "Consultancy",
     image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop",
@@ -52,6 +57,7 @@ const DEFAULT_SERVICES: ServiceItem[] = [
   },
   {
     id: "automation",
+    slug: "automated-systems-sync",
     title: "Automated Systems & Sync",
     category: "Automation",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
@@ -80,12 +86,17 @@ export function OurServicesSection() {
         if (res.success && Array.isArray(res.data) && res.data.length > 0) {
           const mapped: ServiceItem[] = res.data.slice(0, 6).map((item: ApiService, idx: number) => {
             const fallback = DEFAULT_SERVICES[idx % DEFAULT_SERVICES.length];
+            const cleanImage = item.image 
+              ? (item.image.startsWith("data:") ? item.image : getMediaUrl(item.image)) 
+              : FALLBACK_SERVICE_IMAGES[idx % FALLBACK_SERVICE_IMAGES.length];
+
             return {
               id: item.id || item.slug || idx,
+              slug: item.slug || String(item.id || idx),
               title: item.title,
               category: fallback.category,
-              image: item.image ? getMediaUrl(item.image, FALLBACK_SERVICE_IMAGES[idx % FALLBACK_SERVICE_IMAGES.length]) : FALLBACK_SERVICE_IMAGES[idx % FALLBACK_SERVICE_IMAGES.length],
-              desc: item.short_description || fallback.desc,
+              image: cleanImage,
+              desc: item.short_description || item.description?.replace(/<[^>]+>/g, '') || fallback.desc,
             };
           });
           if (mapped.length > 0) {
@@ -133,22 +144,21 @@ export function OurServicesSection() {
           </Link>
         </div>
 
-        {/* 6-Card Grid (Static visual cards without direct redirect, with stunning animations) */}
+        {/* 6-Card Grid with Service Redirect Button */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {services.map((item, idx) => (
-            <div
+            <Link
               key={item.id || idx}
-              className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ease-out border border-slate-200/80 hover:border-[#FFB800]/60 block"
+              href={`/services/${item.slug || item.id}`}
+              className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ease-out border border-slate-200/80 hover:border-[#FFB800]/80 block cursor-pointer"
             >
               {/* Background Image with Zoom on Hover */}
-              <div className="absolute inset-0 w-full h-full overflow-hidden">
-                <Image
+              <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-900">
+                <img
                   src={item.image}
                   alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
-                  unoptimized
+                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
 
@@ -161,9 +171,9 @@ export function OurServicesSection() {
               {/* Expanding Top Accent Strip */}
               <div className="absolute top-0 inset-x-0 h-1 bg-transparent group-hover:h-1.5 group-hover:bg-gradient-to-r group-hover:from-[#FFB800] group-hover:via-amber-400 group-hover:to-[#122B5A] transition-all duration-300 z-20" />
 
-              {/* Bottom Label Bar */}
-              <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 flex items-end justify-between gap-3 z-10 transition-transform duration-300 ease-out group-hover:-translate-y-1">
-                <div className="space-y-1.5 max-w-md">
+              {/* Bottom Content & Redirect Action Button */}
+              <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 flex flex-col justify-end gap-3 z-10 transition-transform duration-300 ease-out group-hover:-translate-y-1">
+                <div className="space-y-1.5">
                   <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#FFB800] bg-black/40 backdrop-blur-xs px-2.5 py-0.5 rounded-sm border border-[#FFB800]/30 group-hover:bg-[#FFB800] group-hover:text-[#122B5A] group-hover:border-[#FFB800] transition-colors duration-300 drop-shadow-xs">
                     {item.category}
                   </span>
@@ -176,8 +186,18 @@ export function OurServicesSection() {
                     </p>
                   )}
                 </div>
+
+                {/* Redirect Button inside Card */}
+                <div className="pt-2 flex items-center justify-between border-t border-white/10 mt-1">
+                  <span className="text-xs font-bold text-amber-300 group-hover:text-white transition-colors">
+                    Explore Service Details
+                  </span>
+                  <div className="w-8 h-8 rounded-lg bg-white/15 group-hover:bg-[#FFB800] group-hover:text-[#122B5A] text-white flex items-center justify-center transition-all duration-300 group-hover:scale-110 shadow-sm">
+                    <ArrowUpRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </div>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -185,4 +205,3 @@ export function OurServicesSection() {
     </section>
   );
 }
-

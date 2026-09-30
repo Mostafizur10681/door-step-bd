@@ -1,6 +1,7 @@
 import React from "react";
 import { HeroSlider } from "@/components/HomePageSections";
 import { OurBrandsSection } from "@/components/home/OurBrandsSection";
+import { AboutHeritageSection } from "@/components/home/AboutHeritageSection";
 import { OurServicesSection } from "@/components/home/OurServicesSection";
 import { OurCategoriesSection } from "@/components/home/OurCategoriesSection";
 
@@ -21,19 +22,24 @@ export default function Home() {
         <HeroSlider />
       </section>
 
-      {/* 2. Ours Brands Section (Directly under Banner with 6 Cards in 2 Rows & View All) */}
+      {/* 2. Our Categories Section (Directly under Banner) */}
       <section className="w-full">
-        <OurBrandsSection />
+        <OurCategoriesSection />
       </section>
 
-      {/* 3. Our Services Section (Styled after Reference Design) */}
+      {/* 3. Our Services Section */}
       <section className="w-full">
         <OurServicesSection />
       </section>
 
-      {/* 4. Our Categories Section */}
+      {/* 4. Ours Brands Section */}
       <section className="w-full">
-        <OurCategoriesSection />
+        <OurBrandsSection />
+      </section>
+
+      {/* 5. Engineering Heritage & About Us Section */}
+      <section className="w-full">
+        <AboutHeritageSection />
       </section>
     </div>
   );

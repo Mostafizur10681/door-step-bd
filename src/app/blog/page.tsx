@@ -3,7 +3,21 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, User, Clock, ArrowRight, Tag, Search, Sparkles, Loader2 } from "lucide-react";
+import { 
+  Calendar, 
+  User, 
+  Clock, 
+  ArrowRight, 
+  Search, 
+  Sparkles, 
+  Loader2, 
+  Newspaper,
+  BookOpen,
+  Building2,
+  ChevronRight,
+  ShieldCheck,
+  Zap
+} from "lucide-react";
 import { getBlogs, getBlogCategories, ApiBlog, ApiBlogCategory, getMediaUrl } from "@/lib/api";
 
 function formatBlogDate(dateStr?: string | null) {
@@ -54,7 +68,6 @@ function BlogImage({
     />
   );
 }
-
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -107,96 +120,107 @@ export default function BlogPage() {
   const featuredPost = blogPosts.find((p) => p.featured) || blogPosts[0];
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
+    <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-24">
       
-      {/* Hero Banner Section */}
-      <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 text-center space-y-3 relative z-10">
-          <span className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-300/30 text-amber-300 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-amber-400" /> Door Step BD Health &amp; Tech Journal
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-wide leading-tight">
-            Our Official Blog
+      {/* 1. Hero Header Section (Consistent with All-Products, Services, Brands & About Us) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-4xl mx-auto text-center space-y-4 z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
+            <span>Door Step BD News &amp; Technical Insights</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            Latest News &amp; Engineering Bulletins
           </h1>
-          <p className="max-w-2xl mx-auto text-blue-100 text-xs sm:text-sm leading-relaxed">
-            Expert articles, tech guides, wellness tips, and special store announcements from our specialists.
+
+          <p className="text-sm sm:text-base text-blue-100/90 max-w-2xl mx-auto leading-relaxed">
+            Stay updated with industrial power engineering articles, corporate announcements, equipment commissioning case studies, and preventive maintenance guides.
           </p>
 
-          {/* Search Box */}
-          <div className="max-w-md mx-auto pt-2 relative">
+          {/* Search Box with Deep Navy & Gold Glow */}
+          <div className="max-w-md mx-auto pt-3 relative">
             <input
               type="text"
-              placeholder="Search blog articles..."
+              placeholder="Search news & technical articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/95 border border-white/20 rounded-full pl-5 pr-11 py-3 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white focus:ring-4 focus:ring-amber-400/30 shadow-lg placeholder:text-slate-400"
+              className="w-full bg-white/95 border border-white/20 rounded-full pl-5 pr-11 py-3 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#FFB800]/40 shadow-xl placeholder:text-slate-400 font-medium"
             />
             <Search className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2" />
           </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Category Filters */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 justify-start sm:justify-center">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                activeCategory === cat
-                  ? "bg-[#122B5A] text-white shadow-xs"
-                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? "bg-[#122B5A] text-[#FFB800] shadow-md border border-[#FFB800]/40 scale-105"
+                    : "bg-white border border-slate-200 text-slate-700 hover:border-[#122B5A] hover:text-[#122B5A]"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 space-y-4">
             <Loader2 className="w-10 h-10 text-[#122B5A] animate-spin" />
-            <p className="text-sm font-medium text-slate-500">Loading blog posts from database...</p>
+            <p className="text-sm font-bold text-slate-600">Loading articles &amp; news...</p>
           </div>
         ) : (
           <>
             {/* Featured Post Hero Card (Shown when filter is "All" and no search query) */}
             {activeCategory === "All" && !searchQuery && featuredPost && (
-              <div className="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-md grid grid-cols-1 lg:grid-cols-12 gap-0 group">
+              <div className="bg-white rounded-3xl border border-slate-200/90 hover:border-[#122B5A]/40 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0 group">
                 
-                <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-[400px] bg-slate-100 p-6 flex items-center justify-center">
+                <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-[400px] bg-slate-900 p-6 flex items-center justify-center overflow-hidden">
                   <BlogImage
                     src={featuredPost.image}
                     alt={featuredPost.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                   />
-                  <span className="absolute top-4 left-4 bg-amber-400 text-slate-900 font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10">
-                    Featured Article
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B38]/80 via-transparent to-transparent pointer-events-none" />
+                  <span className="absolute top-4 left-4 bg-[#FFB800] text-[#122B5A] font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10">
+                    Featured Insight
                   </span>
                 </div>
 
                 <div className="lg:col-span-6 p-6 sm:p-10 flex flex-col justify-center space-y-4">
                   <div className="flex items-center gap-3 text-xs font-bold text-slate-400">
-                    <span className="bg-[#122B5A]/10 text-[#122B5A] px-3 py-1 rounded-full">
+                    <span className="bg-[#122B5A]/10 text-[#122B5A] px-3 py-1 rounded-full font-black text-[10px] uppercase">
                       {featuredPost.category?.name || "General"}
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 text-slate-500">
                       <Clock className="w-3.5 h-3.5 text-slate-400" /> {calculateReadTime(featuredPost.content)}
                     </span>
                   </div>
 
                   <Link href={`/blog/${featuredPost.slug}`}>
-                    <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 leading-snug hover:text-[#122B5A] transition">
+                    <h2 className="text-xl sm:text-3xl font-black text-[#122B5A] leading-snug group-hover:text-[#0B1B38] transition">
                       {featuredPost.title}
                     </h2>
                   </Link>
 
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-3">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
                     {featuredPost.short_description || featuredPost.content?.replace(/<[^>]+>/g, "").slice(0, 160)}
                   </p>
 
@@ -206,9 +230,10 @@ export default function BlogPage() {
                     </span>
                     <Link
                       href={`/blog/${featuredPost.slug}`}
-                      className="bg-[#122B5A] hover:bg-[#0B1B38] text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-xs"
+                      className="bg-[#122B5A] hover:bg-[#0B1B38] text-[#FFB800] hover:text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-xs"
                     >
-                      Read Full Post <ArrowRight className="w-3.5 h-3.5" />
+                      <span>Read Full Article</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -216,75 +241,80 @@ export default function BlogPage() {
               </div>
             )}
 
-            {/* Blog Post Grid Cards */}
+            {/* News Post Grid Cards (3 Cards per column on Desktop) */}
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                <h3 className="text-xl font-black text-slate-900">
-                  Latest Articles ({filteredPosts.length})
+                <h3 className="text-xl sm:text-2xl font-black text-[#122B5A]">
+                  Latest News &amp; Articles ({filteredPosts.length})
                 </h3>
-                <span className="text-xs text-slate-400">Showing posts for {activeCategory}</span>
+                <span className="text-xs font-bold text-slate-500">Showing {activeCategory}</span>
               </div>
 
               {filteredPosts.length === 0 ? (
-                <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-2">
+                <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-[#122B5A] flex items-center justify-center mx-auto">
+                    <Newspaper className="w-6 h-6 text-[#FFB800]" />
+                  </div>
                   <h4 className="font-bold text-slate-800">No articles found</h4>
                   <p className="text-xs text-slate-400">Try searching for another topic or select a different category.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
                   {filteredPosts.map((post) => (
                     <article
                       key={post.id}
-                      className="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-lg transition duration-300 flex flex-col justify-between group"
+                      className="bg-white rounded-3xl border border-slate-200/80 hover:border-[#122B5A]/40 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
                     >
                       <div className="space-y-4 p-5">
                         {/* Thumbnail Image */}
-                        <div className="relative w-full h-48 bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 p-2 flex items-center justify-center">
+                        <div className="relative w-full h-48 bg-slate-900 rounded-2xl overflow-hidden border border-slate-100 flex items-center justify-center">
                           <BlogImage
                             src={post.image}
                             alt={post.title}
                             fill
                             sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover group-hover:scale-105 transition duration-300"
+                            className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                           />
-                          <span className="absolute top-3 left-3 bg-[#122B5A] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase z-10">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                          <span className="absolute top-3 left-3 bg-[#122B5A] text-[#FFB800] text-[10px] font-black px-3 py-0.5 rounded-full uppercase border border-[#FFB800]/30 shadow-xs z-10">
                             {post.category?.name || "General"}
                           </span>
                         </div>
 
                         <div className="space-y-2">
-                          <div className="flex items-center gap-3 text-[11px] text-slate-400 font-medium">
+                          <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
                             <span className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" /> {formatBlogDate(post.published_at || post.created_at)}
+                              <Calendar className="w-3.5 h-3.5 text-slate-400" /> {formatBlogDate(post.published_at || post.created_at)}
                             </span>
                             <span>•</span>
                             <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" /> {calculateReadTime(post.content)}
+                              <Clock className="w-3.5 h-3.5 text-slate-400" /> {calculateReadTime(post.content)}
                             </span>
                           </div>
 
                           <Link href={`/blog/${post.slug}`}>
-                            <h4 className="font-extrabold text-slate-900 text-sm sm:text-base line-clamp-2 hover:text-[#122B5A] transition leading-snug">
+                            <h4 className="font-black text-[#122B5A] text-base group-hover:text-[#0B1B38] transition leading-snug line-clamp-2">
                               {post.title}
                             </h4>
                           </Link>
 
-                          <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+                          <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
                             {post.short_description || post.content?.replace(/<[^>]+>/g, "").slice(0, 120)}
                           </p>
                         </div>
                       </div>
 
                       {/* Card Footer */}
-                      <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between text-xs mt-auto">
-                        <span className="font-semibold text-slate-600 truncate max-w-[150px]">
-                          By {post.author_name || "Admin"}
+                      <div className="p-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs mt-auto">
+                        <span className="font-bold text-slate-600 truncate max-w-[140px] flex items-center gap-1">
+                          <User className="w-3.5 h-3.5 text-slate-400" /> {post.author_name || "Admin"}
                         </span>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="font-bold text-[#122B5A] group-hover:text-[#122B5A] transition flex items-center gap-1"
+                          className="font-bold text-[#122B5A] hover:text-[#FFB800] transition flex items-center gap-1"
                         >
-                          Read Article <ArrowRight className="w-3.5 h-3.5" />
+                          <span>Read Article</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>
                     </article>
@@ -299,4 +329,3 @@ export default function BlogPage() {
     </div>
   );
 }
-

@@ -23,33 +23,32 @@ const DEFAULT_FOOTER: ApiFooterSettings = {
   linkedin_url: "https://linkedin.com/company/doorstepbd",
   twitter_url: "",
   tiktok_url: "",
-  column_1_title: "Information",
+  column_1_title: "Quick Links",
   column_1_links: [
-    { label: "About us", url: "/about" },
-    { label: "Blog & Journal", url: "/blog" },
-    { label: "FAQ & Support", url: "/faq" },
-    { label: "Delivery information", url: "/delivery" },
+    { label: "About Us", url: "/about" },
+    { label: "Our Brands", url: "/brands" },
+    { label: "Engineering Services", url: "/services" },
+    { label: "Equipment & Products", url: "/all-products" },
+    { label: "Latest News", url: "/news" },
+    { label: "Contact Us", url: "/contact-us" },
+  ],
+  column_2_title: "Client Portal",
+  column_2_links: [
+    { label: "Client Login", url: "/account" },
+    { label: "Service Dashboard", url: "/dashboard" },
+    { label: "Request a Quote", url: "/contact-us" },
     { label: "Privacy Policy", url: "/privacy" },
-    { label: "Sales", url: "/sales" },
     { label: "Terms & Conditions", url: "/terms" },
   ],
-  column_2_title: "Account",
-  column_2_links: [
-    { label: "My account", url: "/account" },
-    { label: "My orders", url: "/dashboard?tab=orders" },
-    { label: "Returns", url: "/returns" },
-    { label: "Shipping", url: "/shipping" },
-    { label: "Wishlist", url: "/wishlist" },
-  ],
-  column_3_title: "Store",
+  column_3_title: "Solutions",
   column_3_links: [
-    { label: "Bestsellers", url: "/bestsellers" },
-    { label: "Discount", url: "/discount" },
-    { label: "Latest products", url: "/latest" },
-    { label: "Sale", url: "/sale" },
+    { label: "Generator Maintenance", url: "/services" },
+    { label: "Substation Engineering", url: "/services" },
+    { label: "Turnkey Solar PV", url: "/services" },
+    { label: "24/7 Field Support", url: "/services" },
   ],
   copyright_text: "Copyright © 2026 Door Step BD. All Rights Reserved",
-  payment_methods: ["BKASH", "ROCKET", "NAGAD", "VISA", "MASTERCARD", "AMEX"],
+  payment_methods: [],
 };
 
 export function Footer() {
@@ -299,26 +298,14 @@ export function Footer() {
 
         </div>
 
-        {/* Bottom Bar: Copyright & Payment Logos */}
+        {/* Bottom Bar: Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
-          <p className="order-2 sm:order-1">
+          <p>
             {footer.copyright_text || `Copyright © ${new Date().getFullYear()} Door Step BD. All Rights Reserved`}
           </p>
-
-          {/* Payment Method Badges */}
-          <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap order-1 sm:order-2">
-            {(footer.payment_methods && footer.payment_methods.length > 0
-              ? footer.payment_methods
-              : ["BKASH", "ROCKET", "NAGAD", "VISA", "MASTERCARD", "AMEX"]
-            ).map((badge, idx) => (
-              <span
-                key={idx}
-                className="px-2.5 py-1 bg-white/10 text-white font-black rounded text-[10px] tracking-wider uppercase border border-white/20 hover:bg-white/20 transition-colors shadow-xs"
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
+          <p className="text-slate-400 text-[11px] font-medium">
+            Turnkey Power Engineering &amp; Industrial Solutions
+          </p>
         </div>
 
       </div>

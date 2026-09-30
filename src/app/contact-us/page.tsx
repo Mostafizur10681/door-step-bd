@@ -254,29 +254,7 @@ export default function ContactUsPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
 
-      {/* 1. Emergency Hotline & Response Strip (Secondary Gold Background) */}
-      {emergencyNotice && (
-        <div className="bg-[#FFB800] text-[#122B5A] py-2.5 px-4 shadow-xs">
-          <div className="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-extrabold text-center sm:text-left">
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#122B5A] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#122B5A]"></span>
-              </span>
-              <span>{emergencyNotice}</span>
-            </div>
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#122B5A] hover:bg-[#0B1B38] text-white text-[11px] font-bold rounded-lg transition-all shadow-xs"
-            >
-              <Phone className="w-3 h-3 text-[#FFB800]" />
-              <span>Call Hotline Now</span>
-            </a>
-          </div>
-        </div>
-      )}
-
-      {/* 2. Hero Header Section (Primary Navy & Secondary Gold Gradient) */}
+      {/* 1. Hero Header Section (Primary Navy & Secondary Gold Gradient) */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.12),transparent_50%)] pointer-events-none" />
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>

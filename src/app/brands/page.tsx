@@ -2,560 +2,537 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { 
-  Zap, 
-  Sun, 
-  ShieldCheck, 
-  Cpu, 
-  Wrench, 
-  Wind, 
+  Building2, 
   Search, 
   Sparkles, 
-  Building2,
-  PhoneCall,
-  FileCheck,
-  ChevronRight,
-  Shield,
+  ChevronRight, 
+  ShieldCheck, 
+  CheckCircle2, 
+  Award, 
+  ArrowUpRight,
+  ExternalLink,
   Layers,
-  Headphones,
-  Check,
-  Flame,
-  Droplets,
-  Factory
+  PhoneCall,
+  Zap,
+  PackageCheck,
+  Wrench,
+  Clock,
+  ArrowRight,
+  Check
 } from "lucide-react";
-import { getBrands, ApiBrand, getMediaUrl } from "@/lib/api";
+import { getBrands, getPartners, ApiBrand, ApiPartner, getMediaUrl } from "@/lib/api";
 
-interface InHouseBrandItem {
+export interface BrandItem {
   id: string | number;
   name: string;
-  division: string;
-  category: string;
-  tagline: string;
-  badge: string;
-  warranty: string;
-  specialty: string[];
-  metrics: { label: string; value: string };
-  logo?: string | null;
-  icon: React.ComponentType<{ className?: string }>;
-  accentColor: string;
+  slug: string;
+  logo: string | null;
+  link: string;
+  isExternal: boolean;
+  type: "brand" | "partner";
+  category?: string;
+  description?: string;
 }
-
-const DEFAULT_IN_HOUSE_BRANDS: InHouseBrandItem[] = [
-  {
-    id: "doorstep-power",
-    name: "Doorstep Power Solutions™",
-    division: "Heavy Power Generation",
-    category: "Generators & Synchronization",
-    tagline: "Heavy-duty continuous & standby industrial diesel generators, custom soundproof acoustic canopies, and automated load-sharing synchronization systems.",
-    badge: "Flagship Brand",
-    warranty: "Full Factory Warranty & AMC",
-    metrics: { label: "Capacity Range", value: "50kVA - 3000kVA" },
-    specialty: [
-      "Industrial Heavy Diesel Generators",
-      "Custom Acoustic Soundproof Canopies",
-      "Auto-Synchronizing Multi-Genset Panels",
-      "Automatic Main Failure (AMF) Logic"
-    ],
-    icon: Zap,
-    accentColor: "#FFB800",
-  },
-  {
-    id: "doorstep-solar",
-    name: "Doorstep Solar & GreenTech™",
-    division: "Renewable Energy",
-    category: "Commercial Solar & BESS",
-    tagline: "Turnkey commercial & industrial rooftop solar PV installations, on-grid smart inverters, and high-efficiency hybrid battery energy storage systems.",
-    badge: "Eco-Friendly Line",
-    warranty: "25-Year Performance Guarantee",
-    metrics: { label: "Solar Lifespan", value: "25+ Years" },
-    specialty: [
-      "Industrial Rooftop Solar PV Systems",
-      "Commercial Hybrid Battery Storage (BESS)",
-      "Net Metering & Grid Synchronization",
-      "Cloud-Connected Generation Telemetry"
-    ],
-    icon: Sun,
-    accentColor: "#10B981",
-  },
-  {
-    id: "doorstep-voltguard",
-    name: "Doorstep VoltGuard™ Switchgear",
-    division: "Electrical Engineering",
-    category: "HT / LT Panels & Protection",
-    tagline: "Custom-engineered HT/LT distribution switchboards, automatic transfer switches (ATS), power factor improvement (PFI), and surge protection systems.",
-    badge: "In-House Engineered",
-    warranty: "Factory Type-Tested & Certified",
-    metrics: { label: "Testing Standard", value: "IEC Type-Tested" },
-    specialty: [
-      "Custom HT/LT Distribution Boards",
-      "Smart ATS Auto-Changeover Panels",
-      "PFI Automatic Capacitor Banks",
-      "Digital Arc & Overcurrent Relays"
-    ],
-    icon: ShieldCheck,
-    accentColor: "#3B82F6",
-  },
-  {
-    id: "doorstep-cooltech",
-    name: "Doorstep CoolTech™ & HVAC",
-    division: "Climate & Cooling",
-    category: "Industrial Cooling & Ventilation",
-    tagline: "Precision industrial chillers, factory duct ventilation systems, and commercial air treatment engineered specifically for high-ambient tropical climates.",
-    badge: "Heavy Climate Line",
-    warranty: "Doorstep Comprehensive Support",
-    metrics: { label: "Ambient Tolerance", value: "Up to 55°C" },
-    specialty: [
-      "Industrial Water & Air Chillers",
-      "Precision Factory Ventilation Ducting",
-      "Cleanroom & Data Center HVAC",
-      "High-Efficiency Dual Compressors"
-    ],
-    icon: Wind,
-    accentColor: "#06B6D4",
-  },
-  {
-    id: "doorstep-automation",
-    name: "Doorstep SmartTech & Security™",
-    division: "IoT & Electronics",
-    category: "Surveillance & Telemetry",
-    tagline: "High-definition IP surveillance cameras, cloud power telemetry, SCADA factory automation, and intelligent RFID biometric access control.",
-    badge: "Smart Intelligent Line",
-    warranty: "Doorstep Lifetime Support",
-    metrics: { label: "Resolution & AI", value: "4K AI Vision" },
-    specialty: [
-      "Full HD & 4K PTZ IP Surveillance",
-      "Industrial Cloud SCADA & App Monitoring",
-      "Biometric & RFID Access Control",
-      "Automated Power Grid Telemetry"
-    ],
-    icon: Cpu,
-    accentColor: "#8B5CF6",
-  },
-  {
-    id: "doorstep-care",
-    name: "Doorstep Care & Maintenance Hub™",
-    division: "Field Engineering",
-    category: "Technical Care & Spare Parts",
-    tagline: "24/7 emergency response engineering, certified engine overhauls, preventative annual maintenance (AMC), and authentic factory spare parts direct to your doorstep.",
-    badge: "Certified Support Hub",
-    warranty: "100% Genuine Spares Backed",
-    metrics: { label: "Emergency Response", value: "24/7 Support" },
-    specialty: [
-      "24/7 Rapid Emergency Response Team",
-      "Major Industrial Engine Overhauling",
-      "100% Genuine Direct Factory Spare Parts",
-      "Predictive Vibration & Oil Analysis"
-    ],
-    icon: Wrench,
-    accentColor: "#F59E0B",
-  },
-];
-
-function resolveBrandIcon(name: string, category: string): React.ComponentType<{ className?: string }> {
-  const text = `${name} ${category}`.toLowerCase();
-  if (text.includes("solar") || text.includes("green") || text.includes("renewable")) return Sun;
-  if (text.includes("gen") || text.includes("power") || text.includes("engine")) return Zap;
-  if (text.includes("substation") || text.includes("switchgear") || text.includes("volt") || text.includes("panel")) return ShieldCheck;
-  if (text.includes("hvac") || text.includes("cool") || text.includes("climate") || text.includes("chiller") || text.includes("ventilat")) return Wind;
-  if (text.includes("water") || text.includes("etp") || text.includes("stp") || text.includes("ro") || text.includes("filter")) return Droplets;
-  if (text.includes("auto") || text.includes("scada") || text.includes("plc") || text.includes("smart") || text.includes("tech") || text.includes("cctv") || text.includes("security")) return Cpu;
-  if (text.includes("care") || text.includes("repair") || text.includes("maintenance") || text.includes("service") || text.includes("overhaul")) return Wrench;
-  return Building2;
-}
-
-const DEFAULT_CATEGORIES = [
-  "All Divisions",
-  "Heavy Power Generation",
-  "Renewable Energy",
-  "Electrical Engineering",
-  "Climate & Cooling",
-  "IoT & Electronics",
-  "Field Engineering"
-];
-
-const ADVANTAGES = [
-  {
-    icon: Shield,
-    title: "100% Factory Direct Quality",
-    desc: "Every product is built, calibrated, and rigorously tested in-house without third-party intermediary markups."
-  },
-  {
-    icon: Layers,
-    title: "Custom Engineering",
-    desc: "Tailored to your exact industrial specifications—custom sound attenuation, voltage setups, and panel footprints."
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Dedicated Support",
-    desc: "Direct nationwide field engineers on standby with immediate access to authentic Door Step replacement parts."
-  },
-  {
-    icon: Flame,
-    title: "Official Brand Warranty",
-    desc: "Comprehensive warranty packages, factory test logs, and guaranteed performance benchmarks on every installation."
-  }
-];
 
 export default function BrandsPage() {
-  const [brands, setBrands] = useState<InHouseBrandItem[]>(DEFAULT_IN_HOUSE_BRANDS);
-  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
-  const [selectedCategory, setSelectedCategory] = useState("All Divisions");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [items, setItems] = useState<BrandItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<"all" | "brand" | "partner">("all");
 
   useEffect(() => {
     let isMounted = true;
-    const loadAllApiBrands = async () => {
+    const fetchAllDynamicData = async () => {
       try {
-        const res = await getBrands({ all: 1 });
+        setLoading(true);
+        const [brandsRes, partnersRes] = await Promise.allSettled([
+          getBrands({ all: 1 }),
+          getPartners({ all: 1 })
+        ]);
+
         if (!isMounted) return;
-        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
-          const mapped: InHouseBrandItem[] = res.data.map((item: ApiBrand, idx: number) => {
-            const iconComp = resolveBrandIcon(item.name, item.category_tag || item.sub_title || "");
-            
-            // Extract specialties / key capabilities
-            let specs: string[] = [];
-            if (Array.isArray(item.key_capabilities) && item.key_capabilities.length > 0) {
-              specs = item.key_capabilities;
-            } else if (item.capacity_range || item.warranty_text) {
-              if (item.capacity_range) specs.push(`Capacity: ${item.capacity_range}`);
-              if (item.warranty_text) specs.push(`Warranty: ${item.warranty_text}`);
-            } else {
-              specs = DEFAULT_IN_HOUSE_BRANDS[idx % DEFAULT_IN_HOUSE_BRANDS.length].specialty;
+
+        const list: BrandItem[] = [];
+
+        // 1. Process Partners from API
+        if (partnersRes.status === "fulfilled" && partnersRes.value.success && Array.isArray(partnersRes.value.data)) {
+          partnersRes.value.data.forEach((p: ApiPartner, idx: number) => {
+            let logoUrl: string | null = null;
+            if (p.logo && typeof p.logo === "string" && p.logo.trim()) {
+              logoUrl = p.logo.trim().startsWith("data:") ? p.logo.trim() : getMediaUrl(p.logo);
+            } else if (p.logo_url) {
+              logoUrl = p.logo_url;
+            } else if (p.image && typeof p.image === "string" && p.image.trim()) {
+              logoUrl = p.image.trim().startsWith("data:") ? p.image.trim() : getMediaUrl(p.image);
+            } else if (p.image_url) {
+              logoUrl = p.image_url;
             }
 
-            return {
-              id: item.id || item.slug || idx,
-              name: item.name,
-              division: item.category_tag || DEFAULT_IN_HOUSE_BRANDS[idx % DEFAULT_IN_HOUSE_BRANDS.length].division,
-              category: item.sub_title || item.category_tag || DEFAULT_IN_HOUSE_BRANDS[idx % DEFAULT_IN_HOUSE_BRANDS.length].category,
-              tagline: item.description || DEFAULT_IN_HOUSE_BRANDS[idx % DEFAULT_IN_HOUSE_BRANDS.length].tagline,
-              badge: item.badge || "Verified Line",
-              warranty: item.warranty_text || "Full Factory Warranty",
-              metrics: {
-                label: item.capacity_range ? "Benchmark" : "Standard",
-                value: item.capacity_range || "ISO Certified"
-              },
-              specialty: specs,
-              logo: item.logo_url || (item.logo ? getMediaUrl(item.logo) : null),
-              icon: iconComp,
-              accentColor: "#122B5A"
-            };
+            const pName = p.name || p.title || `Partner ${idx + 1}`;
+            const targetLink = p.website || p.url || p.link || `/all-products?brand=${encodeURIComponent(pName)}`;
+
+            list.push({
+              id: p.id || `partner-${idx}`,
+              name: pName,
+              slug: p.slug || String(p.id || idx),
+              logo: logoUrl,
+              link: targetLink,
+              isExternal: targetLink.startsWith("http"),
+              type: "partner",
+              description: p.description || undefined
+            });
           });
-
-          if (mapped.length > 0) {
-            setBrands(mapped);
-
-            // Derive dynamic categories
-            const derivedDivisions = Array.from(new Set(mapped.map((b) => b.division).filter(Boolean)));
-            if (derivedDivisions.length > 0) {
-              setCategories(["All Divisions", ...derivedDivisions]);
-            }
-          }
         }
+
+        // 2. Process Brands from API
+        if (brandsRes.status === "fulfilled" && brandsRes.value.success && Array.isArray(brandsRes.value.data)) {
+          brandsRes.value.data.forEach((b: ApiBrand, idx: number) => {
+            let logoUrl: string | null = null;
+            if (b.logo && typeof b.logo === "string" && b.logo.trim()) {
+              logoUrl = b.logo.trim().startsWith("data:") ? b.logo.trim() : getMediaUrl(b.logo);
+            } else if (b.logo_url) {
+              logoUrl = b.logo_url;
+            }
+
+            list.push({
+              id: b.id || `brand-${idx}`,
+              name: b.name,
+              slug: b.slug || b.name,
+              logo: logoUrl,
+              link: `/all-products?brand=${encodeURIComponent(b.slug || b.name)}`,
+              isExternal: false,
+              type: "brand",
+              category: b.category_tag || b.sub_title || undefined,
+              description: b.description || undefined
+            });
+          });
+        }
+
+        setItems(list);
       } catch (err) {
-        console.warn("Error fetching brands in /brands:", err);
+        console.warn("Failed to load brands & partners:", err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 
-    loadAllApiBrands();
+    fetchAllDynamicData();
     return () => { isMounted = false; };
   }, []);
 
-  const filteredBrands = brands.filter((brand) => {
-    const matchesSearch = 
-      brand.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      brand.division.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      brand.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      brand.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      brand.specialty.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    if (!matchesSearch) return false;
-    if (selectedCategory === "All Divisions") return true;
-    return brand.division.toLowerCase() === selectedCategory.toLowerCase();
+  // Filter by Tab and Search Query
+  const filteredItems = items.filter((item) => {
+    const matchesTab = activeTab === "all" || item.type === activeTab;
+    const term = searchQuery.toLowerCase().trim();
+    const matchesSearch = !term || item.name.toLowerCase().includes(term) || (item.category && item.category.toLowerCase().includes(term));
+    return matchesTab && matchesSearch;
   });
 
+  const partnerCount = items.filter(i => i.type === "partner").length;
+  const brandCount = items.filter(i => i.type === "brand").length;
+
   return (
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       
-      {/* 1. Breadcrumb Bar */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 py-3">
-          <nav className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-            <Link href="/" className="hover:text-[#122B5A] transition-colors">
-              Home
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[#122B5A] font-bold">Ours Brands</span>
-          </nav>
-        </div>
-      </div>
+      {/* 1. Hero Header Section (Matching About Us Navy & Gold Gradient) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* 2. Hero Header Section */}
-      <section className="relative bg-gradient-to-br from-[#122B5A] via-[#0C1E40] to-[#122B5A] text-white py-14 sm:py-20 px-4 sm:px-6 md:px-8 border-b border-[#FFB800]/20 overflow-hidden">
-        {/* Subtle decorative background pattern */}
-        <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#FFB800_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-
-        <div className="relative max-w-[1500px] mx-auto text-center space-y-5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/40 text-[#FFB800] text-xs font-black uppercase tracking-widest shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 fill-[#FFB800]" />
-            <span>Door Step BD Proprietary Ecosystem</span>
+        <div className="relative max-w-4xl mx-auto text-center space-y-5 z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
+            <span>Authorized Global OEM &amp; Equipment Network</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-            Ours Brands &amp; Specialized Divisions
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            Our Brands &amp; Official Partners
           </h1>
 
-          <p className="text-slate-300 text-xs sm:text-sm md:text-base max-w-3xl mx-auto leading-relaxed">
-            Explore Door Step BD&apos;s proprietary in-house brand ecosystem. Every brand line is engineered, manufactured, and supported directly by our specialized divisions across Bangladesh with full factory warranty.
+          <p className="text-sm sm:text-base text-blue-100/90 max-w-3xl mx-auto leading-relaxed">
+            Direct partnerships with world-class power generation, renewable solar, electrical switchgear, and online UPS manufacturers backed by authentic factory warranties and technical field SLA.
           </p>
 
-          {/* Quick Metrics Bar */}
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto text-center">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-xs">
-              <div className="text-xl sm:text-2xl font-black text-[#FFB800]">6</div>
-              <div className="text-[11px] sm:text-xs text-slate-300 font-semibold uppercase tracking-wider">Specialized Divisions</div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <Link
+              href="/contact-us"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <Zap className="w-4 h-4 text-[#122B5A]" />
+              <span>Request Brand Proposal</span>
+            </Link>
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs sm:text-sm backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <Building2 className="w-4 h-4 text-[#FFB800]" />
+              <span>Explore Engineering Services</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Floating Stats Strip (Overlapping Hero) */}
+      <section className="relative max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 -mt-16 z-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex items-center gap-4 hover:border-[#122B5A]/40 hover:shadow-2xl transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center shrink-0 group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+              <Award className="w-6 h-6" />
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-xs">
-              <div className="text-xl sm:text-2xl font-black text-[#FFB800]">100%</div>
-              <div className="text-[11px] sm:text-xs text-slate-300 font-semibold uppercase tracking-wider">In-House Quality</div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-[#122B5A] tracking-tight">
+                {brandCount > 0 ? `${brandCount}+` : "25+"}
+              </div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">
+                Authorized Brands
+              </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-xs">
-              <div className="text-xl sm:text-2xl font-black text-[#FFB800]">24/7</div>
-              <div className="text-[11px] sm:text-xs text-slate-300 font-semibold uppercase tracking-wider">Rapid Field AMC</div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex items-center gap-4 hover:border-[#122B5A]/40 hover:shadow-2xl transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center shrink-0 group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+              <Building2 className="w-6 h-6" />
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-xs">
-              <div className="text-xl sm:text-2xl font-black text-[#FFB800]">64</div>
-              <div className="text-[11px] sm:text-xs text-slate-300 font-semibold uppercase tracking-wider">Districts Coverage</div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-[#122B5A] tracking-tight">
+                {partnerCount > 0 ? `${partnerCount}+` : "15+"}
+              </div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">
+                Official Partners
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex items-center gap-4 hover:border-[#122B5A]/40 hover:shadow-2xl transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center shrink-0 group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-[#122B5A] tracking-tight">
+                100%
+              </div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">
+                Genuine OEM Parts
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex items-center gap-4 hover:border-[#122B5A]/40 hover:shadow-2xl transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center shrink-0 group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+              <Clock className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-[#122B5A] tracking-tight">
+                24/7
+              </div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">
+                Engineering Support
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Filter & Search Controls */}
-      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16 py-16">
+        
+        {/* 3. Search & Filter Bar */}
+        <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
           
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
-            {categories.map((cat) => (
+          {/* Tab Selection */}
+          <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
+            <button
+              type="button"
+              onClick={() => setActiveTab("all")}
+              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === "all"
+                  ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              All Portfolio ({items.length})
+            </button>
+
+            {brandCount > 0 && (
               <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                  selectedCategory === cat
-                    ? "bg-[#122B5A] text-[#FFB800] shadow-sm scale-102"
-                    : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300"
+                type="button"
+                onClick={() => setActiveTab("brand")}
+                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                  activeTab === "brand"
+                    ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                 }`}
               >
-                {cat}
+                Brands ({brandCount})
               </button>
-            ))}
+            )}
+
+            {partnerCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setActiveTab("partner")}
+                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                  activeTab === "partner"
+                    ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }`}
+              >
+                Official Partners ({partnerCount})
+              </button>
+            )}
           </div>
 
-          {/* Search Box */}
-          <div className="relative w-full lg:w-80">
+          {/* Search Input */}
+          <div className="w-full md:w-80 relative">
             <input
               type="text"
-              placeholder="Search by brand, division or capability..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-full pl-9 pr-4 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#122B5A]/30 focus:border-[#122B5A]"
+              placeholder="Search brand or partner..."
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#122B5A] focus:border-transparent transition-all shadow-inner"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer"
+              >
+                Clear
+              </button>
+            )}
           </div>
 
-        </div>
-      </section>
+        </section>
 
-      {/* 4. In-House Brands Grid Showcase */}
-      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 py-6 pb-14">
-        {filteredBrands.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
-            <p className="text-slate-500 text-sm">No in-house brands found matching &quot;{searchQuery}&quot;</p>
-            <button
-              onClick={() => { setSearchQuery(""); setSelectedCategory("All Divisions"); }}
-              className="text-xs font-bold text-[#122B5A] hover:underline cursor-pointer"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-            {filteredBrands.map((brand) => {
-              const IconComp = brand.icon;
-              return (
-                <div
-                  key={brand.id}
-                  className="group relative bg-white border border-slate-200/90 hover:border-[#FFB800]/70 rounded-2xl p-6 sm:p-7 transition-all duration-300 ease-out flex flex-col justify-between shadow-xs hover:shadow-xl hover:-translate-y-1.5 overflow-hidden"
+        {/* 4. Brands & Partners Grid */}
+        <section>
+          {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((sk) => (
+                <div key={sk} className="bg-white rounded-2xl border border-slate-200/90 p-6 space-y-4 animate-pulse h-48 sm:h-52">
+                  <div className="w-full h-24 bg-slate-100 rounded-xl" />
+                  <div className="h-4 bg-slate-100 rounded w-3/4 mx-auto" />
+                  <div className="h-3 bg-slate-100 rounded w-1/2 mx-auto" />
+                </div>
+              ))}
+            </div>
+          ) : filteredItems.length === 0 ? (
+            <div className="bg-white rounded-3xl p-12 sm:p-16 border border-slate-200/90 text-center space-y-4 shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-amber-50 text-[#122B5A] flex items-center justify-center mx-auto">
+                <Building2 className="w-8 h-8 text-[#FFB800]" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-[#122B5A]">No Brands or Partners Found</h3>
+              <p className="text-slate-500 text-xs sm:text-sm max-w-md mx-auto">
+                {searchQuery ? `No results matching "${searchQuery}". Try a different search term.` : "No dynamic brands or partners are currently listed in the admin panel."}
+              </p>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="inline-flex items-center gap-2 bg-[#122B5A] text-white text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-[#0A1D3D] transition cursor-pointer"
+                >
+                  Reset Search
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+              {filteredItems.map((item, idx) => (
+                <Link
+                  key={`${item.id}-${idx}`}
+                  href={item.link}
+                  target={item.isExternal ? "_blank" : undefined}
+                  rel={item.isExternal ? "noopener noreferrer" : undefined}
+                  title={item.name}
+                  className="group relative bg-white border border-slate-200/90 hover:border-[#122B5A]/40 rounded-2xl p-5 sm:p-6 flex flex-col justify-between items-center text-center transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1.5 overflow-hidden block shadow-2xs"
                 >
                   {/* Dynamic Top Accent Strip */}
-                  <div className="absolute top-0 inset-x-0 h-1 bg-slate-200/80 group-hover:h-1.5 group-hover:bg-gradient-to-r group-hover:from-[#FFB800] group-hover:via-amber-400 group-hover:to-[#122B5A] transition-all duration-300" />
+                  <div className="absolute top-0 inset-x-0 h-1 bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#122B5A] group-hover:via-[#FFB800] group-hover:to-[#122B5A] transition-all duration-300" />
 
-                  {/* Subtle Light-Sweep Shine Ray on Hover */}
-                  <div className="absolute -inset-full top-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:translate-x-[250%] transition-all duration-1000 ease-out pointer-events-none" />
-
-                  <div className="space-y-4 relative z-10">
-                    {/* Top Row: Division Tag & Brand Badge */}
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 group-hover:bg-amber-50/80 text-[#122B5A] text-[11px] font-extrabold rounded-full uppercase tracking-wider border border-slate-200 group-hover:border-amber-300/60 transition-colors duration-300">
-                        <Building2 className="w-3.5 h-3.5 text-[#122B5A]" />
-                        <span>{brand.division}</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-[#122B5A] bg-[#FFB800] group-hover:bg-amber-400 group-hover:scale-105 px-2.5 py-0.5 rounded-full shadow-2xs transition-transform duration-300">
-                        {brand.badge}
-                      </span>
-                    </div>
-
-                    {/* Brand Emblem & Title */}
-                    <div className="flex items-start gap-3.5 pt-1">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#122B5A] to-[#0A1D3D] text-[#FFB800] flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-[#FFB800]/20 transition-all duration-300 overflow-hidden relative">
-                        {brand.logo ? (
-                          <Image
-                            src={brand.logo}
-                            alt={brand.name}
-                            width={48}
-                            height={48}
-                            className="w-full h-full object-contain p-1.5 bg-white transition-transform duration-300 group-hover:scale-105"
-                            unoptimized
-                          />
-                        ) : (
-                          <IconComp className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
-                        )}
-                      </div>
-                      <div className="space-y-0.5 min-w-0">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 block truncate">
-                          {brand.category}
-                        </span>
-                        <h3 className="text-xl sm:text-2xl font-black text-[#122B5A] tracking-tight leading-snug group-hover:text-[#0B1B38] transition-colors duration-200">
-                          {brand.name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                      {brand.tagline}
-                    </p>
-
-                    {/* Key Metrics / Benchmark */}
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 group-hover:bg-amber-50/40 border border-slate-200/80 group-hover:border-amber-200 text-xs transition-colors duration-300">
-                      <span className="text-slate-500 font-semibold">{brand.metrics.label}:</span>
-                      <span className="font-extrabold text-[#122B5A]">{brand.metrics.value}</span>
-                    </div>
-
-                    {/* Warranty Tag */}
-                    <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200/80">
-                      <FileCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>{brand.warranty}</span>
-                    </div>
-
-                    {/* Key Capabilities / Specs Checklist */}
-                    <div className="pt-3 border-t border-slate-100 space-y-1.5">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Key Capabilities:</p>
-                      <div className="grid grid-cols-1 gap-1">
-                        {brand.specialty.map((item, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-xs text-slate-700">
-                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                            <span className="truncate">{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  {/* Badge Tag (Brand vs Partner) */}
+                  <div className="w-full flex items-center justify-between gap-1 mb-3">
+                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
+                      item.type === "partner"
+                        ? "bg-amber-50 text-amber-900 border border-amber-200/60"
+                        : "bg-slate-100 text-[#122B5A] border border-slate-200/60"
+                    }`}>
+                      {item.type === "partner" ? "Partner" : "Brand"}
+                    </span>
+                    {item.isExternal ? (
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#122B5A] transition" />
+                    ) : (
+                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#FFB800] transition" />
+                    )}
                   </div>
 
-                  {/* Card Bottom CTA */}
-                  <div className="pt-6 mt-4 border-t border-slate-100 relative z-10">
-                    <Link
-                      href="/contact-us"
-                      className="w-full bg-[#122B5A] hover:bg-[#0A1D3D] text-[#FFB800] font-bold text-xs py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 transition shadow-xs hover:shadow-md cursor-pointer"
-                    >
-                      <span>Inquire About {brand.division}</span>
-                      <PhoneCall className="w-3.5 h-3.5" />
-                    </Link>
+                  {/* Brand Logo Container */}
+                  <div className="w-full h-20 sm:h-24 flex items-center justify-center p-2 relative my-1">
+                    {item.logo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.logo}
+                        alt={item.name}
+                        className="max-h-full max-w-full w-auto h-auto object-contain filter grayscale contrast-125 opacity-80 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLElement).style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#122B5A] to-[#0B1B38] text-[#FFB800] flex items-center justify-center font-black text-lg shadow-sm group-hover:scale-110 transition-transform">
+                        {item.name.substring(0, 2).toUpperCase()}
+                      </div>
+                    )}
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
 
-      {/* 5. Why Choose Door Step BD In-House Brands */}
-      <section className="bg-white py-14 sm:py-20 border-t border-slate-200">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-black tracking-widest text-[#122B5A] uppercase bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FFB800]" />
-              <span>The Door Step BD Difference</span>
+                  {/* Name & Subtitle */}
+                  <div className="w-full pt-3 border-t border-slate-100 mt-2 space-y-1">
+                    <h3 className="text-xs sm:text-sm font-black text-[#122B5A] truncate group-hover:text-[#FFB800] transition-colors">
+                      {item.name}
+                    </h3>
+                    {item.category && (
+                      <p className="text-[11px] text-slate-500 truncate">
+                        {item.category}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#122B5A] tracking-tight">
-              Why Rely On Our In-House Brands?
+          )}
+        </section>
+
+        {/* 5. Core Supply Chain Capabilities (Matching About Us 4-Card Section) */}
+        <section className="space-y-8">
+          <div className="text-center space-y-2 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#122B5A]/10 text-[#122B5A] text-xs font-bold uppercase tracking-wider">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#122B5A]" />
+              <span>OEM Assurance</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#122B5A] tracking-tight">
+              Why Partner with Door Step BD
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              We design, assemble, and support our own equipment—ensuring zero third-party compromise, customized industrial fit, and instant access to spare parts.
+            <p className="text-xs sm:text-sm text-slate-500">
+              End-to-end authorized equipment supply, factory warranty validation, and rapid nationwide engineering SLA.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ADVANTAGES.map((adv, idx) => {
-              const AdvIcon = adv.icon;
-              return (
-                <div key={idx} className="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 space-y-3 hover:border-[#122B5A] hover:bg-white transition-all shadow-2xs">
-                  <div className="w-12 h-12 rounded-xl bg-[#122B5A] text-[#FFB800] flex items-center justify-center shadow-xs">
-                    <AdvIcon className="w-6 h-6" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-black text-[#122B5A]">
-                    {adv.title}
-                  </h4>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    {adv.desc}
-                  </p>
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 space-y-3.5 group flex flex-col justify-between">
+              <div className="space-y-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-xs">
+                  <PackageCheck className="w-6 h-6" />
                 </div>
-              );
-            })}
+                <h3 className="font-bold text-[#122B5A] text-sm sm:text-base">
+                  100% Genuine OEM Equipment
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Direct factory import with authentic origin certificates, serial tracking, and zero counterfeit risk.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-bold text-[#122B5A]">
+                <Check className="w-3.5 h-3.5 text-[#FFB800]" />
+                <span>Certified Supply</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 space-y-3.5 group flex flex-col justify-between">
+              <div className="space-y-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-xs">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-[#122B5A] text-sm sm:text-base">
+                  Direct Manufacturer Warranty
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Comprehensive OEM warranty coverage backed by dedicated factory support channels and replacement guarantees.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-bold text-[#122B5A]">
+                <Check className="w-3.5 h-3.5 text-[#FFB800]" />
+                <span>Warranty Backed</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 space-y-3.5 group flex flex-col justify-between">
+              <div className="space-y-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-xs">
+                  <Wrench className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-[#122B5A] text-sm sm:text-base">
+                  On-Site Commissioning
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Expert electrical engineers manage load testing, ATS synchronization, and live handover across all 64 districts.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-bold text-[#122B5A]">
+                <Check className="w-3.5 h-3.5 text-[#FFB800]" />
+                <span>Turnkey Testing</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 space-y-3.5 group flex flex-col justify-between">
+              <div className="space-y-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-[#122B5A]/10 text-[#122B5A] flex items-center justify-center group-hover:bg-[#122B5A] group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-xs">
+                  <Clock className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-[#122B5A] text-sm sm:text-base">
+                  24/7 Field Technical Support
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Emergency rapid dispatch and guaranteed spare parts inventory for zero downtime operation nationwide.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-bold text-[#122B5A]">
+                <Check className="w-3.5 h-3.5 text-[#FFB800]" />
+                <span>24/7 On-Call</span>
+              </div>
+            </div>
           </div>
+        </section>
 
-        </div>
-      </section>
+        {/* 6. Consultation & Quote CTA Banner (Matching About Us Style) */}
+        <section className="bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.12),transparent_50%)] pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* 6. Direct Engineering Consultation & Quotation CTA Banner */}
-      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 py-12 pb-16">
-        <div className="bg-gradient-to-r from-[#122B5A] via-[#0C1E40] to-[#122B5A] text-white rounded-3xl p-8 sm:p-12 border border-[#FFB800]/20 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
-          <div className="space-y-3 max-w-2xl text-center lg:text-left">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFB800]/20 text-[#FFB800] text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Direct Factory Consultation</span>
-            </span>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-              Need a Custom Engineered Solution for Your Facility?
-            </h3>
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Speak directly with our senior power, solar, and switchgear engineers for technical site visits, load calculations, and turnkey quotations.
+          <div className="max-w-2xl mx-auto space-y-3 relative z-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider">
+              <PhoneCall className="w-3.5 h-3.5 text-[#FFB800]" />
+              <span>OEM Procurement &amp; Spare Parts Helpdesk</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+              Looking for Specialized Brand Equipment or Spare Parts?
+            </h2>
+            <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
+              Consult with our senior electrical engineers for verified brand availability, OEM catalog specifications, or custom panel fabrication.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
+            <a 
+              href="tel:01734340066" 
+              className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <PhoneCall className="w-4 h-4 text-[#122B5A]" />
+              <span>Call Hotline: 01734-340066</span>
+            </a>
             <Link
               href="/contact-us"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] active:scale-95 text-[#122B5A] font-black uppercase text-xs tracking-wider px-7 py-3.5 rounded-xl shadow-md transition whitespace-nowrap cursor-pointer"
+              className="inline-flex items-center gap-2 bg-white text-[#122B5A] hover:bg-slate-100 font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <PhoneCall className="w-4 h-4" />
-              <span>Request Engineering Quote</span>
+              <span>Submit Brand Inquiry</span>
+              <ArrowRight className="w-4 h-4 text-[#122B5A]" />
             </Link>
-            <a
-              href="tel:01734340066"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs tracking-wider px-6 py-3.5 rounded-xl border border-white/20 transition whitespace-nowrap cursor-pointer"
-            >
-              <span>Call: +880 1734-340066</span>
-            </a>
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div>
 
     </div>
   );
 }
-
 
