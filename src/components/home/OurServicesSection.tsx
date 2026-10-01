@@ -118,7 +118,7 @@ export function OurServicesSection() {
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#FFB800]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-[#122B5A]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+      <div className="max-w-[1460px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12">
@@ -127,8 +127,8 @@ export function OurServicesSection() {
               <Zap className="w-3.5 h-3.5 text-[#FFB800] fill-[#FFB800] animate-pulse" />
               <span>What We Offer</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#122B5A] tracking-tight">
-              Our Services
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#122B5A] tracking-tight uppercase">
+              OUR SERVICES
             </h2>
             <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
               Certified doorstep diagnostic, industrial engineering repair, and turnkey emergency field support delivered across Bangladesh.

@@ -40,6 +40,10 @@ import {
   CreditCard,
   LogOut,
   ShieldAlert,
+  Zap,
+  Layers,
+  FileText,
+  PhoneCall,
 } from "lucide-react";
 
 function ChatBubbleDotsIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -321,87 +325,41 @@ export function AIChatbot() {
 
   // Quick Action Click Handler
   const handleQuickAction = async (
-    actionType: "search_product" | "faq" | "track_order" | "connect_agent",
+    actionType: "explore_services" | "browse_categories" | "request_quote" | "connect_agent" | "search_product" | "faq" | "track_order",
     customPrompt?: string
   ) => {
     if (isLoading) return;
+    const activeConvId = conversation?.id || "local_chat";
+
+    let label = customPrompt;
+    if (!label) {
+      if (actionType === "explore_services") label = "⚡ Our Services";
+      else if (actionType === "browse_categories") label = "📦 Equipment Categories";
+      else if (actionType === "request_quote") label = "📋 Request a Quote";
+      else if (actionType === "connect_agent") label = "👨💼 Connect to Agent";
+      else if (actionType === "search_product") label = "Search Equipment";
+      else if (actionType === "faq") label = "Browse FAQs";
+      else label = "Help";
+    }
+
+    const userMsg: ChatMessage = {
+      id: "usr_" + Date.now(),
+      conversation_id: activeConvId,
+      sender_type: "customer",
+      message_type: "text",
+      message: label,
+      created_at: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setIsTyping(true);
+
+    const aiResponse = await processAIQuery(activeConvId, label, actionType as any);
+    setIsTyping(false);
+    setMessages((prev) => [...prev, aiResponse]);
 
     if (actionType === "search_product") {
-      const activeConvId = conversation?.id || "local_chat";
-      const userMsg: ChatMessage = {
-        id: "usr_" + Date.now(),
-        conversation_id: activeConvId,
-        sender_type: "customer",
-        message_type: "text",
-        message: "Search Product",
-        created_at: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsTyping(true);
-
-      const aiResponse = await processAIQuery(activeConvId, "Search Product", "search_product");
-      setIsTyping(false);
-      setMessages((prev) => [...prev, aiResponse]);
-
       setTimeout(() => inputRef.current?.focus(), 150);
-      return;
-    }
-
-    if (actionType === "track_order") {
-      const activeConvId = conversation?.id || "local_chat";
-      const userMsg: ChatMessage = {
-        id: "usr_" + Date.now(),
-        conversation_id: activeConvId,
-        sender_type: "customer",
-        message_type: "text",
-        message: "Track Order",
-        created_at: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsTyping(true);
-
-      const aiResponse = await processAIQuery(activeConvId, "Track Order", "track_order");
-      setIsTyping(false);
-      setMessages((prev) => [...prev, aiResponse]);
-      return;
-    }
-
-    if (actionType === "faq") {
-      const activeConvId = conversation?.id || "local_chat";
-      const userMsg: ChatMessage = {
-        id: "usr_" + Date.now(),
-        conversation_id: activeConvId,
-        sender_type: "customer",
-        message_type: "text",
-        message: customPrompt || "Browse FAQs",
-        created_at: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsTyping(true);
-
-      const aiResponse = await processAIQuery(activeConvId, customPrompt || "Browse FAQs", "faq");
-      setIsTyping(false);
-      setMessages((prev) => [...prev, aiResponse]);
-      return;
-    }
-
-    if (actionType === "connect_agent") {
-      const activeConvId = conversation?.id || "local_chat";
-      const userMsg: ChatMessage = {
-        id: "usr_" + Date.now(),
-        conversation_id: activeConvId,
-        sender_type: "customer",
-        message_type: "text",
-        message: "Connect to Agent",
-        created_at: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsTyping(true);
-
-      const aiResponse = await processAIQuery(activeConvId, "Connect to Agent", "connect_agent");
-      setIsTyping(false);
-      setMessages((prev) => [...prev, aiResponse]);
-      return;
     }
   };
 
@@ -642,8 +600,8 @@ export function AIChatbot() {
                     </div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">Instant Help & Orders</div>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#122B5A] via-[#0A3299] to-[#E50914] text-white flex items-center justify-center shadow-md shadow-orange-500/25 group-hover:scale-105 transition shrink-0">
-                    <ChatBubbleDotsIcon className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#122B5A] via-[#1a3d7c] to-[#FFB800] text-white flex items-center justify-center shadow-md shadow-[#122B5A]/25 group-hover:scale-105 transition shrink-0">
+                    <ChatBubbleDotsIcon className="w-5 h-5 text-white" />
                   </div>
                 </button>
               </div>
@@ -663,29 +621,29 @@ export function AIChatbot() {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
                 aria-label="Door Step Support Options"
-                className={`relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-white cursor-pointer ${
+                className={`relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-white hover:border-[#FFB800] cursor-pointer ${
                   menuOpen
-                    ? "bg-slate-900 text-white rotate-90"
-                    : "bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white hover:shadow-red-600/40"
+                    ? "bg-[#122B5A] text-white rotate-90"
+                    : "bg-gradient-to-tr from-[#122B5A] via-[#163672] to-[#FFB800] text-white hover:shadow-xl hover:shadow-[#122B5A]/30"
                 }`}
               >
                 {menuOpen ? (
                   <X className="w-6 h-6 text-white" />
                 ) : (
                   <>
-                    <ChatBubbleDotsIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <ChatBubbleDotsIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
 
-                    {/* Dual Online Badge (Green WhatsApp + Orange AI) */}
+                    {/* Dual Online Badge (Green WhatsApp + Yellow AI) */}
                     <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-4 w-4 bg-[#25D366] border-2 border-white items-center justify-center">
-                        <Sparkles className="w-2.5 h-2.5 text-white" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-4 w-4 bg-[#FFB800] border-2 border-white items-center justify-center">
+                        <Sparkles className="w-2.5 h-2.5 text-[#122B5A]" />
                       </span>
                     </span>
 
                     {/* Unread Counter Badge */}
                     {unreadCount > 0 && (
-                      <span className="absolute -top-1 -left-1 bg-[#FFB800] text-[#122B5A] font-bold text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
+                      <span className="absolute -top-1 -left-1 bg-[#FFB800] text-[#122B5A] font-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
                         {unreadCount}
                       </span>
                     )}
@@ -700,21 +658,21 @@ export function AIChatbot() {
         {isOpen && (
           <div className="w-full sm:w-[380px] md:w-[410px] h-[88vh] max-h-[660px] sm:h-[620px] sm:max-h-[calc(100vh-4.5rem)] bg-[#f9fafb] dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 animate-in slide-in-from-bottom-6 sm:zoom-in-95">
 
-            {/* ── HEADER ── */}
-            <div className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] px-4 py-3.5 text-white shadow-sm shrink-0">
+            {/* ── HEADER (Combined Primary #122B5A + Secondary #FFB800) ── */}
+            <div className="bg-gradient-to-r from-[#122B5A] via-[#163672] to-[#122B5A] border-b-2 border-[#FFB800] px-4 py-3.5 text-white shadow-sm shrink-0">
               {/* Mobile Drag Handle */}
               <div className="w-10 h-1 bg-white/30 rounded-full mx-auto mb-2 sm:hidden" />
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/25 shrink-0 shadow-inner">
-                      <Monitor className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-[#FFB800]/15 backdrop-blur-md flex items-center justify-center border border-[#FFB800]/40 shrink-0 shadow-inner">
+                      <Monitor className="w-5 h-5 text-[#FFB800]" />
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[15px] leading-tight text-white">
-                      Door Step BD Support
+                    <h3 className="font-bold text-[15px] leading-tight text-white flex items-center gap-1.5">
+                      <span>Door Step BD Support</span>
                     </h3>
                     <p className="text-[11px] font-medium flex items-center gap-1.5 mt-0.5">
                       {isLiveAgentActive ? (
@@ -725,14 +683,14 @@ export function AIChatbot() {
                           </>
                         ) : (
                           <>
-                            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                            <span className="w-2 h-2 rounded-full bg-[#FFB800] animate-ping"></span>
                             <span className="text-amber-300">Waiting for Agent Approval...</span>
                           </>
                         )
                       ) : (
                         <>
-                          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                          <span className="text-emerald-300">Online to help</span>
+                          <span className="w-2 h-2 rounded-full bg-[#FFB800]"></span>
+                          <span className="text-amber-200">AI Assistant Online</span>
                         </>
                       )}
                     </p>
@@ -782,8 +740,19 @@ export function AIChatbot() {
               className="flex-1 p-4 overflow-y-auto space-y-4 custom-chat-scroll bg-[#f9fafb] dark:bg-[#0b1120]"
             >
               {messages.map((msg) => {
-                const isCustomer = msg.sender_type === "customer";
-                const isSystem = msg.sender_type === "system";
+                const rawSender = String(msg.sender_type || "").toLowerCase();
+                const isCustomer =
+                  rawSender === "customer" ||
+                  rawSender === "user" ||
+                  rawSender === "client" ||
+                  rawSender === "guest";
+                const isAgent =
+                  rawSender === "agent" ||
+                  rawSender === "admin" ||
+                  rawSender === "staff" ||
+                  rawSender === "support" ||
+                  (Boolean((msg as any).is_admin) && !isCustomer);
+                const isSystem = rawSender === "system";
                 const timeString = formatMessageTime(msg.created_at) || "Just now";
 
                 if (isSystem) {
@@ -798,27 +767,48 @@ export function AIChatbot() {
                 }
 
                 return (
-                  <div key={msg.id} className="space-y-1">
+                  <div key={msg.id} className={`space-y-1 flex flex-col ${isCustomer ? "items-end" : "items-start"}`}>
                     {/* Sender & Timestamp header label */}
                     <div
-                      className={`text-[11px] font-medium text-slate-400 dark:text-slate-500 px-1 ${isCustomer ? "text-right" : "text-left"
-                        }`}
+                      className={`text-[11px] font-medium px-1 flex items-center gap-1.5 ${
+                        isCustomer
+                          ? "text-slate-400 dark:text-slate-500 justify-end"
+                          : isAgent
+                            ? "text-[#122B5A] dark:text-[#FFB800] font-semibold justify-start"
+                            : "text-slate-500 dark:text-slate-400 justify-start"
+                      }`}
                     >
-                      {isCustomer
-                        ? `You • ${timeString}`
-                        : msg.sender_type === "agent"
-                          ? `Support Agent • ${timeString}`
-                          : `Assistant • ${timeString}`}
+                      {isCustomer ? (
+                        <>
+                          <span>You</span>
+                          <span>•</span>
+                          <span>{timeString}</span>
+                        </>
+                      ) : isAgent ? (
+                        <>
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                          <Headphones className="w-3.5 h-3.5 text-[#FFB800]" />
+                          <span>Live Support Agent</span>
+                          <span className="text-slate-400 dark:text-slate-500 font-normal">• {timeString}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
+                          <span>Assistant</span>
+                          <span>• {timeString}</span>
+                        </>
+                      )}
                     </div>
 
                     {/* Message Bubble Card */}
                     <div
-                      className={`rounded-2xl p-4 text-sm leading-relaxed shadow-xs break-words ${isCustomer
-                          ? "bg-[#122B5A] text-white ml-auto max-w-[85%]"
-                          : msg.sender_type === "agent"
-                            ? "bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-l-4 border-l-[#E50914] border-slate-200 dark:border-slate-700 mr-auto max-w-[92%]"
-                            : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 mr-auto max-w-[92%]"
-                        }`}
+                      className={`text-sm leading-relaxed break-words ${
+                        isCustomer
+                          ? "bg-[#122B5A] text-white rounded-2xl rounded-tr-xs p-3.5 shadow-sm max-w-[85%] sm:max-w-[78%] ml-auto"
+                          : isAgent
+                            ? "bg-amber-50/80 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-2 border-[#FFB800] rounded-2xl rounded-tl-xs p-3.5 shadow-sm max-w-[88%] sm:max-w-[82%] mr-auto"
+                            : "bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/90 dark:border-slate-700/80 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs max-w-[92%] sm:max-w-[85%] mr-auto"
+                      }`}
                     >
                       <div className="space-y-1">{renderFormattedText(msg.message)}</div>
 
@@ -904,6 +894,127 @@ export function AIChatbot() {
                                   </Link>
                                 </div>
                               </div>
+                            ))}
+                          </div>
+                        )}
+
+                      {/* ── INTERACTIVE COMPANY SERVICES CARDS ── */}
+                      {msg.message_type === "service" &&
+                        msg.metadata?.services &&
+                        msg.metadata.services.length > 0 && (
+                          <div className="mt-3 space-y-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+                            {msg.metadata.services.map((svc: any) => (
+                              <div
+                                key={svc.id}
+                                className="bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-[#FFB800] dark:hover:border-[#FFB800] transition shadow-2xs group"
+                              >
+                                <div className="flex items-center gap-3 min-w-0 flex-1">
+                                  <div className="relative w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-900 overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 flex items-center justify-center">
+                                    {svc.image ? (
+                                      <Image
+                                        src={getMediaUrl(svc.image)}
+                                        alt={svc.title || svc.name || "Service"}
+                                        fill
+                                        className="object-cover"
+                                      />
+                                    ) : (
+                                      <Zap className="w-5 h-5 text-[#FFB800]" />
+                                    )}
+                                  </div>
+                                  <div className="min-w-0 flex-1">
+                                    <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 group-hover:text-[#122B5A] dark:group-hover:text-[#FFB800] truncate">
+                                      {svc.title || svc.name}
+                                    </h4>
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
+                                      {svc.short_description || "Certified Engineering & Power Support"}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  <Link
+                                    href={`/services/${svc.slug || svc.id}`}
+                                    onClick={() => {
+                                      if (window.innerWidth < 640) setIsOpen(false);
+                                    }}
+                                    className="px-2.5 py-1.5 bg-[#122B5A] hover:bg-[#0c1e40] text-white text-[11px] font-bold rounded-lg transition shadow-2xs flex items-center gap-1"
+                                  >
+                                    <span>Details</span>
+                                    <ChevronRight className="w-3 h-3 text-[#FFB800]" />
+                                  </Link>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                      {/* ── INTERACTIVE PRODUCT CATEGORY CARDS ── */}
+                      {msg.message_type === "category" &&
+                        msg.metadata?.categories &&
+                        msg.metadata.categories.length > 0 && (
+                          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+                            {msg.metadata.categories.map((cat: any) => (
+                              <Link
+                                key={cat.id}
+                                href={`/all-products?category=${cat.slug || cat.id}`}
+                                onClick={() => {
+                                  if (window.innerWidth < 640) setIsOpen(false);
+                                }}
+                                className="bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl p-2.5 flex items-center gap-2.5 hover:border-[#FFB800] dark:hover:border-[#FFB800] transition shadow-2xs group"
+                              >
+                                <div className="relative w-9 h-9 rounded-lg bg-slate-50 dark:bg-slate-900 overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 flex items-center justify-center">
+                                  {cat.image ? (
+                                    <Image
+                                      src={getMediaUrl(cat.image)}
+                                      alt={cat.name || "Category"}
+                                      fill
+                                      className="object-contain p-1"
+                                    />
+                                  ) : (
+                                    <Layers className="w-4 h-4 text-[#122B5A] dark:text-[#FFB800]" />
+                                  )}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 group-hover:text-[#122B5A] dark:group-hover:text-[#FFB800] truncate">
+                                    {cat.name}
+                                  </h4>
+                                  <span className="text-[10px] text-slate-400 flex items-center gap-0.5">
+                                    <span>Browse</span>
+                                    <ChevronRight className="w-2.5 h-2.5" />
+                                  </span>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+
+                      {/* ── GENERIC INTERACTIVE QUICK REPLIES CHIPS ── */}
+                      {Array.isArray(msg.metadata?.quick_replies) &&
+                        msg.metadata.quick_replies.length > 0 &&
+                        msg.metadata?.intent !== "faq_list" && (
+                          <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-1.5">
+                            {msg.metadata.quick_replies.map((qr: any, qrIdx: number) => (
+                              <button
+                                key={qrIdx}
+                                type="button"
+                                onClick={() => {
+                                  if (qr.action === "connect_agent") {
+                                    handleQuickAction("connect_agent");
+                                  } else if (qr.action === "explore_services") {
+                                    handleQuickAction("explore_services");
+                                  } else if (qr.action === "browse_categories") {
+                                    handleQuickAction("browse_categories");
+                                  } else if (qr.action === "request_quote") {
+                                    handleQuickAction("request_quote");
+                                  } else if (qr.prompt) {
+                                    handleSendMessage(qr.prompt);
+                                  } else {
+                                    handleSendMessage(qr.label);
+                                  }
+                                }}
+                                className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-700/70 hover:bg-[#122B5A] hover:text-white dark:hover:bg-[#122B5A] text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-600 transition shadow-2xs cursor-pointer active:scale-95"
+                              >
+                                {qr.label}
+                              </button>
                             ))}
                           </div>
                         )}
@@ -1184,38 +1295,38 @@ export function AIChatbot() {
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => handleQuickAction("search_product")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  onClick={() => handleQuickAction("explore_services")}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-amber-50/70 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-[#FFB800] transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Search className="w-4 h-4 text-[#122B5A] shrink-0" />
-                  <span className="truncate">Search Product</span>
+                  <Zap className="w-4 h-4 text-[#FFB800] shrink-0" />
+                  <span className="truncate">Our Services</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickAction("track_order")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  onClick={() => handleQuickAction("browse_categories")}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50/70 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Package className="w-4 h-4 text-[#122B5A] shrink-0" />
-                  <span className="truncate">Track Order</span>
+                  <Layers className="w-4 h-4 text-[#122B5A] dark:text-[#FFB800] shrink-0" />
+                  <span className="truncate">Categories</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickAction("faq")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  onClick={() => handleQuickAction("request_quote")}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50/70 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <HelpCircle className="w-4 h-4 text-[#122B5A] shrink-0" />
-                  <span className="truncate">Browse FAQs</span>
+                  <FileText className="w-4 h-4 text-[#122B5A] dark:text-[#FFB800] shrink-0" />
+                  <span className="truncate">Request a Quote</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handleQuickAction("connect_agent")}
-                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-blue-50 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#122B5A] dark:hover:text-blue-400 transition shadow-2xs cursor-pointer text-left active:scale-95"
+                  className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/90 hover:bg-amber-50 dark:hover:bg-slate-700/80 border border-[#FFB800]/50 dark:border-[#FFB800]/40 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-100 hover:text-[#122B5A] transition shadow-2xs cursor-pointer text-left active:scale-95"
                 >
-                  <Headphones className="w-4 h-4 text-[#122B5A] shrink-0" />
-                  <span className="truncate">Connect to Agent</span>
+                  <Headphones className="w-4 h-4 text-[#FFB800] shrink-0" />
+                  <span className="truncate font-bold">Connect to Agent</span>
                 </button>
               </div>
             </div>

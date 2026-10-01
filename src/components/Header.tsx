@@ -11,7 +11,7 @@ import {
 import { useShop } from "@/context/ShopContext";
 import productsData from "@/data/products.json";
 import { DoorStepLogo } from "@/components/common/DoorStepLogo";
-import { API_V1, getServices, ApiService } from "@/lib/api";
+import { API_V1, getCategories, getProducts, getServices, ApiService } from "@/lib/api";
 
 type SubCategory = {
   id: number;
@@ -42,14 +42,14 @@ export function Header() {
 
   // Fetch dynamic categories + sub-categories from API
   useEffect(() => {
+    let isMounted = true;
+
     const loadCategories = async () => {
       try {
-        const res = await fetch(`${API_V1}/categories?all=1`);
-        if (!res.ok) return;
-        const json = await res.json();
-        const catsData = json.data || json;
-        if (Array.isArray(catsData)) {
-          const mapped = catsData.map((cat: any) => ({
+        const res = await getCategories(true);
+        if (!isMounted) return;
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          const mapped = res.data.map((cat: any) => ({
             id: cat.id,
             name: cat.name,
             slug: cat.slug,
@@ -70,6 +70,7 @@ export function Header() {
     const loadServices = async () => {
       try {
         const res = await getServices({ all: 1 });
+        if (!isMounted) return;
         if (res.success && Array.isArray(res.data) && res.data.length > 0) {
           setServices(res.data);
         }
@@ -80,10 +81,9 @@ export function Header() {
 
     const loadProducts = async () => {
       try {
-        const res = await fetch(`${API_V1}/products?per_page=100`);
-        if (!res.ok) throw new Error("API not ready");
-        const json = await res.json();
-        const prods = json.data?.data || json.data || [];
+        const res = await getProducts({ per_page: 100 });
+        if (!isMounted) return;
+        const prods = (res?.data as any)?.data || (res as any)?.data || [];
         if (Array.isArray(prods) && prods.length > 0) {
           const mapped = prods.map((p: any) => ({
             id: p.id,
@@ -100,6 +100,7 @@ export function Header() {
         // Fallback to static dataset
       }
 
+      if (!isMounted) return;
       const staticMapped = (productsData as any[]).map((p: any) => ({
         id: p.id,
         name: p.name || "",
@@ -114,6 +115,10 @@ export function Header() {
     loadCategories();
     loadServices();
     loadProducts();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const searchResults = searchQuery.trim()

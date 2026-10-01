@@ -13,8 +13,59 @@ const FALLBACK_CATEGORY_IMAGES = [
   "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop",
 ];
 
+const DEFAULT_CATEGORIES: ApiCategory[] = [
+  {
+    id: 1,
+    name: "Diesel Generators",
+    slug: "diesel-generators",
+    description: "High-performance heavy-duty industrial diesel power generation systems from 20 kVA to 3000 kVA.",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  },
+  {
+    id: 2,
+    name: "Substation Engineering",
+    slug: "substation-engineering",
+    description: "Complete 11kV/0.415kV substation, HT/LT panels, distribution transformers, and PFI plant installation.",
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  },
+  {
+    id: 3,
+    name: "Solar Power Solutions",
+    slug: "solar-power-solutions",
+    description: "Commercial and industrial rooftop solar PV installations with on-grid net metering support.",
+    image: "https://images.unsplash.com/photo-1509391365360-2e959784a276?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  },
+  {
+    id: 4,
+    name: "Gas Generators",
+    slug: "gas-generators",
+    description: "Continuous baseload natural gas and biogas generator sets engineered for fuel economy.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  },
+  {
+    id: 5,
+    name: "Industrial Automation & ATS",
+    slug: "industrial-automation-ats",
+    description: "Automated transfer switchgear, synchronizing load sharing panels, and SCADA monitoring.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  },
+  {
+    id: 6,
+    name: "Energy Audits & Maintenance",
+    slug: "energy-audits-maintenance",
+    description: "Comprehensive harmonic analysis, power quality testing, major engine overhauls, and 24/7 AMC.",
+    image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop",
+    status: 1
+  }
+];
+
 export function OurCategoriesSection() {
-  const [categories, setCategories] = useState<ApiCategory[]>([]);
+  const [categories, setCategories] = useState<ApiCategory[]>(DEFAULT_CATEGORIES);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -25,14 +76,11 @@ export function OurCategoriesSection() {
         const res = await getCategories(true);
         if (!isMounted) return;
         if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
-          const activeList = res.data.filter((c) => c.status !== false && c.status !== 0);
+          const activeList = res.data.filter((c) => c.status !== false && c.status !== 0 && (c.status as any) !== "inactive");
           setCategories(activeList.length > 0 ? activeList : res.data);
-        } else {
-          setCategories([]);
         }
       } catch (err) {
         console.warn("Error fetching categories:", err);
-        setCategories([]);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -66,7 +114,7 @@ export function OurCategoriesSection() {
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#FFB800]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-[#122B5A]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+      <div className="max-w-[1460px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="max-w-3xl space-y-2 mb-8 sm:mb-12 text-left">
@@ -75,8 +123,8 @@ export function OurCategoriesSection() {
             <span>Equipment Categories</span>
           </div>
           
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#122B5A] tracking-tight">
-            Our Categories
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#122B5A] tracking-tight uppercase">
+            OUR CATEGORIES
           </h2>
           
           <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">

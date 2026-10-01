@@ -145,7 +145,7 @@ export function OurBrandsSection() {
       <div className="absolute top-0 right-10 w-96 h-96 bg-[#FFB800]/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-10 w-96 h-96 bg-[#122B5A]/8 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 relative z-10 space-y-8">
+      <div className="max-w-[1460px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
         
         {/* Section Header: Title, Subtitle & Interactive Navigation Buttons */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -155,8 +155,8 @@ export function OurBrandsSection() {
               <span>Our Own Brand & Official Partners</span>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#122B5A] tracking-tight">
-              Ours Brands
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#122B5A] tracking-tight uppercase">
+              OURS BRANDS
             </h2>
             
             <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">

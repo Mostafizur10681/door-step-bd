@@ -11,8 +11,23 @@ import {
 
 import { getBanners } from "@/lib/api";
 
+const DEFAULT_HERO_SLIDE = {
+  id: 1,
+  title: "Smart Industrial Automation & Power Solutions",
+  tagline: "WEEKEND SPECIAL OFFER",
+  titleLine1: "Smart Industrial",
+  titleLine2: "Automation Solution",
+  discountText: "Engineered heavy-duty generation, substation, and renewable energy systems.",
+  linkUrl: "/all-products",
+  ctaText: "CONTACT US",
+  bgColor: "linear-gradient(135deg, #0b2545 0%, #134074 50%, #8d0801 100%)",
+  desktopImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1600&auto=format&fit=crop",
+  mobileImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop",
+  image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1600&auto=format&fit=crop",
+};
+
 export function HeroSlider() {
-  const [slides, setSlides] = useState<any[]>([]);
+  const [slides, setSlides] = useState<any[]>([DEFAULT_HERO_SLIDE]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -33,6 +48,7 @@ export function HeroSlider() {
           const formatted = activeBanners.map((b) => {
             let t1 = b.title_line1 || b.titleLine1 || b.title || "";
             let t2 = b.title_line2 || b.titleLine2 || "";
+            const desc = b.description || (b as any).desc || b.subtitle || (b as any).short_description || b.discount_text || b.discountText || "";
 
             const desktopImg = b.desktop_image || b.image || "";
             const mobileImg = b.mobile_image || b.desktop_image || b.image || "";
@@ -43,7 +59,8 @@ export function HeroSlider() {
               tagline: b.badge || b.tagline || "",
               titleLine1: t1,
               titleLine2: t2,
-              discountText: b.subtitle || b.discount_text || b.discountText || "",
+              description: desc,
+              discountText: desc,
               linkUrl: b.cta_link || b.ctaLink || b.link || "/all-products",
               ctaText: (b.cta_text && b.cta_text.trim()) ? b.cta_text.trim() : (b.ctaText && b.ctaText.trim() ? b.ctaText.trim() : ""),
               bgColor: b.bg_color || "linear-gradient(135deg, #0b2545 0%, #134074 50%, #8d0801 100%)",
@@ -56,10 +73,10 @@ export function HeroSlider() {
           return;
         }
       }
-      setSlides([]);
+      setSlides([DEFAULT_HERO_SLIDE]);
     } catch (err) {
       console.error("Failed to load dynamic banners:", err);
-      setSlides([]);
+      setSlides([DEFAULT_HERO_SLIDE]);
     } finally {
       setLoading(false);
     }
@@ -150,7 +167,7 @@ export function HeroSlider() {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {slides.map((slide, idx) => {
-          const hasText = Boolean(slide.titleLine1 || slide.titleLine2 || slide.discountText || slide.tagline);
+          const hasText = Boolean(slide.titleLine1 || slide.titleLine2 || slide.title || slide.description || slide.discountText || slide.tagline);
           const hasCta = Boolean((slide.ctaText && slide.ctaText.trim()) || (slide.cta_text && slide.cta_text.trim()));
           const hasOverlay = hasText || hasCta;
           const link = slide.linkUrl || "/all-products";
@@ -200,15 +217,15 @@ export function HeroSlider() {
                           </div>
                         )}
 
-                        {(slide.titleLine1 || slide.titleLine2) && (
+                        {(slide.titleLine1 || slide.titleLine2 || slide.title) && (
                           <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white drop-shadow-lg leading-[1.1] sm:leading-tight">
-                            {slide.titleLine1} {slide.titleLine2 && <span className="text-amber-300 block mt-0.5 sm:mt-1">{slide.titleLine2}</span>}
+                            {slide.titleLine1 || slide.title} {slide.titleLine2 && <span className="text-amber-300 block mt-0.5 sm:mt-1">{slide.titleLine2}</span>}
                           </h2>
                         )}
 
-                        {slide.discountText && (
-                          <p className="text-xs sm:text-base md:text-lg lg:text-xl font-bold text-amber-200 drop-shadow-md tracking-wide">
-                            {slide.discountText}
+                        {(slide.description || slide.discountText) && (
+                          <p className="text-xs sm:text-base md:text-lg text-blue-100/90 font-medium drop-shadow-md tracking-wide leading-relaxed max-w-xl line-clamp-3">
+                            {slide.description || slide.discountText}
                           </p>
                         )}
 

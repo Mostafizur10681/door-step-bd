@@ -19,7 +19,7 @@ import {
 import { useShop } from "@/context/ShopContext";
 import { ProductGridSkeleton } from "@/components/common/Skeletons";
 import { isProductOutOfStock } from "@/lib/productAdapter";
-import { API_V1 } from "@/lib/api";
+import { API_V1, getCategories, getProducts } from "@/lib/api";
 
 export interface CatalogProduct {
   id: string | number;
@@ -143,12 +143,11 @@ export function GhorerBazarCatalog({
       setLoading(true);
 
       Promise.all([
-        fetch(`${API_V1}/categories?all=1`).then((res) => res.json()).catch(() => ({ data: [] })),
-        fetch(`${API_V1}/products?per_page=100`).then((res) => res.json()).catch(() => ({ data: [] }))
+        getCategories(true),
+        getProducts({ per_page: 100 })
       ])
         .then(([catsRes, prodsRes]) => {
-          const rawCats = catsRes?.data || (Array.isArray(catsRes) ? catsRes : []);
-          const catsList: CategoryItem[] = Array.isArray(rawCats) ? rawCats : [];
+          const catsList: CategoryItem[] = (catsRes && catsRes.success && Array.isArray(catsRes.data)) ? catsRes.data : [];
           setCategories(catsList);
 
           // Build subcategories map from API categories
@@ -162,7 +161,7 @@ export function GhorerBazarCatalog({
             });
           });
 
-          const rawProds = prodsRes?.data?.data || prodsRes?.data || [];
+          const rawProds = (prodsRes?.data as any)?.data || (prodsRes as any)?.data || [];
           if (Array.isArray(rawProds) && rawProds.length > 0) {
             const mapped: CatalogProduct[] = rawProds.map((p: any) => {
               const rawPrice = parseFloat(String(p.price || 0)) || 0;
@@ -234,12 +233,10 @@ export function GhorerBazarCatalog({
         .catch(() => {})
         .finally(() => setLoading(false));
     } else {
-      fetch(`${API_V1}/categories?all=1`)
-        .then((res) => res.json())
-        .then((data) => {
-          const list = data?.data || (Array.isArray(data) ? data : []);
-          if (Array.isArray(list) && list.length > 0) {
-            setCategories(list);
+      getCategories(true)
+        .then((res) => {
+          if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+            setCategories(res.data);
           }
         })
         .catch(() => {});

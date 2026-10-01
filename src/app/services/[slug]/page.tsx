@@ -80,7 +80,7 @@ export default function SingleServicePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 py-16 sm:py-24">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1460px] mx-auto px-4 sm:px-6">
           <div className="space-y-6 animate-pulse">
             <div className="h-6 bg-slate-200 rounded w-48" />
             <div className="h-12 bg-slate-200 rounded w-3/4" />
@@ -131,9 +131,9 @@ export default function SingleServicePage() {
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="relative max-w-5xl mx-auto space-y-5 z-10 text-center sm:text-left">
+        <div className="relative max-w-[1460px] mx-auto space-y-5 z-10 text-left">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider self-center sm:self-start shadow-inner">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider self-start shadow-inner">
             <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
             <span>Door Step BD Engineering Service</span>
           </div>
@@ -148,42 +148,11 @@ export default function SingleServicePage() {
             </p>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-3">
-            <a
-              href={`tel:${cleanPhone}`}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              <PhoneCall className="w-4 h-4 text-[#122B5A]" />
-              <span>Call Hotline: {phone}</span>
-            </a>
-
-            {cleanWaNumber && (
-              <a
-                href={`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent(`Hello, I need inquiry regarding ${service.title}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp Quote</span>
-              </a>
-            )}
-
-            <Link
-              href="/contact-us"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs sm:text-sm backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              <Zap className="w-4 h-4 text-[#FFB800]" />
-              <span>Submit Inquiry</span>
-            </Link>
-          </div>
-
         </div>
       </section>
 
       {/* 2. Main Service Content Body */}
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div className="max-w-[1460px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left Column: Image & Full Description (8 Cols) */}

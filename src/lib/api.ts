@@ -108,6 +108,7 @@ export interface ApiBanner {
   title_line2?: string;
   titleLine1?: string;
   titleLine2?: string;
+  description?: string;
   subtitle?: string;
   discount_text?: string;
   discountText?: string;
@@ -228,81 +229,169 @@ export interface CreateOrderPayload {
 
 export interface FetchOptions extends RequestInit {
   suppressThrow?: boolean;
+  cacheTtlMs?: number;
+  forceFresh?: boolean;
+  retries?: number;
+}
+
+// In-flight promise deduplication map to prevent duplicate concurrent HTTP requests
+const inFlightRequests = new Map<string, Promise<any>>();
+
+// In-memory cache for fast subsequent reads
+interface CacheEntry<T> {
+  data: T;
+  expiresAt: number;
+}
+const memoryCache = new Map<string, CacheEntry<any>>();
+
+export function clearApiCache(urlPrefix?: string) {
+  if (!urlPrefix) {
+    memoryCache.clear();
+    return;
+  }
+  for (const key of memoryCache.keys()) {
+    if (key.includes(urlPrefix)) {
+      memoryCache.delete(key);
+    }
+  }
 }
 
 export async function fetchFromApi<T>(endpoint: string, options?: FetchOptions): Promise<T> {
   const base = resolveApiBaseUrl();
   const url = endpoint.startsWith("http") ? endpoint : `${base}/api/v1${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+  const method = (options?.method || "GET").toUpperCase();
 
   // Attach Sanctum token if available in localStorage
+  let token = "";
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("shopia_token") || "";
+  }
+
   let headers: Record<string, string> = {
     "Accept": "application/json",
     "Content-Type": "application/json",
   };
 
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("shopia_token");
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   if (options?.headers) {
     headers = { ...headers, ...(options.headers as Record<string, string>) };
   }
 
-  let res: Response;
-  try {
-    const signal = options?.signal || (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(8000) : undefined);
-    res = await fetch(url, {
-      ...options,
-      headers,
-      cache: "no-store",
-      signal,
-    });
-  } catch (err: any) {
-    if (options?.suppressThrow) {
-      return { success: false, data: null } as unknown as T;
+  const isGet = method === "GET";
+  const cacheKey = `${method}:${url}:${token}`;
+
+  // 1. Check memory cache for GET requests
+  if (isGet && !options?.forceFresh) {
+    const cached = memoryCache.get(cacheKey);
+    if (cached && Date.now() < cached.expiresAt) {
+      return cached.data;
     }
-    const isNetworkError = err instanceof TypeError || err?.name === "TypeError" || err?.message?.includes("fetch");
-    const msg = isNetworkError
-      ? `Failed to connect to API server at ${url}. Please ensure the backend server is running.`
-      : (err?.message || "Network request failed");
-    const error: any = new Error(msg);
-    error.cause = err;
-    throw error;
   }
 
-  if (!res.ok) {
-    if (options?.suppressThrow) {
-      return { success: false, data: null } as unknown as T;
-    }
-    let errMessage = `HTTP error ${res.status}`;
-    let validationErrors: Record<string, string[]> | undefined = undefined;
+  // 2. Check in-flight request deduplication for GET requests
+  if (isGet && inFlightRequests.has(cacheKey) && !options?.forceFresh) {
+    return inFlightRequests.get(cacheKey) as Promise<T>;
+  }
+
+  const maxRetries = options?.retries !== undefined ? options.retries : (isGet ? 2 : 0);
+  const cacheTtl = options?.cacheTtlMs ?? (isGet ? 20000 : 0); // 20s cache default for GET
+
+  const executeFetch = async (attempt: number = 0): Promise<T> => {
+    let res: Response;
     try {
-      const errData = await res.json();
-      if (errData.errors && typeof errData.errors === "object" && !Array.isArray(errData.errors) && Object.keys(errData.errors).length > 0) {
-        validationErrors = errData.errors;
-        const firstKey = Object.keys(errData.errors)[0];
-        if (firstKey && Array.isArray(errData.errors[firstKey]) && errData.errors[firstKey][0]) {
-          errMessage = errData.errors[firstKey][0];
+      const timeoutMs = 15000;
+      const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      let timeoutId: any = null;
+      
+      let signal = options?.signal;
+      if (!signal && controller) {
+        timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        signal = controller.signal;
+      }
+
+      try {
+        res = await fetch(url, {
+          ...options,
+          method,
+          headers,
+          cache: "no-store",
+          signal,
+        });
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+      }
+    } catch (err: any) {
+      if (attempt < maxRetries && isGet) {
+        await new Promise((resolve) => setTimeout(resolve, 300 * (attempt + 1)));
+        return executeFetch(attempt + 1);
+      }
+      if (options?.suppressThrow) {
+        return { success: false, data: null } as unknown as T;
+      }
+      const isNetworkError = err instanceof TypeError || err?.name === "TypeError" || err?.name === "AbortError" || err?.message?.includes("fetch");
+      const msg = isNetworkError
+        ? `Failed to connect to API server at ${url}. Please ensure the backend server is running.`
+        : (err?.message || "Network request failed");
+      const error: any = new Error(msg);
+      error.cause = err;
+      throw error;
+    }
+
+    if (!res.ok) {
+      if (attempt < maxRetries && isGet && (res.status >= 500 || res.status === 429)) {
+        await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+        return executeFetch(attempt + 1);
+      }
+      if (options?.suppressThrow) {
+        return { success: false, data: null } as unknown as T;
+      }
+      let errMessage = `HTTP error ${res.status}`;
+      let validationErrors: Record<string, string[]> | undefined = undefined;
+      try {
+        const errData = await res.json();
+        if (errData.errors && typeof errData.errors === "object" && !Array.isArray(errData.errors) && Object.keys(errData.errors).length > 0) {
+          validationErrors = errData.errors;
+          const firstKey = Object.keys(errData.errors)[0];
+          if (firstKey && Array.isArray(errData.errors[firstKey]) && errData.errors[firstKey][0]) {
+            errMessage = errData.errors[firstKey][0];
+          } else if (errData.message) {
+            errMessage = errData.message;
+          }
         } else if (errData.message) {
           errMessage = errData.message;
         }
-      } else if (errData.message) {
-        errMessage = errData.message;
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
+      const error: any = new Error(errMessage);
+      if (validationErrors) {
+        error.errors = validationErrors;
+      }
+      throw error;
     }
-    const error: any = new Error(errMessage);
-    if (validationErrors) {
-      error.errors = validationErrors;
+
+    const data = await res.json();
+    if (isGet && cacheTtl > 0) {
+      memoryCache.set(cacheKey, {
+        data,
+        expiresAt: Date.now() + cacheTtl,
+      });
     }
-    throw error;
+    return data;
+  };
+
+  const promise = executeFetch().finally(() => {
+    inFlightRequests.delete(cacheKey);
+  });
+
+  if (isGet) {
+    inFlightRequests.set(cacheKey, promise);
   }
 
-  return res.json();
+  return promise;
 }
 
 // ── Orders ──
@@ -353,9 +442,14 @@ export async function getProductBySlugOrId(idOrSlug: string | number) {
 }
 
 // ── Categories ──
+const LOCAL_CATEGORIES_STORAGE_KEY = "doorstep_cached_categories";
+
 export async function getCategories(all: boolean = true): Promise<{ success: boolean; data: ApiCategory[] }> {
   try {
-    const res = await fetchFromApi<any>(`/categories${all ? "?all=1" : ""}`, { suppressThrow: true });
+    const res = await fetchFromApi<any>(`/categories${all ? "?all=1" : ""}`, { 
+      suppressThrow: true,
+      cacheTtlMs: 30000 
+    });
     let list: ApiCategory[] = [];
     if (res) {
       if (Array.isArray(res)) {
@@ -368,11 +462,33 @@ export async function getCategories(all: boolean = true): Promise<{ success: boo
         list = res.categories;
       }
     }
-    return { success: true, data: list };
+
+    if (list.length > 0) {
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(LOCAL_CATEGORIES_STORAGE_KEY, JSON.stringify(list));
+        } catch {}
+      }
+      return { success: true, data: list };
+    }
   } catch (err) {
     console.warn("API /categories request failed:", err);
-    return { success: false, data: [] };
   }
+
+  // Fallback to local storage if API is temporarily unavailable
+  if (typeof window !== "undefined") {
+    try {
+      const saved = localStorage.getItem(LOCAL_CATEGORIES_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return { success: true, data: parsed };
+        }
+      }
+    } catch {}
+  }
+
+  return { success: false, data: [] };
 }
 
 // ── Banners ──
@@ -380,7 +496,10 @@ const LOCAL_BANNERS_STORAGE_KEY = "shopia_dynamic_banners";
 
 export async function getBanners(): Promise<{ success: boolean; data: ApiBanner[] }> {
   try {
-    const res = await fetchFromApi<any>("/banners", { suppressThrow: true });
+    const res = await fetchFromApi<any>("/banners", { 
+      suppressThrow: true,
+      cacheTtlMs: 30000
+    });
     let list: any[] = [];
     if (res) {
       if (Array.isArray(res)) {
@@ -398,6 +517,7 @@ export async function getBanners(): Promise<{ success: boolean; data: ApiBanner[
         title: b.title || b.name || "",
         title_line1: b.title_line1 || "",
         title_line2: b.title_line2 || "",
+        description: b.description || b.desc || b.subtitle || b.short_description || "",
         subtitle: b.subtitle || b.description || b.short_description || "",
         badge: b.badge || b.tagline || b.tag || "",
         tagline: b.tagline || b.badge || "",
@@ -651,13 +771,9 @@ export interface ApiAboutData {
 
 export async function getAboutPage(): Promise<{ success: boolean; data: ApiAboutData | null }> {
   try {
-    let res = await fetch(`${API_V1}/about`, { cache: "no-store" });
-    if (!res.ok) {
-      res = await fetch(`${API_BASE_URL}/about`, { cache: "no-store" });
-    }
-    if (res.ok) {
-      const json = await res.json();
-      const data = json.data || json;
+    const res = await fetchFromApi<any>("/about", { suppressThrow: true, cacheTtlMs: 30000 });
+    if (res) {
+      const data = res.data || res;
       return { success: true, data: data || null };
     }
     return { success: false, data: null };
@@ -981,10 +1097,8 @@ export async function getBrands(params?: { per_page?: number; all?: number }): P
     if (params?.per_page) query.append("per_page", String(params.per_page));
     if (params?.all) query.append("all", "1");
     const qs = query.toString() ? `?${query.toString()}` : "";
-    const res = await fetch(`${API_V1}/brands${qs}`);
-    if (!res.ok) return { success: false, data: [] };
-    const json = await res.json();
-    const data = json.data || json;
+    const res = await fetchFromApi<any>(`/brands${qs}`, { suppressThrow: true, cacheTtlMs: 30000 });
+    const data = res?.data || res;
     return { success: true, data: Array.isArray(data) ? data : [] };
   } catch (err) {
     return { success: false, data: [] };
@@ -1010,10 +1124,8 @@ export async function getServices(params?: { per_page?: number; all?: number }):
     if (params?.per_page) query.append("per_page", String(params.per_page));
     if (params?.all) query.append("all", "1");
     const qs = query.toString() ? `?${query.toString()}` : "";
-    const res = await fetch(`${API_V1}/services${qs}`, { cache: "no-store" });
-    if (!res.ok) return { success: false, data: [] };
-    const json = await res.json();
-    const data = json.data || json;
+    const res = await fetchFromApi<any>(`/services${qs}`, { suppressThrow: true, cacheTtlMs: 30000 });
+    const data = res?.data || res;
     return { success: true, data: Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []) };
   } catch (err) {
     return { success: false, data: [] };
@@ -1022,10 +1134,8 @@ export async function getServices(params?: { per_page?: number; all?: number }):
 
 export async function getServiceBySlug(slugOrId: string | number): Promise<{ success: boolean; data: ApiService | null }> {
   try {
-    const res = await fetch(`${API_V1}/services/${slugOrId}`, { cache: "no-store" });
-    if (!res.ok) return { success: false, data: null };
-    const json = await res.json();
-    const data = json.data || json;
+    const res = await fetchFromApi<any>(`/services/${slugOrId}`, { suppressThrow: true, cacheTtlMs: 30000 });
+    const data = res?.data || res;
     return { success: true, data: data || null };
   } catch (err) {
     console.warn(`Error fetching service ${slugOrId}:`, err);
@@ -1059,21 +1169,17 @@ export async function getPartners(params?: { per_page?: number; all?: number }):
     if (params?.all) query.append("all", "1");
     const qs = query.toString() ? `?${query.toString()}` : "";
     
-    let res = await fetch(`${API_V1}/partners${qs}`, { cache: "no-store" });
-    if (!res.ok) {
-      res = await fetch(`${API_BASE_URL}/partners${qs}`, { cache: "no-store" });
-    }
-    if (res.ok) {
-      const json = await res.json();
+    const res = await fetchFromApi<any>(`/partners${qs}`, { suppressThrow: true, cacheTtlMs: 30000 });
+    if (res) {
       let list: ApiPartner[] = [];
-      if (Array.isArray(json)) {
-        list = json;
-      } else if (Array.isArray(json.data)) {
-        list = json.data;
-      } else if (Array.isArray(json.data?.data)) {
-        list = json.data.data;
-      } else if (Array.isArray(json.partners)) {
-        list = json.partners;
+      if (Array.isArray(res)) {
+        list = res;
+      } else if (Array.isArray(res.data)) {
+        list = res.data;
+      } else if (Array.isArray(res.data?.data)) {
+        list = res.data.data;
+      } else if (Array.isArray(res.partners)) {
+        list = res.partners;
       }
       return { success: true, data: list };
     }

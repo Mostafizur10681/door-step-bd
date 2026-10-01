@@ -166,15 +166,15 @@ function CategoryCatalogContent() {
       try {
         setLoading(true);
         const [catsRes, contactRes] = await Promise.allSettled([
-          fetch(`${API_V1}/categories?all=1`).then((r) => (r.ok ? r.json() : null)),
+          getCategories(true),
           getContactSettings()
         ]);
 
         if (!isMounted) return;
 
         // Process Categories
-        if (catsRes.status === "fulfilled" && catsRes.value) {
-          const rawCats = catsRes.value.data || catsRes.value;
+        if (catsRes.status === "fulfilled" && catsRes.value && catsRes.value.success) {
+          const rawCats = catsRes.value.data;
           if (Array.isArray(rawCats) && rawCats.length > 0) {
             const mapped: CategoryItem[] = rawCats.map((cat: any, idx: number) => {
               const rawSubs = cat.sub_categories || cat.subcategories || cat.subCategories || cat.children || [];
