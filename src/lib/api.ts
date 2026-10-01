@@ -1,29 +1,26 @@
 export function resolveApiBaseUrl(): string {
-  // 1. In browser: If running on production domain, always point to admin.doorstepbd.org
+  // 1. If explicitly defined via NEXT_PUBLIC_API_URL, always honor it
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && typeof envUrl === "string" && envUrl.trim()) {
+    return envUrl.trim().replace(/\/+$/, "");
+  }
+
+  // 2. In browser on live domain when no env is provided
   if (typeof window !== "undefined") {
     const host = window.location.hostname;
-    const isLocal = host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0";
+    const isLocal = host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0" || host.endsWith(".local");
     if (!isLocal) {
-      const envUrl = process.env.NEXT_PUBLIC_API_URL;
-      if (!envUrl || envUrl.includes("127.0.0.1") || envUrl.includes("localhost")) {
-        return "https://admin.doorstepbd.org";
-      }
-      return envUrl.replace(/\/+$/, "");
-    }
-  }
-
-  // 2. In production Node.js / SSR server environment
-  if (process.env.NODE_ENV === "production") {
-    const envUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!envUrl || envUrl.includes("127.0.0.1") || envUrl.includes("localhost")) {
       return "https://admin.doorstepbd.org";
     }
-    return envUrl.replace(/\/+$/, "");
   }
 
-  // 3. Local development fallback
-  const rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-  return rawUrl.replace(/\/+$/, "");
+  // 3. In server production without env variable
+  if (process.env.NODE_ENV === "production") {
+    return "https://admin.doorstepbd.org";
+  }
+
+  // 4. Default fallback for local development
+  return "http://127.0.0.1:8000";
 }
 
 export const API_BASE_URL = resolveApiBaseUrl();
@@ -1162,6 +1159,8 @@ export interface ApiPartner {
   updated_at?: string;
 }
 
+const LOCAL_PARTNERS_STORAGE_KEY = "shopia_dynamic_partners";
+
 export async function getPartners(params?: { per_page?: number; all?: number }): Promise<{ success: boolean; data: ApiPartner[] }> {
   try {
     const query = new URLSearchParams();
@@ -1181,11 +1180,31 @@ export async function getPartners(params?: { per_page?: number; all?: number }):
       } else if (Array.isArray(res.partners)) {
         list = res.partners;
       }
-      return { success: true, data: list };
+      if (list.length > 0) {
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem(LOCAL_PARTNERS_STORAGE_KEY, JSON.stringify(list));
+          } catch { }
+        }
+        return { success: true, data: list };
+      }
     }
-    return { success: false, data: [] };
   } catch (err) {
     console.warn("Error fetching partners:", err);
-    return { success: false, data: [] };
   }
+
+  // Fallback to cached partners if available
+  if (typeof window !== "undefined") {
+    try {
+      const saved = localStorage.getItem(LOCAL_PARTNERS_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return { success: true, data: parsed };
+        }
+      }
+    } catch { }
+  }
+
+  return { success: false, data: [] };
 }
