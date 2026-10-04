@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { 
-  Zap, 
-  PhoneCall, 
-  MessageSquare, 
-  ChevronRight, 
+import {
+  Zap,
+  PhoneCall,
+  MessageSquare,
+  ChevronRight,
   ArrowLeft,
   Wrench,
   Sparkles,
@@ -124,7 +124,7 @@ export default function SingleServicePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. Hero Header Section (Dynamic Data Only) */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-14 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
@@ -132,7 +132,7 @@ export default function SingleServicePage() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative max-w-[1460px] mx-auto space-y-5 z-10 text-left">
-          
+
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider self-start shadow-inner">
             <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
             <span>Door Step BD Engineering Service</span>
@@ -154,10 +154,10 @@ export default function SingleServicePage() {
       {/* 2. Main Service Content Body */}
       <div className="max-w-[1460px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
+
           {/* Left Column: Image & Full Description (8 Cols) */}
           <div className="lg:col-span-8 space-y-8">
-            
+
             {/* Dynamic Service Featured Image */}
             {imageUrl && (
               <div className="relative w-full rounded-3xl overflow-hidden shadow-xl border border-slate-200/90 bg-white max-h-[500px]">
@@ -179,7 +179,7 @@ export default function SingleServicePage() {
                   </h2>
                 </div>
 
-                <div 
+                <div
                   className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base space-y-4 prose-headings:font-black prose-headings:text-[#122B5A] prose-a:text-blue-600"
                   dangerouslySetInnerHTML={{ __html: service.description }}
                 />
@@ -190,9 +190,9 @@ export default function SingleServicePage() {
 
           {/* Right Column: Dynamic Inquiry & Meta Widget (4 Cols) */}
           <div className="lg:col-span-4 space-y-6 sticky top-24">
-            
+
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-md space-y-6">
-              
+
               <div className="space-y-1.5 pb-4 border-b border-slate-100">
                 <span className="inline-block text-[11px] font-black uppercase tracking-widest text-[#FFB800] bg-[#122B5A] px-3 py-1 rounded-full">
                   Quick Inquiry
@@ -214,7 +214,7 @@ export default function SingleServicePage() {
 
                 {cleanWaNumber && (
                   <a
-                    href={`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent(`Hello, I need inquiry regarding ${service.title}`)}`}
+                    href={`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent(`Hello Door Step BD, I would like to inquire about your engineering service: ${service.title}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm uppercase py-3.5 px-4 rounded-2xl shadow-md transition duration-200 cursor-pointer"

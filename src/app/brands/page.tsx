@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Building2, 
-  Search, 
-  Sparkles, 
-  ChevronRight, 
-  ShieldCheck, 
-  CheckCircle2, 
-  Award, 
+import {
+  Building2,
+  Search,
+  Sparkles,
+  ChevronRight,
+  ShieldCheck,
+  CheckCircle2,
+  Award,
   ArrowUpRight,
   ExternalLink,
   Layers,
@@ -134,7 +134,7 @@ export default function BrandsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. Hero Header Section (Matching About Us Navy & Gold Gradient) */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
@@ -236,20 +236,19 @@ export default function BrandsPage() {
       </section>
 
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16 py-16">
-        
+
         {/* 3. Search & Filter Bar */}
         <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
-          
+
           {/* Tab Selection */}
           <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
             <button
               type="button"
               onClick={() => setActiveTab("all")}
-              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                activeTab === "all"
+              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "all"
                   ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
+                }`}
             >
               All Portfolio ({items.length})
             </button>
@@ -258,11 +257,10 @@ export default function BrandsPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("brand")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === "brand"
+                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "brand"
                     ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 Brands ({brandCount})
               </button>
@@ -272,11 +270,10 @@ export default function BrandsPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("partner")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === "partner"
+                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "partner"
                     ? "bg-[#122B5A] text-white shadow-md shadow-[#122B5A]/20 scale-105"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 Official Partners ({partnerCount})
               </button>
@@ -353,11 +350,10 @@ export default function BrandsPage() {
 
                   {/* Badge Tag (Brand vs Partner) */}
                   <div className="w-full flex items-center justify-between gap-1 mb-3">
-                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                      item.type === "partner"
+                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${item.type === "partner"
                         ? "bg-amber-50 text-amber-900 border border-amber-200/60"
                         : "bg-slate-100 text-[#122B5A] border border-slate-200/60"
-                    }`}>
+                      }`}>
                       {item.type === "partner" ? "Partner" : "Brand"}
                     </span>
                     {item.isExternal ? (
@@ -513,8 +509,8 @@ export default function BrandsPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
-            <a 
-              href="tel:01734340066" 
+            <a
+              href="tel:01734340066"
               className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <PhoneCall className="w-4 h-4 text-[#122B5A]" />

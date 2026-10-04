@@ -169,7 +169,7 @@ export function QuickViewModal() {
             }
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   }, [quickViewProduct]);
 
@@ -242,7 +242,7 @@ export function QuickViewModal() {
           if (v.attributes) {
             let vAttrs = v.attributes;
             if (typeof vAttrs === "string") {
-              try { vAttrs = JSON.parse(vAttrs); } catch {}
+              try { vAttrs = JSON.parse(vAttrs); } catch { }
             }
             if (typeof vAttrs === "object" && vAttrs !== null) {
               Object.entries(vAttrs).forEach(([attrK, attrV]) => {
@@ -366,7 +366,7 @@ export function QuickViewModal() {
     if (typeof window !== "undefined") {
       const url = `${window.location.origin}/product/${product.slug || product.id}`;
       if (navigator.share) {
-        navigator.share({ title: product.name, url }).catch(() => {});
+        navigator.share({ title: product.name, url }).catch(() => { });
       } else {
         navigator.clipboard.writeText(url);
         showToast("Product link copied to clipboard!");
@@ -382,7 +382,7 @@ export function QuickViewModal() {
 
         {/* Main Modal Card Container */}
         <div className="relative bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl max-w-5xl w-full overflow-hidden z-10 sm:my-auto animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 border border-slate-100 max-h-[92vh] flex flex-col">
-          
+
           {/* Mobile Top Drag Indicator */}
           <div className="sm:hidden w-12 h-1 bg-slate-200 rounded-full mx-auto mt-2.5 shrink-0" />
 
@@ -399,10 +399,10 @@ export function QuickViewModal() {
           {/* Modal Scrollable Body */}
           <div className="overflow-y-auto p-4 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start">
-              
+
               {/* ─── Left Side: Main Product Image & Thumbnails Showcase (5 Cols) ─── */}
               <div className="lg:col-span-5 space-y-3 sm:space-y-4">
-                
+
                 {/* Main Image Box - Clicking Image Opens Lightbox Modal */}
                 <div
                   onClick={() => setIsImageLightboxOpen(true)}
@@ -456,11 +456,10 @@ export function QuickViewModal() {
                         key={idx}
                         type="button"
                         onClick={() => setSelectedImageIndex(idx)}
-                        className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl border-2 overflow-hidden shrink-0 bg-slate-50 transition-all cursor-pointer ${
-                          selectedImageIndex === idx
+                        className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl border-2 overflow-hidden shrink-0 bg-slate-50 transition-all cursor-pointer ${selectedImageIndex === idx
                             ? "border-[#FFB800] ring-2 ring-[#FFB800]/20 scale-105"
                             : "border-slate-200 hover:border-slate-400 opacity-70 hover:opacity-100"
-                        }`}
+                          }`}
                       >
                         <Image
                           src={(img && img.trim() !== "") ? img : "/prod_maca.png"}
@@ -476,13 +475,18 @@ export function QuickViewModal() {
 
               {/* ─── Middle / Right Side: Product Details & Purchase Actions (7 Cols) ─── */}
               <div className="lg:col-span-7 space-y-3.5 sm:space-y-5">
-                
+
                 {/* Category, Brand, Stock Badges */}
                 <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-amber-50 text-[#122B5A] font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-md uppercase tracking-wider border border-amber-200/50">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="bg-blue-50 text-[#122B5A] font-black text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-md uppercase tracking-wider border border-blue-200/60">
                       {product.category || "GENERAL"}
                     </span>
+                    {product.subCategory && (
+                      <span className="bg-slate-100 text-slate-700 font-bold text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-md uppercase tracking-wider border border-slate-200">
+                        {product.subCategory}
+                      </span>
+                    )}
                     {product.brand && (
                       <span className="text-slate-600 font-semibold text-[11px] sm:text-xs">
                         Brand: <strong className="text-slate-900">{product.brand}</strong>
@@ -515,11 +519,10 @@ export function QuickViewModal() {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
-                            i < Math.floor(product.rating || 5)
+                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${i < Math.floor(product.rating || 5)
                               ? "fill-amber-400 text-amber-400"
                               : "fill-slate-200 text-slate-200"
-                          }`}
+                            }`}
                         />
                       ))}
                     </div>
@@ -586,11 +589,10 @@ export function QuickViewModal() {
                                   key={val}
                                   type="button"
                                   onClick={() => handleSelectAttribute(attrName, val)}
-                                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
-                                    isSelected
+                                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${isSelected
                                       ? "bg-[#122B5A] text-white border-[#122B5A] shadow-sm scale-105 ring-2 ring-[#122B5A]/20"
                                       : "bg-white text-slate-700 border-slate-200 hover:border-[#FFB800] hover:text-[#122B5A]"
-                                  }`}
+                                    }`}
                                 >
                                   {val}
                                 </button>
@@ -606,7 +608,7 @@ export function QuickViewModal() {
                 {/* Quantity Counter + Action Buttons (Responsive for Mobile & Desktop) */}
                 <div className="space-y-3 sm:space-y-4 pt-2 border-t border-slate-100">
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3.5 w-full">
-                    
+
                     {/* Quantity + Add to Cart Row on Mobile (or inline on Desktop) */}
                     <div className="flex items-center gap-2 sm:gap-3.5 flex-1">
                       {/* Quantity Controls */}
@@ -641,11 +643,10 @@ export function QuickViewModal() {
                         type="button"
                         disabled={isOutOfStock}
                         onClick={handleAddToCart}
-                        className={`flex-1 w-full font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
-                          isOutOfStock
+                        className={`flex-1 w-full font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${isOutOfStock
                             ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
                             : "bg-[#122B5A] hover:bg-[#0B1B38] text-white shadow-md hover:shadow-lg cursor-pointer active:scale-95"
-                        }`}
+                          }`}
                       >
                         {isOutOfStock ? (
                           <>
@@ -666,11 +667,10 @@ export function QuickViewModal() {
                       type="button"
                       disabled={isOutOfStock}
                       onClick={handleBuyNow}
-                      className={`w-full sm:flex-1 font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
-                        isOutOfStock
+                      className={`w-full sm:flex-1 font-extrabold text-xs sm:text-base h-[44px] sm:h-[52px] px-3 sm:px-6 rounded-full transition-all flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${isOutOfStock
                           ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
                           : "bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-extrabold shadow-md hover:shadow-lg cursor-pointer active:scale-95"
-                      }`}
+                        }`}
                     >
                       <span>{isOutOfStock ? "Unavailable" : "Buy Now"}</span>
                     </button>
@@ -707,7 +707,7 @@ export function QuickViewModal() {
                     href="tel:01734340066"
                     className="bg-[#122B5A] hover:bg-[#0B1B38] text-white font-black text-xs px-4 py-2 rounded-full flex items-center justify-center gap-1.5 shadow-xs transition shrink-0"
                   >
-                    <PhoneCall className="w-3.5 h-3.5 text-[#122B5A]" /> 01734-340066
+                    <PhoneCall className="w-3.5 h-3.5 text-white" /> 01734-340066
                   </a>
                 </div>
 

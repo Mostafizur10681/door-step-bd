@@ -7,7 +7,7 @@ import { getFooterSettings, ApiFooterSettings } from "@/lib/api";
 import { DoorStepLogo } from "@/components/common/DoorStepLogo";
 
 const DEFAULT_FOOTER: ApiFooterSettings = {
-  
+
   store_name: "Door Step BD",
   logo_image: "/logo.png",
   address: "41/1, Sher-E-Bangla Rd,\nMohammadpur, Dhaka 1207",
@@ -64,7 +64,7 @@ export function Footer() {
           const cleanEmail = raw.contact_email ? raw.contact_email.replace(/@shopiabd\.com|@smtmartbd\.com|@shopia\.com/gi, "@doorstepbd.com") : DEFAULT_FOOTER.contact_email;
           const cleanCopyright = raw.copyright_text ? raw.copyright_text.replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD") : DEFAULT_FOOTER.copyright_text;
           const cleanStore = raw.store_name ? raw.store_name.replace(/Shopia|SMT Mart BD|SMT Mart/gi, "Door Step BD") : DEFAULT_FOOTER.store_name;
-          
+
           setFooter((prev) => ({
             ...prev,
             ...raw,

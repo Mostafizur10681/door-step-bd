@@ -52,7 +52,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
         <link rel="shortcut icon" href="/favicon.ico?v=3" />
         <meta name="theme-color" content="#122B5A" />
-        <title>Door Step BD | Best Online Shopping in Bangladesh</title>
+        <title>Door Step BD | Power Solutions & Industrial Engineering Services</title>
+        <meta name="description" content="Door Step BD Power Solutions - Leading provider of industrial generators, substations, solar PV power plants, engineering maintenance services, and power equipment in Bangladesh." />
         <script
           dangerouslySetInnerHTML={{
             __html: `

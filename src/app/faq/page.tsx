@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  HelpCircle, 
-  ChevronDown, 
-  Search, 
-  Truck, 
-  RotateCcw, 
-  CreditCard, 
-  ShieldCheck, 
+import {
+  HelpCircle,
+  ChevronDown,
+  Search,
+  Truck,
+  RotateCcw,
+  CreditCard,
+  ShieldCheck,
   MessageCircleQuestion,
   Phone
 } from "lucide-react";
@@ -35,7 +35,7 @@ export default function FAQPage() {
           setFaqs(mapped);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const categories = ["All", "Orders & Shipping", "Returns & Refunds", "Payments", "Products & Quality"];
@@ -96,14 +96,14 @@ export default function FAQPage() {
   const activeFaqs = faqs.length > 0 ? faqs : faqData;
   const filteredFaqs = activeFaqs.filter((item) => {
     const matchesCat = activeCategory === "All" || item.category.toLowerCase() === activeCategory.toLowerCase();
-    const matchesSearch = item.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const matchesSearch = item.q.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.a.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCat && matchesSearch;
   });
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
-      
+
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4 relative z-10">
@@ -132,7 +132,7 @@ export default function FAQPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 space-y-8">
-        
+
         {/* Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 justify-start sm:justify-center">
           {categories.map((cat) => (
@@ -140,11 +140,10 @@ export default function FAQPage() {
               key={cat}
               type="button"
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                activeCategory === cat
+              className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${activeCategory === cat
                   ? "bg-[#122B5A] text-white shadow-xs"
                   : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
-              }`}
+                }`}
             >
               {cat}
             </button>

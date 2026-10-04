@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Zap, 
-  Wrench, 
-  ShieldCheck, 
-  Clock, 
-  CheckCircle2, 
-  PhoneCall, 
-  Sparkles, 
-  ChevronRight, 
+import {
+  Zap,
+  Wrench,
+  ShieldCheck,
+  Clock,
+  CheckCircle2,
+  PhoneCall,
+  Sparkles,
+  ChevronRight,
   Search,
   Building2,
   Cpu,
@@ -134,7 +134,7 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. Hero Header Section (Matching About Us & Brands Hero Aesthetic) */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
@@ -236,7 +236,7 @@ export default function ServicesPage() {
       </section>
 
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16 py-16">
-        
+
         {/* 3. Search & Filter Bar */}
         <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -299,8 +299,8 @@ export default function ServicesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {filteredServices.map((service, idx) => {
-                const serviceImage = service.image 
-                  ? (service.image.startsWith("data:") ? service.image : getMediaUrl(service.image)) 
+                const serviceImage = service.image
+                  ? (service.image.startsWith("data:") ? service.image : getMediaUrl(service.image))
                   : (FALLBACK_SERVICES[idx % FALLBACK_SERVICES.length].image as string);
 
                 const serviceDesc = service.short_description || service.description?.replace(/<[^>]+>/g, "") || "Certified diagnostic, installation, and preventative field maintenance.";
@@ -479,7 +479,7 @@ export default function ServicesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
-            <a 
+            <a
               href={cleanPhoneLink}
               className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >

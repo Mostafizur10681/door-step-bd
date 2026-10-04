@@ -2,15 +2,15 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { 
-  RotateCcw, 
-  ShieldCheck, 
-  Clock, 
-  Truck, 
-  CheckCircle2, 
-  AlertCircle, 
-  HelpCircle, 
-  FileText, 
+import {
+  RotateCcw,
+  ShieldCheck,
+  Clock,
+  Truck,
+  CheckCircle2,
+  AlertCircle,
+  HelpCircle,
+  FileText,
   Send,
   ArrowRight,
   PackageX
@@ -19,7 +19,7 @@ import { useShop } from "@/context/ShopContext";
 
 export default function ReturnsPolicyPage() {
   const { showToast } = useShop();
-  
+
   // Return Request Form State
   const [orderId, setOrderId] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,7 +71,7 @@ export default function ReturnsPolicyPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans space-y-12 pb-20">
-      
+
       {/* Hero Header Section */}
       <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-3 relative z-10">
@@ -88,7 +88,7 @@ export default function ReturnsPolicyPage() {
       </section>
 
       <div className="max-w-6xl mx-auto px-4 space-y-12">
-        
+
         {/* 4-Step Return Process Cards */}
         <div className="space-y-6">
           <div className="text-center space-y-1">
@@ -100,8 +100,8 @@ export default function ReturnsPolicyPage() {
             {policySteps.map((s, idx) => {
               const Icon = s.icon;
               return (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4 relative overflow-hidden group"
                 >
                   <span className="text-4xl font-black text-slate-100 group-hover:text-[#122B5A]/10 transition">
@@ -123,7 +123,7 @@ export default function ReturnsPolicyPage() {
 
         {/* 2-Column: Eligibility Criteria + Return Submission Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Left Column: Return Eligibility Guidelines (Col 7) */}
           <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
             <div className="border-b border-slate-100 pb-4 space-y-1">
@@ -133,13 +133,12 @@ export default function ReturnsPolicyPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {eligibilityList.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className={`p-4 rounded-2xl border space-y-1.5 ${
-                    item.valid 
-                      ? "bg-emerald-50/50 border-emerald-200/80" 
+                <div
+                  key={idx}
+                  className={`p-4 rounded-2xl border space-y-1.5 ${item.valid
+                      ? "bg-emerald-50/50 border-emerald-200/80"
                       : "bg-rose-50/50 border-rose-200/80"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     {item.valid ? (

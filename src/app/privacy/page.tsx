@@ -40,11 +40,11 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans space-y-16 pb-20">
-      
+
       {/* 1. Hero Header Banner */}
       <section className="bg-gradient-to-r from-[#122B5A] via-[#0A3299] to-[#E50914] text-white py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4 relative z-10">
           <span className="inline-flex items-center gap-2 bg-amber-500/20 border border-red-400/30 text-red-200 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-red-300" /> Data Protection &amp; Security
@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 space-y-16">
-        
+
         {/* 2. Privacy Policy Overview Card */}
         <section className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200/80 space-y-6">
           <div className="space-y-2">
@@ -104,8 +104,8 @@ export default function PrivacyPolicyPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {sections.map((sec, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 hover:border-[#122B5A]/30 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4"
               >
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-inner">
@@ -134,14 +134,14 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
-            <a 
-              href="mailto:info@doorstepbd.com" 
+            <a
+              href="mailto:info@doorstepbd.com"
               className="bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-bold text-sm px-8 py-3.5 rounded-full shadow-lg transition"
             >
               Email Privacy Team: info@doorstepbd.com
             </a>
-            <a 
-              href="tel:01734340066" 
+            <a
+              href="tel:01734340066"
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm px-8 py-3.5 rounded-full transition"
             >
               Hotline: 01734-340066

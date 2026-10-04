@@ -101,8 +101,8 @@ export function AIChatbot() {
   const showToast = shopContext?.showToast || (() => { });
 
   // WhatsApp Settings & Floating Speed-Dial Menu state
-  const [waNumber, setWaNumber] = useState("8801685594315");
-  const [waMessage, setWaMessage] = useState("Hello! I have an inquiry regarding your products on Door Step BD.");
+  const [waNumber, setWaNumber] = useState("+8801734340066");
+  const [waMessage, setWaMessage] = useState("Hello Door Step BD Power Solutions! I would like to inquire about your engineering services and equipment categories.");
   const [waEnabled, setWaEnabled] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
 

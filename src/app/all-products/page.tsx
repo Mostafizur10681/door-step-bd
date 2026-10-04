@@ -4,17 +4,17 @@ import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { 
-  Zap, 
-  Layers, 
-  ChevronRight, 
-  Sparkles, 
-  Search, 
-  PhoneCall, 
-  ArrowUpRight, 
-  CheckCircle2, 
-  Building2, 
-  ShieldCheck, 
+import {
+  Zap,
+  Layers,
+  ChevronRight,
+  Sparkles,
+  Search,
+  PhoneCall,
+  ArrowUpRight,
+  CheckCircle2,
+  Building2,
+  ShieldCheck,
   Wrench,
   PackageCheck,
   ArrowRight,
@@ -157,7 +157,7 @@ function CategoryCatalogContent() {
   const [categories, setCategories] = useState<CategoryItem[]>(DEFAULT_CATEGORIES);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParam);
-  const [contactPhone, setContactPhone] = useState("01734340066");
+  const [contactPhone, setContactPhone] = useState("+8801734340066");
 
   // Load dynamic categories & sub-categories from API
   useEffect(() => {
@@ -180,16 +180,16 @@ function CategoryCatalogContent() {
               const rawSubs = cat.sub_categories || cat.subcategories || cat.subCategories || cat.children || [];
               const subCategories: SubCategoryItem[] = Array.isArray(rawSubs)
                 ? rawSubs.map((s: any) => ({
-                    id: s.id,
-                    name: s.name,
-                    slug: s.slug || String(s.id),
-                    image: s.image ? (s.image.startsWith("data:") ? s.image : getMediaUrl(s.image)) : null,
-                    description: s.description || null,
-                    category_id: cat.id
-                  }))
+                  id: s.id,
+                  name: s.name,
+                  slug: s.slug || String(s.id),
+                  image: s.image ? (s.image.startsWith("data:") ? s.image : getMediaUrl(s.image)) : null,
+                  description: s.description || null,
+                  category_id: cat.id
+                }))
                 : [];
 
-              const img = cat.image 
+              const img = cat.image
                 ? (cat.image.startsWith("data:") ? cat.image : getMediaUrl(cat.image))
                 : FALLBACK_CATEGORY_IMAGES[idx % FALLBACK_CATEGORY_IMAGES.length];
 
@@ -212,7 +212,14 @@ function CategoryCatalogContent() {
         // Process Contact Settings
         if (contactRes.status === "fulfilled" && contactRes.value?.success && contactRes.value.data) {
           const c = contactRes.value.data as ApiContactSettings;
-          if (c.phone) setContactPhone(c.phone);
+          if (c.phone) {
+            const clean = c.phone.replace(/[^0-9]/g, "");
+            if (clean.includes("1844823123") || clean.includes("1879198066") || clean.includes("1644823123") || clean.includes("1800000000")) {
+              setContactPhone("+8801734340066");
+            } else {
+              setContactPhone(c.phone);
+            }
+          }
         }
       } catch (err) {
         console.warn("Failed to load dynamic categories:", err);
@@ -229,9 +236,9 @@ function CategoryCatalogContent() {
   const activeCategory = useMemo(() => {
     if (!selectedCategoryQuery) return null;
     const term = selectedCategoryQuery.toLowerCase().trim();
-    return categories.find((c) => 
-      c.slug?.toLowerCase() === term || 
-      c.name?.toLowerCase() === term || 
+    return categories.find((c) =>
+      c.slug?.toLowerCase() === term ||
+      c.name?.toLowerCase() === term ||
       String(c.id) === term
     ) || null;
   }, [categories, selectedCategoryQuery]);
@@ -242,9 +249,9 @@ function CategoryCatalogContent() {
 
     // Check inside active category first
     if (activeCategory) {
-      const found = activeCategory.subCategories.find((s) => 
-        s.slug?.toLowerCase() === subTerm || 
-        s.name?.toLowerCase() === subTerm || 
+      const found = activeCategory.subCategories.find((s) =>
+        s.slug?.toLowerCase() === subTerm ||
+        s.name?.toLowerCase() === subTerm ||
         String(s.id) === subTerm
       );
       if (found) return found;
@@ -252,9 +259,9 @@ function CategoryCatalogContent() {
 
     // Search across all categories
     for (const cat of categories) {
-      const found = cat.subCategories.find((s) => 
-        s.slug?.toLowerCase() === subTerm || 
-        s.name?.toLowerCase() === subTerm || 
+      const found = cat.subCategories.find((s) =>
+        s.slug?.toLowerCase() === subTerm ||
+        s.name?.toLowerCase() === subTerm ||
         String(s.id) === subTerm
       );
       if (found) return found;
@@ -267,7 +274,7 @@ function CategoryCatalogContent() {
   const parentCategoryOfSub = useMemo(() => {
     if (activeCategory) return activeCategory;
     if (!activeSubCategory) return null;
-    return categories.find((c) => 
+    return categories.find((c) =>
       c.subCategories.some((s) => s.id === activeSubCategory.id || s.slug === activeSubCategory.slug)
     ) || null;
   }, [categories, activeCategory, activeSubCategory]);
@@ -300,14 +307,14 @@ function CategoryCatalogContent() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. HERO BANNER (Matching Industrial Navy & Gold Aesthetic) */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-14 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FFB800]/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative max-w-4xl mx-auto text-center space-y-4 z-10">
-          
+
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold uppercase tracking-wider shadow-inner">
             <Zap className="w-3.5 h-3.5 text-[#FFB800]" />
@@ -315,8 +322,8 @@ function CategoryCatalogContent() {
               {activeSubCategory
                 ? `Sub-Category: ${parentCategoryOfSub?.name || "Equipment"}`
                 : activeCategory
-                ? "Equipment Category Portfolio"
-                : "Equipment & Industrial Solutions"}
+                  ? "Equipment Category Portfolio"
+                  : "Equipment & Industrial Solutions"}
             </span>
           </div>
 
@@ -325,18 +332,24 @@ function CategoryCatalogContent() {
             {activeSubCategory
               ? activeSubCategory.name
               : activeCategory
-              ? activeCategory.name
-              : "Equipment & Machinery Categories"}
+                ? activeCategory.name
+                : "Equipment & Machinery Categories"}
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base text-blue-100/90 max-w-3xl mx-auto leading-relaxed">
-            {activeSubCategory?.description
-              ? activeSubCategory.description
-              : activeCategory?.description
-              ? activeCategory.description
-              : "Explore our turnkey industrial machinery, generation equipment, compressed air systems, and consumable supplies engineered for zero downtime."}
-          </p>
+          {activeSubCategory?.description ? (
+            <p className="text-sm sm:text-base text-blue-100/90 max-w-3xl mx-auto leading-relaxed">
+              {activeSubCategory.description}
+            </p>
+          ) : activeCategory?.description ? (
+            <p className="text-sm sm:text-base text-blue-100/90 max-w-3xl mx-auto leading-relaxed">
+              {activeCategory.description}
+            </p>
+          ) : !activeCategory && !activeSubCategory ? (
+            <p className="text-sm sm:text-base text-blue-100/90 max-w-3xl mx-auto leading-relaxed">
+              Explore our turnkey industrial machinery, generation equipment, compressed air systems, and consumable supplies engineered for zero downtime.
+            </p>
+          ) : null}
 
           {/* Hero Actions */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
@@ -361,17 +374,16 @@ function CategoryCatalogContent() {
       {/* 2. CATEGORY SELECTOR & SEARCH BAR (Overlapping Hero -mt-12) */}
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20">
         <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-4">
-          
+
           {/* Category Pill Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
             <button
               type="button"
               onClick={() => handleSelectCategory()}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
-                !activeCategory && !activeSubCategory
-                  ? "bg-[#122B5A] text-[#FFB800] shadow-md shadow-[#122B5A]/20 scale-105"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
+              className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${!activeCategory && !activeSubCategory
+                ? "bg-[#122B5A] text-[#FFB800] shadow-md shadow-[#122B5A]/20 scale-105"
+                : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }`}
             >
               All Categories ({categories.length})
             </button>
@@ -385,11 +397,10 @@ function CategoryCatalogContent() {
                   key={cat.id}
                   type="button"
                   onClick={() => handleSelectCategory(cat.slug || cat.name)}
-                  className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
-                    isCatActive || isSubOfThisActive
-                      ? "bg-[#122B5A] text-[#FFB800] shadow-md shadow-[#122B5A]/20 scale-105"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                  }`}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${isCatActive || isSubOfThisActive
+                    ? "bg-[#122B5A] text-[#FFB800] shadow-md shadow-[#122B5A]/20 scale-105"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    }`}
                 >
                   {cat.name} {cat.subCategories.length > 0 ? `(${cat.subCategories.length})` : ""}
                 </button>
@@ -444,7 +455,7 @@ function CategoryCatalogContent() {
 
             {/* Sub-Category Main Card Showcase */}
             <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              
+
               {/* Left Visual Box */}
               <div className="lg:col-span-6 relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-lg bg-slate-900 border-4 border-slate-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -472,29 +483,11 @@ function CategoryCatalogContent() {
                   </h2>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {activeSubCategory.description || "Certified equipment, spare parts, and specialized engineering components directly supplied and warranted by Door Step BD."}
-                </p>
-
-                {/* Key Engineering Features */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>100% Genuine OEM Supply</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>Nationwide Technical SLA</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>Turnkey Commissioning</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>24/7 Rapid Emergency Dispatch</span>
-                  </div>
-                </div>
+                {activeSubCategory.description && (
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {activeSubCategory.description}
+                  </p>
+                )}
 
                 {/* Actions */}
                 <div className="pt-4 flex flex-wrap items-center gap-3">
@@ -554,95 +547,159 @@ function CategoryCatalogContent() {
             )}
           </div>
         ) : activeCategory ? (
-          
-          /* ── SCENARIO B: SPECIFIC CATEGORY SELECTED ── */
-          <div className="space-y-10">
-            {/* Header / Intro */}
+
+          /* ── SCENARIO B: SPECIFIC CATEGORY SELECTED (SHOWING BOTH CATEGORY & SUB-CATEGORY DATA) ── */
+          <div className="space-y-12">
+            {/* 1. Header Navigation & Breadcrumb */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
               <div>
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-500 mb-1">
-                  <button onClick={() => handleSelectCategory()} className="hover:text-[#122B5A] transition">Categories</button>
+                  <button onClick={() => handleSelectCategory()} className="hover:text-[#122B5A] transition cursor-pointer">Categories</button>
                   <ChevronRight className="w-3.5 h-3.5" />
                   <span className="text-[#122B5A] font-black">{activeCategory.name}</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-[#122B5A]">
-                  {activeCategory.name} — Sub-Categories &amp; Solutions
+                  {activeCategory.name}
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Showing all {activeCategory.subCategories.length} certified sub-categories under {activeCategory.name}
+                  Primary Category Overview &amp; {activeCategory.subCategories.length} Certified Sub-Categories
                 </p>
               </div>
 
-              <Link
-                href="/contact-us"
-                className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs px-5 py-2.5 rounded-xl transition shadow-xs self-start sm:self-auto cursor-pointer"
-              >
-                <span>Request Category Proposal</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* Sub-Category Cards Grid */}
-            {activeCategory.subCategories.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#122B5A] flex items-center justify-center mx-auto">
-                  <Layers className="w-7 h-7 text-[#FFB800]" />
-                </div>
-                <h3 className="text-lg font-black text-[#122B5A]">General Equipment Solutions in {activeCategory.name}</h3>
-                <p className="text-xs text-slate-500 max-w-md mx-auto">
-                  Consult directly with our engineering team for custom panel fabrication, equipment specifications, or site surveys.
-                </p>
+              <div className="flex items-center gap-3">
                 <Link
                   href="/contact-us"
-                  className="inline-block bg-[#122B5A] text-[#FFB800] text-xs font-bold px-6 py-2.5 rounded-xl transition"
+                  className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs px-5 py-2.5 rounded-xl transition shadow-xs self-start sm:self-auto cursor-pointer"
                 >
-                  Contact Engineering Team
+                  <span>Request Category Proposal</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-                {activeCategory.subCategories.map((sub, idx) => (
-                  <div
-                    key={sub.id || idx}
-                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-[#122B5A]/40 p-6 flex flex-col justify-between space-y-5 shadow-xs hover:shadow-xl transition-all duration-300 group"
+            </div>
+
+            {/* 2. CATEGORY DATA SHOWCASE (Main Category Information Card) */}
+            <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Image Showcase */}
+              <div className="lg:col-span-6 relative h-72 sm:h-96 rounded-2xl overflow-hidden shadow-lg bg-slate-900 border-4 border-slate-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={activeCategory.image || FALLBACK_CATEGORY_IMAGES[0]}
+                  alt={activeCategory.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B38]/85 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+                  <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#FFB800] bg-black/60 backdrop-blur-xs px-3 py-1 rounded-full border border-[#FFB800]/40">
+                    Category: {activeCategory.name}
+                  </span>
+                  {activeCategory.subCategories.length > 0 && (
+                    <span className="text-[10px] font-bold text-white bg-white/20 backdrop-blur-xs px-2.5 py-1 rounded-full">
+                      {activeCategory.subCategories.length} Sub-Categories
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Category Details */}
+              <div className="lg:col-span-6 space-y-6">
+                <div className="space-y-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#122B5A] bg-amber-50 border border-amber-200 px-3 py-1 rounded-full inline-block">
+                    Verified Equipment Category
+                  </span>
+                  <h3 className="text-2xl sm:text-4xl font-black text-[#122B5A] tracking-tight">
+                    {activeCategory.name}
+                  </h3>
+                </div>
+
+                {activeCategory.description && (
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {activeCategory.description}
+                  </p>
+                )}
+
+                {/* Direct Actions */}
+                <div className="pt-2 flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/contact-us"
+                    className="inline-flex items-center gap-2 bg-[#122B5A] hover:bg-[#0A1D3D] text-[#FFB800] font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
                   >
-                    <div className="space-y-3.5">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#122B5A] to-[#0B1B38] text-[#FFB800] flex items-center justify-center font-black text-lg shadow-sm group-hover:scale-110 transition-transform">
-                        <Layers className="w-6 h-6" />
-                      </div>
+                    <span>Request Category Quote</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <a
+                    href={cleanPhoneLink}
+                    className="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs sm:text-sm px-5 py-3.5 rounded-xl transition"
+                  >
+                    <PhoneCall className="w-4 h-4" />
+                    <span>Hotline: {contactPhone}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
 
-                      <div className="space-y-1">
-                        <span className="inline-block text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200/60">
-                          Active Discipline
-                        </span>
-                        <h3 className="text-lg sm:text-xl font-black text-[#122B5A] group-hover:text-[#0B1B38] transition">
-                          {sub.name}
-                        </h3>
-                        <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
-                          {sub.description || `Specialized ${sub.name} equipment and turnkey industrial engineering solutions supplied with warranty.`}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleSelectSubCategory(activeCategory.slug || activeCategory.name, sub.slug || sub.name)}
-                        className="text-xs font-bold text-[#122B5A] hover:text-[#FFB800] transition flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>View Sub-Category</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
-
-                      <Link
-                        href="/contact-us"
-                        className="bg-[#122B5A] hover:bg-[#0A1D3D] text-[#FFB800] text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-2xs"
-                      >
-                        Get Quote
-                      </Link>
-                    </div>
+            {/* 3. SUB-CATEGORIES SECTION (Render ONLY if sub-categories exist) */}
+            {activeCategory.subCategories && activeCategory.subCategories.length > 0 && (
+              <div className="space-y-6 pt-4">
+                <div className="flex items-center justify-between border-b border-slate-200/80 pb-4">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-black text-[#122B5A]">
+                      Sub-Categories in {activeCategory.name}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Select a sub-category below to explore detailed specifications and equipment options
+                    </p>
                   </div>
-                ))}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                  {activeCategory.subCategories.map((sub, idx) => (
+                    <div
+                      key={sub.id || idx}
+                      className="bg-white rounded-3xl border border-slate-200/90 hover:border-[#122B5A]/40 p-6 flex flex-col justify-between space-y-5 shadow-xs hover:shadow-xl transition-all duration-300 group"
+                    >
+                      <div className="space-y-3.5">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#122B5A] to-[#0B1B38] text-[#FFB800] flex items-center justify-center font-black text-lg shadow-sm group-hover:scale-110 transition-transform">
+                          <Layers className="w-6 h-6" />
+                        </div>
+
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="inline-block text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200/60">
+                              Sub-Category
+                            </span>
+                            <span className="text-[10px] font-bold text-slate-400">
+                              {activeCategory.name}
+                            </span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-black text-[#122B5A] group-hover:text-[#0B1B38] transition">
+                            {sub.name}
+                          </h3>
+                          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                            {sub.description || `Specialized ${sub.name} equipment and industrial engineering solutions under ${activeCategory.name}.`}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSelectSubCategory(activeCategory.slug || activeCategory.name, sub.slug || sub.name)}
+                          className="text-xs font-bold text-[#122B5A] hover:text-[#FFB800] transition flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>Explore {sub.name}</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+
+                        <Link
+                          href="/contact-us"
+                          className="bg-[#122B5A] hover:bg-[#0A1D3D] text-[#FFB800] text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-2xs cursor-pointer"
+                        >
+                          Get Quote
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -665,7 +722,7 @@ function CategoryCatalogContent() {
             {/* Categories Card Grid (Styled like Services with Background Images and Sub-Category Pills) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
               {filteredCategories.map((cat, idx) => {
-                const img = cat.image 
+                const img = cat.image
                   ? (cat.image.startsWith("data:") ? cat.image : getMediaUrl(cat.image))
                   : FALLBACK_CATEGORY_IMAGES[idx % FALLBACK_CATEGORY_IMAGES.length];
 
@@ -710,7 +767,7 @@ function CategoryCatalogContent() {
                     {/* Bottom Content & Sub-Categories Chips */}
                     <div className="relative p-5 sm:p-6 z-10 space-y-4">
                       <div className="space-y-1.5">
-                        <h3 
+                        <h3
                           onClick={() => handleSelectCategory(cat.slug || cat.name)}
                           className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight hover:text-amber-300 transition-colors cursor-pointer"
                         >
@@ -789,7 +846,7 @@ function CategoryCatalogContent() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
-            <a 
+            <a
               href={cleanPhoneLink}
               className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >

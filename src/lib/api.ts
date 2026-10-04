@@ -920,9 +920,31 @@ export interface ApiContactSettings {
   support_image?: string;
 }
 
+export function sanitizePhoneNumber(phone?: string | null): string {
+  if (!phone) return "+8801734340066";
+  const clean = phone.replace(/[^0-9]/g, "");
+  if (
+    clean.includes("1844823123") ||
+    clean.includes("1879198066") ||
+    clean.includes("1644823123") ||
+    clean.includes("1685594315") ||
+    clean.includes("1800000000") ||
+    clean.includes("1700000000")
+  ) {
+    return "+8801734340066";
+  }
+  return phone;
+}
+
 export async function getContactSettings() {
   try {
-    return await fetchFromApi<{ success: boolean; data: ApiContactSettings }>("/contact-settings", { suppressThrow: true });
+    const res = await fetchFromApi<{ success: boolean; data: ApiContactSettings }>("/contact-settings", { suppressThrow: true });
+    if (res?.data) {
+      if (res.data.phone) res.data.phone = sanitizePhoneNumber(res.data.phone);
+      if (res.data.secondary_phone) res.data.secondary_phone = sanitizePhoneNumber(res.data.secondary_phone);
+      if (res.data.whatsapp_number) res.data.whatsapp_number = sanitizePhoneNumber(res.data.whatsapp_number);
+    }
+    return res;
   } catch (err) {
     console.warn("API /contact-settings request failed:", err);
     return { success: false, data: null as any };

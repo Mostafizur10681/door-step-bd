@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { getWhatsAppSettings, getContactSettings } from "@/lib/api";
 
 export function WhatsAppButton() {
-  const [phoneNumber, setPhoneNumber] = useState("8801685594315");
-  const [defaultMessage, setDefaultMessage] = useState("Hello! I have an inquiry regarding your products on Door Step BD.");
+  const [phoneNumber, setPhoneNumber] = useState("+8801734340066");
+  const [defaultMessage, setDefaultMessage] = useState("Hello Door Step BD Power Solutions! I would like to inquire about your engineering services and equipment categories.");
   const [isEnabled, setIsEnabled] = useState(true);
   const [position, setPosition] = useState<"right" | "left">("right");
   const [isBouncing, setIsBouncing] = useState(false);
@@ -82,15 +82,15 @@ export function WhatsAppButton() {
       {/* Hover Tooltip */}
       <div
         className={`absolute whitespace-nowrap bg-slate-900/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-xl backdrop-blur-xs border border-slate-700/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:translate-x-0 ${position === "left"
-            ? "left-full ml-3 translate-x-1"
-            : "right-full mr-3 -translate-x-1"
+          ? "left-full ml-3 translate-x-1"
+          : "right-full mr-3 -translate-x-1"
           }`}
       >
         Chat with us on WhatsApp
         <div
           className={`absolute top-1/2 -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent ${position === "left"
-              ? "-left-1 border-r-4 border-r-slate-900/90"
-              : "-right-1 border-l-4 border-l-slate-900/90"
+            ? "-left-1 border-r-4 border-r-slate-900/90"
+            : "-right-1 border-l-4 border-l-slate-900/90"
             }`}
         />
       </div>

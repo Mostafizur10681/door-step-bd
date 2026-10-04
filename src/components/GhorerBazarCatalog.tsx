@@ -93,7 +93,7 @@ export function GhorerBazarCatalog({
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(5000);
   const [maxProductPrice, setMaxProductPrice] = useState<number>(5000);
-  
+
   // MULTI-SELECT CATEGORIES & SUBCATEGORIES STATE
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
@@ -104,10 +104,10 @@ export function GhorerBazarCatalog({
     defaultFlag === "bestseller"
       ? ["Best Selling"]
       : defaultFlag === "sale"
-      ? ["Offered Items"]
-      : defaultFlag === "new"
-      ? ["New Arrival"]
-      : []
+        ? ["Offered Items"]
+        : defaultFlag === "new"
+          ? ["New Arrival"]
+          : []
   );
 
   const [sortBy, setSortBy] = useState<string>("default");
@@ -150,13 +150,23 @@ export function GhorerBazarCatalog({
           const catsList: CategoryItem[] = (catsRes && catsRes.success && Array.isArray(catsRes.data)) ? catsRes.data : [];
           setCategories(catsList);
 
-          // Build subcategories map from API categories
-          const subMap = new Map<string, { id: number | string; name: string; slug: string }>();
+          // Build subcategories map from API categories with parent category information
+          const subMap = new Map<string, { id: number | string; name: string; slug: string; parentCategoryName?: string; parentCategorySlug?: string; parentCategoryId?: number | string }>();
           catsList.forEach((cat) => {
             const subs = cat.sub_categories || cat.subcategories || cat.subCategories || [];
             subs.forEach((sub) => {
-              if (sub.id) {
-                subMap.set(String(sub.id), { id: sub.id, name: sub.name, slug: sub.slug });
+              if (sub && sub.name) {
+                const subData = {
+                  id: sub.id,
+                  name: sub.name,
+                  slug: sub.slug || sub.name.toLowerCase().replace(/\s+/g, "-"),
+                  parentCategoryName: cat.name,
+                  parentCategorySlug: cat.slug || cat.name.toLowerCase().replace(/\s+/g, "-"),
+                  parentCategoryId: cat.id
+                };
+                if (sub.id) subMap.set(String(sub.id), subData);
+                subMap.set(sub.name.toLowerCase().trim(), subData);
+                if (sub.slug) subMap.set(sub.slug.toLowerCase().trim(), subData);
               }
             });
           });
@@ -183,11 +193,41 @@ export function GhorerBazarCatalog({
                 : (p.discount ? parseFloat(String(p.discount)) : undefined);
 
               const subId = p.sub_category_id || (p.sub_category && typeof p.sub_category === "object" ? p.sub_category.id : null) || p.subCategoryId || null;
-              const subFromMap = subId ? subMap.get(String(subId)) : undefined;
+              let subFromMap = subId ? subMap.get(String(subId)) : undefined;
 
-              const subCatName = subFromMap?.name
-                || (typeof p.sub_category === "string" ? p.sub_category : (p.sub_category?.name || p.subCategory?.name || (typeof p.subCategory === "string" ? p.subCategory : "") || p.sub_category_name || ""));
+              let rawSubName = typeof p.sub_category === "string" ? p.sub_category : (p.sub_category?.name || p.subCategory?.name || (typeof p.subCategory === "string" ? p.subCategory : "") || p.sub_category_name || "");
+              if (!subFromMap && rawSubName) {
+                subFromMap = subMap.get(rawSubName.toLowerCase().trim());
+              }
 
+              let catName = typeof p.category === "string" ? p.category : (p.category?.name || "General");
+              let catSlug = p.category?.slug || (typeof p.category === "string" ? p.category.toLowerCase().replace(/\s+/g, "-") : "");
+              let catId = p.category_id || p.category?.id || null;
+
+              // If p.category is actually a subcategory, resolve its parent category
+              if (catName && subMap.has(catName.toLowerCase().trim())) {
+                const mappedSub = subMap.get(catName.toLowerCase().trim())!;
+                if (!rawSubName) rawSubName = mappedSub.name;
+                if (mappedSub.parentCategoryName) {
+                  catName = mappedSub.parentCategoryName;
+                  catSlug = mappedSub.parentCategorySlug || catSlug;
+                  catId = mappedSub.parentCategoryId || catId;
+                }
+              } else if (catId && subMap.has(String(catId))) {
+                const mappedSub = subMap.get(String(catId))!;
+                if (!rawSubName) rawSubName = mappedSub.name;
+                if (mappedSub.parentCategoryName) {
+                  catName = mappedSub.parentCategoryName;
+                  catSlug = mappedSub.parentCategorySlug || catSlug;
+                  catId = mappedSub.parentCategoryId || catId;
+                }
+              } else if (subFromMap && subFromMap.parentCategoryName && (!catName || catName === "General")) {
+                catName = subFromMap.parentCategoryName;
+                catSlug = subFromMap.parentCategorySlug || catSlug;
+                catId = subFromMap.parentCategoryId || catId;
+              }
+
+              const subCatName = subFromMap?.name || rawSubName || "";
               const subCatSlug = subFromMap?.slug
                 || (p.sub_category && typeof p.sub_category === "object" && p.sub_category.slug)
                 || (p.subCategory && typeof p.subCategory === "object" && p.subCategory.slug)
@@ -198,9 +238,9 @@ export function GhorerBazarCatalog({
                 id: p.id,
                 name: p.name || "Product",
                 slug: p.slug || String(p.id),
-                category: typeof p.category === "string" ? p.category : (p.category?.name || "General"),
-                categoryId: p.category_id || p.category?.id || null,
-                categorySlug: p.category?.slug || (typeof p.category === "string" ? p.category.toLowerCase().replace(/\s+/g, "-") : ""),
+                category: catName,
+                categoryId: catId,
+                categorySlug: catSlug,
                 subCategory: subCatName,
                 subCategorySlug: subCatSlug,
                 subCategoryId: subId,
@@ -230,7 +270,7 @@ export function GhorerBazarCatalog({
             setMinPrice(0);
           }
         })
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => setLoading(false));
     } else {
       getCategories(true)
@@ -239,7 +279,7 @@ export function GhorerBazarCatalog({
             setCategories(res.data);
           }
         })
-        .catch(() => {});
+        .catch(() => { });
 
       const highest = Math.max(...initialProducts.map((p) => p.price), 5000);
       const roundedMax = Math.ceil(highest / 500) * 500;
@@ -349,23 +389,50 @@ export function GhorerBazarCatalog({
     // 1. MULTIPLE CATEGORIES & SUBCATEGORIES FILTER
     if (selectedCategories.length > 0 || selectedSubCategories.length > 0) {
       list = list.filter((p) => {
-        // Match Category
+        // Match Category:
+        // A product matches if its category matches directly OR if its subcategory belongs to the selected category
         const catMatch = selectedCategories.length > 0 && selectedCategories.some((cat) => {
-          const cLower = cat.toLowerCase();
-          return (
-            (p.category && p.category.toLowerCase() === cLower) ||
-            (p.categorySlug && p.categorySlug.toLowerCase() === cLower) ||
+          const cLower = cat.toLowerCase().trim();
+          const directMatch = (
+            (p.category && p.category.toLowerCase().trim() === cLower) ||
+            (p.categorySlug && p.categorySlug.toLowerCase().trim() === cLower) ||
             (p.categoryId && String(p.categoryId) === String(cat))
           );
+          if (directMatch) return true;
+
+          // Check if product's subcategory belongs to this category in categories tree
+          for (const c of categories) {
+            if (
+              c.name.toLowerCase().trim() === cLower ||
+              c.slug?.toLowerCase().trim() === cLower ||
+              String(c.id) === String(cat)
+            ) {
+              const subs: any[] = c.sub_categories || c.subcategories || c.subCategories || [];
+              const subMatches = subs.some((s: any) => {
+                const sName = typeof s === "string" ? s.toLowerCase().trim() : (s?.name ? String(s.name).toLowerCase().trim() : "");
+                const sSlug = typeof s === "object" && s?.slug ? String(s.slug).toLowerCase().trim() : "";
+                const sId = typeof s === "object" && s?.id ? String(s.id) : "";
+                return (
+                  (p.subCategory && p.subCategory.toLowerCase().trim() === sName) ||
+                  (p.subCategorySlug && p.subCategorySlug.toLowerCase().trim() === sSlug) ||
+                  (p.subCategoryId && String(p.subCategoryId) === sId) ||
+                  (p.category && p.category.toLowerCase().trim() === sName)
+                );
+              });
+              if (subMatches) return true;
+            }
+          }
+
+          return false;
         });
 
         // Match Subcategory
         const subCatMatch = selectedSubCategories.length > 0 && selectedSubCategories.some((sub) => {
-          const sLower = sub.toLowerCase();
+          const sLower = sub.toLowerCase().trim();
 
           // Check direct subcategory properties on product
-          if (p.subCategory && p.subCategory.toLowerCase() === sLower) return true;
-          if (p.subCategorySlug && p.subCategorySlug.toLowerCase() === sLower) return true;
+          if (p.subCategory && p.subCategory.toLowerCase().trim() === sLower) return true;
+          if (p.subCategorySlug && p.subCategorySlug.toLowerCase().trim() === sLower) return true;
           if (p.subCategoryId && String(p.subCategoryId) === String(sub)) return true;
 
           // Check through categories hierarchy for matching subcategory ID
@@ -373,13 +440,13 @@ export function GhorerBazarCatalog({
             const subs = cat.sub_categories || cat.subcategories || cat.subCategories || [];
             for (const s of subs) {
               if (
-                s.name.toLowerCase() === sLower ||
-                s.slug.toLowerCase() === sLower ||
-                String(s.id) === String(sub)
+                (s.name && s.name.toLowerCase().trim() === sLower) ||
+                (s.slug && s.slug.toLowerCase().trim() === sLower) ||
+                (s.id && String(s.id) === String(sub))
               ) {
                 if (p.subCategoryId && String(p.subCategoryId) === String(s.id)) return true;
-                if (p.subCategory && p.subCategory.toLowerCase() === s.name.toLowerCase()) return true;
-                if (p.subCategorySlug && p.subCategorySlug.toLowerCase() === s.slug.toLowerCase()) return true;
+                if (p.subCategory && p.subCategory.toLowerCase().trim() === s.name.toLowerCase().trim()) return true;
+                if (p.subCategorySlug && p.subCategorySlug.toLowerCase().trim() === s.slug.toLowerCase().trim()) return true;
               }
             }
           }
@@ -388,15 +455,15 @@ export function GhorerBazarCatalog({
         });
 
         if (selectedCategories.length > 0 && selectedSubCategories.length > 0) {
-          return catMatch || subCatMatch;
+          return catMatch && subCatMatch;
         }
         if (selectedCategories.length > 0) {
           // Fallback if category selection happened to be a subcategory name
           const fallbackSub = selectedCategories.some((cat) => {
-            const cLower = cat.toLowerCase();
+            const cLower = cat.toLowerCase().trim();
             return (
-              (p.subCategory && p.subCategory.toLowerCase() === cLower) ||
-              (p.subCategorySlug && p.subCategorySlug.toLowerCase() === cLower)
+              (p.subCategory && p.subCategory.toLowerCase().trim() === cLower) ||
+              (p.subCategorySlug && p.subCategorySlug.toLowerCase().trim() === cLower)
             );
           });
           return catMatch || fallbackSub;
@@ -500,7 +567,7 @@ export function GhorerBazarCatalog({
 
         {/* ─── 2. Top Sorting & View Control Toolbar ─── */}
         <div className="flex flex-wrap items-center justify-between gap-4 py-1">
-          
+
           {/* Left Group: Mobile Filter Button & Sort By Dropdown */}
           <div className="flex items-center gap-3 sm:gap-4">
             {/* Mobile Filter Toggle Button */}
@@ -561,11 +628,10 @@ export function GhorerBazarCatalog({
                 type="button"
                 onClick={() => setGridCols(2)}
                 title="2 Columns Grid"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols === 2
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols === 2
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
                   <circle cx="4" cy="4" r="2.5" />
@@ -580,11 +646,10 @@ export function GhorerBazarCatalog({
                 type="button"
                 onClick={() => setGridCols(3)}
                 title="3 Columns Grid"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols === 3
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols === 3
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 18 18" fill="currentColor">
                   <circle cx="3" cy="3" r="2" />
@@ -604,11 +669,10 @@ export function GhorerBazarCatalog({
                 type="button"
                 onClick={() => setGridCols(4)}
                 title="4 Columns Grid"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols === 4
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols === 4
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
+                  }`}
               >
                 <svg className="w-5 h-4" viewBox="0 0 22 16" fill="currentColor">
                   <circle cx="2.5" cy="3" r="1.6" />
@@ -631,11 +695,10 @@ export function GhorerBazarCatalog({
                 type="button"
                 onClick={() => setGridCols("list")}
                 title="Wide Scope / List View"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols === "list"
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols === "list"
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
                   <circle cx="2.5" cy="3" r="1.5" />
@@ -658,11 +721,10 @@ export function GhorerBazarCatalog({
                   if (gridCols === "list") setGridCols(3);
                 }}
                 title="2 Grid View"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols !== "list" && mobileCols === 2
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols !== "list" && mobileCols === 2
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
                   <rect x="1.5" y="2" width="5.5" height="12" rx="1" />
@@ -678,11 +740,10 @@ export function GhorerBazarCatalog({
                   if (gridCols === "list") setGridCols(3);
                 }}
                 title="1 Grid View"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols !== "list" && mobileCols === 1
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols !== "list" && mobileCols === 1
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
                   <rect x="2" y="2" width="12" height="12" rx="2" />
@@ -694,11 +755,10 @@ export function GhorerBazarCatalog({
                 type="button"
                 onClick={() => setGridCols("list")}
                 title="Wide Scope View"
-                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
-                  gridCols === "list"
-                    ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
-                    : "text-slate-400 hover:text-slate-700"
-                }`}
+                className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${gridCols === "list"
+                  ? "text-[#122B5A] bg-amber-50 scale-105 shadow-2xs"
+                  : "text-slate-400 hover:text-slate-700"
+                  }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
                   <circle cx="2.5" cy="3" r="1.5" />
@@ -720,7 +780,7 @@ export function GhorerBazarCatalog({
           {/* LEFT SIDEBAR FILTERS (Desktop)                             */}
           {/* ─────────────────────────────────────────────────────────── */}
           <aside className="hidden lg:block lg:col-span-3 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs space-y-6 sticky top-24">
-            
+
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
@@ -1030,15 +1090,14 @@ export function GhorerBazarCatalog({
                 className={
                   gridCols === "list"
                     ? "flex flex-col gap-4"
-                    : `grid ${mobileCols === 1 ? "grid-cols-1" : "grid-cols-2"} ${
-                        gridCols === 2
-                          ? "sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
-                          : gridCols === 3
-                          ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
-                          : gridCols === 4
+                    : `grid ${mobileCols === 1 ? "grid-cols-1" : "grid-cols-2"} ${gridCols === 2
+                      ? "sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+                      : gridCols === 3
+                        ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
+                        : gridCols === 4
                           ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
                           : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-                      } gap-3 sm:gap-6`
+                    } gap-3 sm:gap-6`
                 }
               >
                 {filteredProducts.map((prod) => {
@@ -1161,11 +1220,10 @@ export function GhorerBazarCatalog({
                             <button
                               type="button"
                               onClick={() => addToWishlist(prod)}
-                              className={`p-2 rounded-lg border border-slate-200 flex items-center justify-center shadow-xs transition-colors cursor-pointer ${
-                                isInWishlist(prod.id)
-                                  ? "bg-rose-500 text-white border-rose-500"
-                                  : "bg-white text-slate-600 hover:bg-[#FFB800] hover:text-white"
-                              }`}
+                              className={`p-2 rounded-lg border border-slate-200 flex items-center justify-center shadow-xs transition-colors cursor-pointer ${isInWishlist(prod.id)
+                                ? "bg-rose-500 text-white border-rose-500"
+                                : "bg-white text-slate-600 hover:bg-[#FFB800] hover:text-white"
+                                }`}
                               title="Add to Wishlist"
                             >
                               <Heart className="w-4 h-4 fill-current" />
@@ -1225,11 +1283,10 @@ export function GhorerBazarCatalog({
                           }}
                           title={isInWishlist(prod.id) ? "Remove from Wishlist" : "Add to Wishlist"}
                           aria-label="Add to Wishlist"
-                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shadow-xs border transition-all duration-200 cursor-pointer ${
-                            isInWishlist(prod.id)
-                              ? "bg-rose-50 border-rose-200 text-rose-600"
-                              : "bg-white/95 border-slate-200/90 text-slate-400 hover:text-rose-500 hover:bg-white hover:border-rose-200 hover:scale-105"
-                          }`}
+                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shadow-xs border transition-all duration-200 cursor-pointer ${isInWishlist(prod.id)
+                            ? "bg-rose-50 border-rose-200 text-rose-600"
+                            : "bg-white/95 border-slate-200/90 text-slate-400 hover:text-rose-500 hover:bg-white hover:border-rose-200 hover:scale-105"
+                            }`}
                         >
                           <Heart className={`w-3.5 h-3.5 ${isInWishlist(prod.id) ? "fill-rose-600 text-rose-600" : "text-slate-400"}`} />
                         </button>
@@ -1367,7 +1424,7 @@ export function GhorerBazarCatalog({
 
           <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col justify-between z-10 animate-in slide-in-from-left duration-300">
             <div className="p-5 space-y-6 overflow-y-auto">
-              
+
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">

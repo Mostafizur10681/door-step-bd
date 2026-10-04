@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { 
-  Factory, 
-  Zap, 
-  Sun, 
-  ShieldCheck, 
-  BatteryCharging, 
-  Sliders, 
-  Cpu, 
-  Wrench, 
-  ArrowRight, 
+import {
+  Factory,
+  Zap,
+  Sun,
+  ShieldCheck,
+  BatteryCharging,
+  Sliders,
+  Cpu,
+  Wrench,
+  ArrowRight,
   Sparkles,
   Layers,
   Search,
@@ -254,7 +254,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. Hero Breadcrumb & Header Banner */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_60%)] pointer-events-none" />
@@ -262,7 +262,7 @@ export default function CategoriesPage() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#122B5A]/40 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-[1500px] mx-auto z-10 space-y-6">
-          
+
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-blue-200/80">
             <Link href="/" className="hover:text-[#FFB800] transition flex items-center gap-1">
@@ -279,11 +279,11 @@ export default function CategoriesPage() {
                 <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
                 <span>Industrial Power Equipment Directory</span>
               </div>
-              
+
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
                 All Power Solution Categories
               </h1>
-              
+
               <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed max-w-2xl">
                 Explore our complete portfolio of heavy-duty industrial diesel generators, turnkey 11kV substations, commercial rooftop solar power plants, and critical power engineering systems.
               </p>
@@ -325,11 +325,10 @@ export default function CategoriesPage() {
               <button
                 key={tab.id}
                 onClick={() => setSelectedTag(tab.id)}
-                className={`px-4 py-2 rounded-lg font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  selectedTag === tab.id
+                className={`px-4 py-2 rounded-lg font-bold transition-all whitespace-nowrap cursor-pointer ${selectedTag === tab.id
                     ? "bg-[#FFB800] text-[#122B5A] shadow-md shadow-[#FFB800]/20"
                     : "bg-white/10 hover:bg-white/20 text-white/90"
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -386,7 +385,7 @@ export default function CategoriesPage() {
 
       {/* 3. Main 3-Column Categories Grid */}
       <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        
+
         {filteredCategories.length === 0 ? (
           <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-sm max-w-xl mx-auto space-y-4">
             <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#FFB800] mx-auto flex items-center justify-center">
@@ -420,7 +419,7 @@ export default function CategoriesPage() {
                   <div className="absolute -inset-full top-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:translate-x-[250%] transition-all duration-1000 ease-out pointer-events-none" />
 
                   <div className="space-y-4 relative z-10">
-                    
+
                     {/* Top Row: Spec Badge & Category Count */}
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       {cat.spec && (
@@ -441,7 +440,7 @@ export default function CategoriesPage() {
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#122B5A] to-[#0A1D3D] text-[#FFB800] flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-[#FFB800]/25 transition-all duration-300">
                         <IconComp className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
                       </div>
-                      
+
                       <div className="space-y-1 min-w-0">
                         <span className="text-[10px] font-black uppercase tracking-widest text-amber-700 block">
                           Division {String(idx + 1).padStart(2, "0")}
@@ -516,17 +515,17 @@ export default function CategoriesPage() {
       <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
         <div className="bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] rounded-3xl p-8 sm:p-12 text-white shadow-2xl shadow-[#122B5A]/20 border border-white/10 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_60%)] pointer-events-none" />
-          
+
           <div className="space-y-3 text-center lg:text-left relative z-10 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/20 text-[#FFB800] text-xs font-bold">
               <Sparkles className="w-3.5 h-3.5 text-[#FFB800]" />
               <span>Tailored Turnkey Engineering</span>
             </div>
-            
+
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Need Multi-Megawatt Plant Sizing or Custom Substation Design?
             </h3>
-            
+
             <p className="text-xs sm:text-sm text-blue-100/80 leading-relaxed">
               Our lead electrical engineers perform on-site load assessments, power quality harmonic audits, and turnkey civil & electrical commissioning across Bangladesh.
             </p>
@@ -540,7 +539,7 @@ export default function CategoriesPage() {
               <span>Request Technical Proposal</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-            
+
             <a
               href="tel:+8801800000000"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border border-white/20 transition-all cursor-pointer"

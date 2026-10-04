@@ -332,9 +332,9 @@ export default function ContactUsPage() {
               <a
                 href={
                   typeof navigator !== "undefined" &&
-                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20power%20solutions...`
-                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20power%20solutions...`
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                    ? `https://wa.me/${cleanWaNumber}?text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20engineering%20services%20and%20power%20equipment%20categories...`
+                    : `https://web.whatsapp.com/send?phone=${cleanWaNumber}&text=Hello%20Door%20Step%20BD%20Power%20Solutions,%20I%20would%20like%20to%20inquire%20about%20engineering%20services%20and%20power%20equipment%20categories...`
                 }
                 target="_blank"
                 rel="noopener noreferrer"

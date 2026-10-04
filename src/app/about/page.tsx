@@ -2,22 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { 
-  Zap, 
-  ShieldCheck, 
-  Cpu, 
-  BatteryCharging, 
-  Factory, 
-  Wrench, 
-  ArrowRight, 
-  CheckCircle2, 
-  PhoneCall, 
-  Mail, 
-  Building2, 
-  Target, 
-  Eye, 
-  Sparkles, 
-  Clock, 
+import {
+  Zap,
+  ShieldCheck,
+  Cpu,
+  BatteryCharging,
+  Factory,
+  Wrench,
+  ArrowRight,
+  CheckCircle2,
+  PhoneCall,
+  Mail,
+  Building2,
+  Target,
+  Eye,
+  Sparkles,
+  Clock,
   Users,
   Award,
   ChevronRight,
@@ -183,10 +183,10 @@ export default function AboutPage() {
       try {
         const response = await getAboutPage();
         if (!isMounted) return;
-        
+
         if (response && response.success && response.data) {
           const apiData: ApiAboutData = response.data;
-          
+
           const clean = (val?: unknown): string => {
             if (val === null || val === undefined) return "";
             return String(val).trim();
@@ -212,37 +212,37 @@ export default function AboutPage() {
           const rawPoints = parseArray(apiData.story_points);
           const safePoints = rawPoints.length > 0
             ? rawPoints.map((p) => {
-                if (typeof p === "object" && p !== null) {
-                  const obj = p as Record<string, unknown>;
-                  return clean(obj.title || obj.text || obj.value || obj.point || "");
-                }
-                return clean(p);
-              }).filter(Boolean)
+              if (typeof p === "object" && p !== null) {
+                const obj = p as Record<string, unknown>;
+                return clean(obj.title || obj.text || obj.value || obj.point || "");
+              }
+              return clean(p);
+            }).filter(Boolean)
             : defaultAboutData.story_points;
 
           // Parse features
           const rawFeatures = parseArray(apiData.features);
           const safeFeatures: AboutFeature[] = rawFeatures.length > 0
             ? rawFeatures.map((f) => {
-                const obj = typeof f === "object" && f !== null ? (f as Record<string, unknown>) : {};
-                return {
-                  icon: typeof obj.icon === "string" ? obj.icon : undefined,
-                  title: clean(obj.title || obj.name || f),
-                  desc: clean(obj.desc || obj.description || obj.subtitle || ""),
-                };
-              }).filter((f) => f.title)
+              const obj = typeof f === "object" && f !== null ? (f as Record<string, unknown>) : {};
+              return {
+                icon: typeof obj.icon === "string" ? obj.icon : undefined,
+                title: clean(obj.title || obj.name || f),
+                desc: clean(obj.desc || obj.description || obj.subtitle || ""),
+              };
+            }).filter((f) => f.title)
             : defaultAboutData.features;
 
           // Parse stats
           const rawStats = parseArray(apiData.stats);
           const safeStats: AboutStat[] = rawStats.length > 0
             ? rawStats.map((s) => {
-                const obj = typeof s === "object" && s !== null ? (s as Record<string, unknown>) : {};
-                return {
-                  label: clean(obj.label || obj.title || obj.name || ""),
-                  value: clean(obj.value || obj.count || obj.number || s),
-                };
-              }).filter((s) => s.label || s.value)
+              const obj = typeof s === "object" && s !== null ? (s as Record<string, unknown>) : {};
+              return {
+                label: clean(obj.label || obj.title || obj.name || ""),
+                value: clean(obj.value || obj.count || obj.number || s),
+              };
+            }).filter((s) => s.label || s.value)
             : defaultAboutData.stats;
 
           // Parse team
@@ -309,7 +309,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      
+
       {/* 1. Hero Header Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-[#122B5A] via-[#1A3D7C] to-[#0B1B38] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_50%)] pointer-events-none" />
@@ -361,7 +361,7 @@ export default function AboutPage() {
               const statIcons = [Zap, Building2, Wrench, ShieldCheck];
               const StatIcon = statIcons[idx % statIcons.length];
               return (
-                <div 
+                <div
                   key={idx}
                   className="bg-white rounded-2xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 border border-slate-100 flex items-center gap-4 hover:border-[#122B5A]/40 hover:shadow-2xl transition-all duration-300 group"
                 >
@@ -384,26 +384,26 @@ export default function AboutPage() {
       )}
 
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 space-y-20 py-16">
-        
+
         {/* 4. Engineering Heritage & Story Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
+
           {/* Left Column: Visual Showcase Box */}
           <div className="lg:col-span-6 relative">
             {data.story_image ? (
               <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 min-h-[420px] max-h-[520px] group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={data.story_image} 
-                  alt={data.story_title || "About Door Step BD"} 
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" 
+                <img
+                  src={data.story_image}
+                  alt={data.story_title || "About Door Step BD"}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B38]/80 via-transparent to-transparent pointer-events-none" />
               </div>
             ) : (
               <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gradient-to-br from-[#122B5A] via-[#0B1B38] to-[#1A3D7C] text-white p-8 sm:p-10 flex flex-col justify-between min-h-[420px] group">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,184,0,0.15),transparent_60%)] pointer-events-none" />
-                
+
                 <div className="space-y-6 relative z-10">
                   <div className="inline-flex items-center gap-2 bg-[#FFB800]/20 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
                     <ShieldCheck className="w-4 h-4 text-[#FFB800]" />
@@ -442,7 +442,7 @@ export default function AboutPage() {
                 </div>
               </div>
             )}
-            
+
             {/* Floating Experience Badge */}
             {(data.experience_badge_text || data.experience_badge_subtext) && (
               <div className="absolute -bottom-6 -right-2 sm:bottom-6 sm:right-6 bg-white p-5 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-4 z-20">
@@ -500,15 +500,15 @@ export default function AboutPage() {
             )}
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Link 
-                href="/services" 
+              <Link
+                href="/services"
                 className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3 rounded-xl shadow-md hover:shadow-lg transition-all hover:scale-105 active:scale-95"
               >
                 <span>Browse All Services</span>
                 <ArrowRight className="w-4 h-4 text-[#122B5A]" />
               </Link>
-              <Link 
-                href="/contact-us" 
+              <Link
+                href="/contact-us"
                 className="inline-flex items-center gap-2 text-xs font-bold text-[#122B5A] hover:text-[#0B1B38] px-4 py-3 rounded-xl hover:bg-[#122B5A]/5 transition-colors"
               >
                 <span>Request Technical Site Survey</span>
@@ -584,8 +584,8 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuresList.map((val, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 space-y-3.5 group flex flex-col justify-between"
                 >
                   <div className="space-y-3.5">
@@ -631,8 +631,8 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {teamList.map((member, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="bg-white rounded-2xl p-5 border border-slate-200/80 hover:border-[#122B5A]/40 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center space-y-3 group"
                 >
                   <div className="w-24 h-24 rounded-full overflow-hidden bg-slate-100 border-2 border-[#122B5A]/20 group-hover:border-[#FFB800] transition-colors flex items-center justify-center shrink-0">
@@ -732,8 +732,8 @@ export default function AboutPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 relative z-10 pt-2">
             {data.cta_phone && (
-              <a 
-                href={`tel:${String(data.cta_phone).replace(/[^0-9+]/g, "")}`} 
+              <a
+                href={`tel:${String(data.cta_phone).replace(/[^0-9+]/g, "")}`}
                 className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#E6A600] text-[#122B5A] font-black text-xs sm:text-sm px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4 text-[#122B5A]" />
@@ -741,8 +741,8 @@ export default function AboutPage() {
               </a>
             )}
             {data.cta_email && (
-              <a 
-                href={`mailto:${data.cta_email}`} 
+              <a
+                href={`mailto:${data.cta_email}`}
                 className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-full backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <Mail className="w-4 h-4 text-[#FFB800]" />
